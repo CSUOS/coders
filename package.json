@@ -1,0 +1,19 @@
+{
+  "name": "coders",
+  "version": "1.0.0",
+  "description": "Online Judge Site of CSUOS, University of Seoul",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CSUOS/coders.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CSUOS/coders/issues"
+  },
+  "homepage": "https://github.com/CSUOS/coders#readme"
+}

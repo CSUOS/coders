@@ -4,6 +4,7 @@ module.exports = {
     browser: true,
     commonjs: true,
     es2021: true,
+    jest: true,
   },
   extends: [
     'airbnb',
@@ -19,6 +20,7 @@ module.exports = {
   },
   rules: {
     'react/jsx-filename-extension': ['error', { extensions: ['.js', '.jsx'] }],
+    'no-unused-vars': 'warn',
     'no-console': 'off',
     'prettier/prettier': [
       'error',

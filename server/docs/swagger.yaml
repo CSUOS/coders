@@ -1,0 +1,42 @@
+basePath: /v1
+definitions:
+  model.Ping:
+    properties:
+      ping:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: Coders API version 1.0
+  title: Coders API
+  version: "1.0"
+paths:
+  /ping:
+    get:
+      consumes:
+      - application/json
+      description: do ping
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Ping'
+        "400":
+          description: error
+          schema:
+            type: string
+        "404":
+          description: not found error
+          schema:
+            type: string
+        "500":
+          description: internal server error
+          schema:
+            type: string
+      summary: ping example
+      tags:
+      - example
+swagger: "2.0"

@@ -11,8 +11,6 @@ import (
 	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/joho/godotenv"
-	swaggerFiles "github.com/swaggo/files"
-	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 func ErrorCheck(err error) {
@@ -31,8 +29,9 @@ func main() {
 	ErrorCheck(err)
 	PORT := os.Getenv("PORT")
 	DBCONFIG := os.Getenv("DBCONFIG")
-	docs.SwaggerInfo.Host = "localhost:" + PORT
+	docs.SwaggerInfo.Host = "localhost:" + PORT //set port in swagger doc
 
+	// create gin router
 	app := gin.Default()
 
 	// connect db
@@ -41,9 +40,9 @@ func main() {
 	app.Use(database.Inject(db))
 
 	// set router
-	app.GET("/ping", api.PingExample)
-	app.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+	api.ApplyRoutes(app)
 
+	// run app
 	fmt.Println("--> Server is running on :" + PORT + ". try http://localhost:" + PORT + "/ping")
 	fmt.Println("--> Swagger docs created in http://localhost:" + PORT + "/swagger/index.html")
 	app.Run(":" + PORT)

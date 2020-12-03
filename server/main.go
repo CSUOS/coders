@@ -1,15 +1,14 @@
 package main
 
 import (
-	"coders/api"
 	"coders/database"
 	"coders/docs"
+	"coders/router"
 
 	"fmt"
 	"os"
 
 	"github.com/gin-gonic/gin"
-	_ "github.com/go-sql-driver/mysql"
 	"github.com/joho/godotenv"
 )
 
@@ -22,7 +21,7 @@ func ErrorCheck(err error) {
 // @Title Coders API
 // @Version 1.0
 // @Description Coders API version 1.0
-// @BasePath /
+// @BasePath /api/v1
 func main() {
 	// load .env variables
 	err := godotenv.Load()
@@ -40,7 +39,7 @@ func main() {
 	app.Use(database.Inject(db))
 
 	// set router
-	api.ApplyRoutes(app)
+	router.ApplyRoutes(app)
 
 	// run app
 	fmt.Println("--> Server is running on :" + PORT + ". try http://localhost:" + PORT + "/ping")

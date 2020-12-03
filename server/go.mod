@@ -8,6 +8,7 @@ require (
 	github.com/gin-gonic/gin v1.6.3
 	github.com/go-openapi/spec v0.19.15 // indirect
 	github.com/go-sql-driver/mysql v1.5.0
+	github.com/gofrs/uuid v3.3.0+incompatible
 	github.com/joho/godotenv v1.3.0
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/russross/blackfriday/v2 v2.1.0 // indirect

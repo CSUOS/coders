@@ -1,8 +1,34 @@
-basePath: /
+basePath: /api/v1
 definitions:
-  model.Ping:
+  httputil.HTTPError:
     properties:
-      ping:
+      code:
+        example: 400
+        type: integer
+      message:
+        example: status bad request
+        type: string
+    type: object
+  model.AddMember:
+    properties:
+      name:
+        example: Member name
+        type: string
+    type: object
+  model.Member:
+    properties:
+      id:
+        example: 1
+        format: int64
+        type: integer
+      name:
+        example: Member name
+        type: string
+    type: object
+  model.UpdateMember:
+    properties:
+      name:
+        example: Member name
         type: string
     type: object
 info:
@@ -11,31 +37,176 @@ info:
   title: Coders API
   version: "1.0"
 paths:
-  /ping:
+  /members:
     get:
       consumes:
       - application/json
-      description: do ping
+      description: get Members
+      parameters:
+      - description: name search by q
+        format: email
+        in: query
+        name: q
+        type: string
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/model.Ping'
+            items:
+              $ref: '#/definitions/model.Member'
+            type: array
         "400":
-          description: error
+          description: Bad Request
           schema:
-            type: string
+            $ref: '#/definitions/httputil.HTTPError'
         "404":
-          description: not found error
+          description: Not Found
           schema:
-            type: string
+            $ref: '#/definitions/httputil.HTTPError'
         "500":
-          description: internal server error
+          description: Internal Server Error
           schema:
-            type: string
-      summary: ping example
+            $ref: '#/definitions/httputil.HTTPError'
+      summary: List Members
       tags:
-      - example
+      - Members
+    post:
+      consumes:
+      - application/json
+      description: add by json Member
+      parameters:
+      - description: Add Member
+        in: body
+        name: Member
+        required: true
+        schema:
+          $ref: '#/definitions/model.AddMember'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Member'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+      summary: Add an Member
+      tags:
+      - Members
+  /members/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete by Member ID
+      parameters:
+      - description: Member ID
+        format: int64
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+          schema:
+            $ref: '#/definitions/model.Member'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+      summary: Delete an Member
+      tags:
+      - Members
+    get:
+      consumes:
+      - application/json
+      description: get string by ID
+      parameters:
+      - description: Member ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Member'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+      summary: Show an Member
+      tags:
+      - Members
+    patch:
+      consumes:
+      - application/json
+      description: Update by json Member
+      parameters:
+      - description: Member ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Update Member
+        in: body
+        name: Member
+        required: true
+        schema:
+          $ref: '#/definitions/model.UpdateMember'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Member'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+      summary: Update an Member
+      tags:
+      - Members
 swagger: "2.0"

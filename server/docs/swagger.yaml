@@ -1,11 +1,10 @@
-basePath: /v1
+basePath: /
 definitions:
   model.Ping:
     properties:
       ping:
         type: string
     type: object
-host: localhost:8080
 info:
   contact: {}
   description: Coders API version 1.0

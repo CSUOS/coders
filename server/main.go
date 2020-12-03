@@ -2,10 +2,9 @@ package main
 
 import (
 	"coders/api"
+	"coders/database"
 	"coders/docs"
-	_ "coders/docs"
 
-	"database/sql"
 	"fmt"
 	"os"
 
@@ -22,12 +21,6 @@ func ErrorCheck(err error) {
 	}
 }
 
-func PingDB(db *sql.DB) {
-	err := db.Ping()
-	ErrorCheck(err)
-	fmt.Println("--> Database is connected")
-}
-
 // @Title Coders API
 // @Version 1.0
 // @Description Coders API version 1.0
@@ -40,13 +33,14 @@ func main() {
 	DBCONFIG := os.Getenv("DBCONFIG")
 	docs.SwaggerInfo.Host = "localhost:" + PORT
 
+	app := gin.Default()
+
 	// connect db
-	db, err := sql.Open("mysql", DBCONFIG)
+	db, err := database.Initialize(DBCONFIG)
 	ErrorCheck(err)
-	PingDB(db)
+	app.Use(database.Inject(db))
 
 	// set router
-	app := gin.Default()
 	app.GET("/ping", api.PingExample)
 	app.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 

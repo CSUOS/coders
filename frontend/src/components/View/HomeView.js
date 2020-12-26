@@ -1,15 +1,8 @@
 import React from 'react';
-import { Grid, Button, Typography, SvgIcon } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
-
+import { Grid } from '@material-ui/core';
 
 const Home = () => {
-  
-  return (
-    <Grid container>
-     
-    </Grid>
-  );
+  return <Grid container></Grid>;
 };
 
 export default Home;

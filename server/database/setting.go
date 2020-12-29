@@ -1,6 +1,8 @@
 package database
 
 import (
+	"coders/model"
+
 	"fmt"
 	
 	"gorm.io/driver/mysql"
@@ -17,6 +19,7 @@ func Initialize(DBCONFIG string) (*gorm.DB, error) {
 		panic(err)
 	}
 	fmt.Println("--> Database is connected")
+	model.Migrate(db) // auto migration
 	return db, err
 }
 

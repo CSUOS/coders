@@ -1,8 +1,8 @@
 import React from 'react';
 import { Grid } from '@material-ui/core';
 
-const Home = () => {
-  return <Grid container></Grid>;
+const HomeView = () => {
+	return <Grid />;
 };
 
-export default Home;
+export default HomeView;

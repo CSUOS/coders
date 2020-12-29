@@ -5,8 +5,7 @@ module.exports = {
     es2021: true,
   },
   extends: [
-    'plugin:react/recommended',
-    'airbnb',
+    'airbnb', 'plugin:prettier/recommended',
   ],
   parserOptions: {
     ecmaFeatures: {

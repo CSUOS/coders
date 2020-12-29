@@ -30,7 +30,7 @@ const Header = ({ userName }) => {
 					님, 환영합니다!
 				</Grid>
 				<Link to="/user">
-					<Button startIcon={<AccountCircleIcon />}>회원정보</Button>
+					<Button startIcon={<AccountCircleIcon />}>회원 정보</Button>
 				</Link>
 				<Link to="/login">
 					<Button startIcon={<ExitToAppIcon />}>로그아웃</Button>

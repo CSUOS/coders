@@ -1,33 +1,27 @@
 package database
 
 import (
-	"database/sql"
 	"fmt"
+	
+	"gorm.io/driver/mysql"
+	"gorm.io/gorm"
 
 	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
 )
 
-func pingDB(db *sql.DB) {
-	err := db.Ping()
+// Initialize database setting
+func Initialize(DBCONFIG string) (*gorm.DB, error) {
+	db, err := gorm.Open(mysql.Open(DBCONFIG), &gorm.Config{})
 	if err != nil {
 		panic(err)
 	}
 	fmt.Println("--> Database is connected")
-}
-
-// Initialize database setting
-func Initialize(DBCONFIG string) (*sql.DB, error) {
-	db, err := sql.Open("mysql", DBCONFIG)
-	if err != nil {
-		panic(err)
-	}
-	pingDB(db)
 	return db, err
 }
 
 // Inject database to gin context
-func Inject(db *sql.DB) gin.HandlerFunc {
+func Inject(db *gorm.DB) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		c.Set("db", db)
 		c.Next()

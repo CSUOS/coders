@@ -1,17 +1,28 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import {
-	LocalLibraryRoundedIcon,
-	AccountCircleIcon,
-	ExitToAppIcon,
-} from '@material-ui/icons';
 import { Grid, Button } from '@material-ui/core';
+import LocalLibraryRoundedIcon from '@material-ui/icons/LocalLibraryRounded';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+
+const styles = {
+	logoButton: {
+		width: 40,
+		height: 40,
+	},
+};
 
 const Header = ({ userName }) => {
 	return (
 		<Grid className="header">
 			<Link to="/">
-				<Button startIcon={<LocalLibraryRoundedIcon />}>Coders</Button>
+				<Button
+					startIcon={
+						<LocalLibraryRoundedIcon style={styles.logoButton} />
+					}
+				>
+					Coders
+				</Button>
 			</Link>
 			<Grid className="header-buttons">
 				<Grid>

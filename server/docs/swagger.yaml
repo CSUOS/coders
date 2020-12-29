@@ -25,6 +25,16 @@ definitions:
         example: Member name
         type: string
     type: object
+  model.Ping:
+    properties:
+      id:
+        example: 1
+        format: int64
+        type: integer
+      result:
+        example: pong
+        type: string
+    type: object
   model.UpdateMember:
     properties:
       name:
@@ -209,4 +219,31 @@ paths:
       summary: Update an Member
       tags:
       - Members
+  /ping:
+    get:
+      consumes:
+      - application/json
+      description: get a ping result
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Ping'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+      summary: get a ping result
+      tags:
+      - Ping
 swagger: "2.0"

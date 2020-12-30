@@ -8,6 +8,6 @@ import (
 
 // Migrate automigrates model using GORM
 func Migrate(db *gorm.DB){
-	db.AutoMigrate(&Ping{})
+	db.AutoMigrate(&Ping{}, &Member{})
 	fmt.Println("--> Automigration finished")
 }

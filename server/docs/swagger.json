@@ -21,15 +21,6 @@
                     "Members"
                 ],
                 "summary": "List Members",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "format": "email",
-                        "description": "name search by q",
-                        "name": "q",
-                        "in": "query"
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -79,7 +70,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/model.AddMember"
+                            "$ref": "#/definitions/model.EditMember"
                         }
                     }
                 ],
@@ -235,7 +226,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/model.UpdateMember"
+                            "$ref": "#/definitions/model.EditMember"
                         }
                     }
                 ],
@@ -244,47 +235,6 @@
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/model.Member"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/httputil.HTTPError"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/httputil.HTTPError"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/httputil.HTTPError"
-                        }
-                    }
-                }
-            }
-        },
-        "/ping": {
-            "get": {
-                "description": "get a ping result",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Ping"
-                ],
-                "summary": "get a ping result",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/model.Ping"
                         }
                     },
                     "400": {
@@ -323,7 +273,7 @@
                 }
             }
         },
-        "model.AddMember": {
+        "model.EditMember": {
             "type": "object",
             "properties": {
                 "name": {
@@ -340,29 +290,6 @@
                     "format": "int64",
                     "example": 1
                 },
-                "name": {
-                    "type": "string",
-                    "example": "Member name"
-                }
-            }
-        },
-        "model.Ping": {
-            "type": "object",
-            "properties": {
-                "id": {
-                    "type": "integer",
-                    "format": "int64",
-                    "example": 1
-                },
-                "result": {
-                    "type": "string",
-                    "example": "pong"
-                }
-            }
-        },
-        "model.UpdateMember": {
-            "type": "object",
-            "properties": {
                 "name": {
                     "type": "string",
                     "example": "Member name"

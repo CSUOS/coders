@@ -16,11 +16,11 @@ func ApplyRoutes(r *gin.Engine) {
 	{
 		members := v1.Group("/members")
 		{
-			members.GET(":id", c.ShowMember)
 			members.GET("", c.ListMembers)
+			members.GET(":id", c.ShowMember)
 			members.POST("", c.AddMember)
-			members.DELETE(":id", c.DeleteMember)
 			members.PATCH(":id", c.UpdateMember)
+			members.DELETE(":id", c.DeleteMember)
 		}
 	}
 }

@@ -9,7 +9,7 @@ definitions:
         example: status bad request
         type: string
     type: object
-  model.AddMember:
+  model.EditMember:
     properties:
       name:
         example: Member name
@@ -25,22 +25,6 @@ definitions:
         example: Member name
         type: string
     type: object
-  model.Ping:
-    properties:
-      id:
-        example: 1
-        format: int64
-        type: integer
-      result:
-        example: pong
-        type: string
-    type: object
-  model.UpdateMember:
-    properties:
-      name:
-        example: Member name
-        type: string
-    type: object
 info:
   contact: {}
   description: Coders API version 1.0
@@ -52,12 +36,6 @@ paths:
       consumes:
       - application/json
       description: get Members
-      parameters:
-      - description: name search by q
-        format: email
-        in: query
-        name: q
-        type: string
       produces:
       - application/json
       responses:
@@ -92,7 +70,7 @@ paths:
         name: Member
         required: true
         schema:
-          $ref: '#/definitions/model.AddMember'
+          $ref: '#/definitions/model.EditMember'
       produces:
       - application/json
       responses:
@@ -196,7 +174,7 @@ paths:
         name: Member
         required: true
         schema:
-          $ref: '#/definitions/model.UpdateMember'
+          $ref: '#/definitions/model.EditMember'
       produces:
       - application/json
       responses:
@@ -219,31 +197,4 @@ paths:
       summary: Update an Member
       tags:
       - Members
-  /ping:
-    get:
-      consumes:
-      - application/json
-      description: get a ping result
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/model.Ping'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/httputil.HTTPError'
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/httputil.HTTPError'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/httputil.HTTPError'
-      summary: get a ping result
-      tags:
-      - Ping
 swagger: "2.0"

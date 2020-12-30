@@ -21,15 +21,6 @@
                     "Members"
                 ],
                 "summary": "List Members",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "format": "email",
-                        "description": "name search by q",
-                        "name": "q",
-                        "in": "query"
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -79,7 +70,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/model.AddMember"
+                            "$ref": "#/definitions/model.EditMember"
                         }
                     }
                 ],
@@ -235,7 +226,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/model.UpdateMember"
+                            "$ref": "#/definitions/model.EditMember"
                         }
                     }
                 ],
@@ -282,7 +273,7 @@
                 }
             }
         },
-        "model.AddMember": {
+        "model.EditMember": {
             "type": "object",
             "properties": {
                 "name": {
@@ -299,15 +290,6 @@
                     "format": "int64",
                     "example": 1
                 },
-                "name": {
-                    "type": "string",
-                    "example": "Member name"
-                }
-            }
-        },
-        "model.UpdateMember": {
-            "type": "object",
-            "properties": {
                 "name": {
                     "type": "string",
                     "example": "Member name"

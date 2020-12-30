@@ -9,7 +9,7 @@ definitions:
         example: status bad request
         type: string
     type: object
-  model.AddMember:
+  model.EditMember:
     properties:
       name:
         example: Member name
@@ -25,12 +25,6 @@ definitions:
         example: Member name
         type: string
     type: object
-  model.UpdateMember:
-    properties:
-      name:
-        example: Member name
-        type: string
-    type: object
 info:
   contact: {}
   description: Coders API version 1.0
@@ -42,12 +36,6 @@ paths:
       consumes:
       - application/json
       description: get Members
-      parameters:
-      - description: name search by q
-        format: email
-        in: query
-        name: q
-        type: string
       produces:
       - application/json
       responses:
@@ -82,7 +70,7 @@ paths:
         name: Member
         required: true
         schema:
-          $ref: '#/definitions/model.AddMember'
+          $ref: '#/definitions/model.EditMember'
       produces:
       - application/json
       responses:
@@ -186,7 +174,7 @@ paths:
         name: Member
         required: true
         schema:
-          $ref: '#/definitions/model.UpdateMember'
+          $ref: '#/definitions/model.EditMember'
       produces:
       - application/json
       responses:

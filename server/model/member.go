@@ -2,12 +2,17 @@ package model
 
 import (
 	"errors"
-	"fmt"
+	"gorm.io/gorm"
 )
 
 // Member example
 type Member struct {
-	ID   int    `json:"id" example:"1" format:"int64"`
+	ID   int    `json:"id" example:"1" format:"int64" gorm:"autoIncrement"`
+	Name string `json:"name" example:"Member name"`
+}
+
+// EditMember adds or updates member record
+type EditMember struct {
 	Name string `json:"name" example:"Member name"`
 }
 
@@ -16,30 +21,10 @@ var (
 	ErrNameInvalid = errors.New("name is empty")
 )
 
-// AddMember example
-type AddMember struct {
-	Name string `json:"name" example:"Member name"`
-}
-
 // Validation example
-func (a AddMember) Validation() error {
+func (m EditMember) Validation() error {
 	switch {
-	case len(a.Name) == 0:
-		return ErrNameInvalid
-	default:
-		return nil
-	}
-}
-
-// UpdateMember example
-type UpdateMember struct {
-	Name string `json:"name" example:"Member name"`
-}
-
-// Validation example
-func (a UpdateMember) Validation() error {
-	switch {
-	case len(a.Name) == 0:
+	case len(m.Name) == 0:
 		return ErrNameInvalid
 	default:
 		return nil
@@ -47,63 +32,39 @@ func (a UpdateMember) Validation() error {
 }
 
 // MembersAll example
-func MembersAll(q string) ([]Member, error) {
-	if q == "" {
-		return Members, nil
-	}
-	as := []Member{}
-	for k, v := range Members {
-		if q == v.Name {
-			as = append(as, Members[k])
-		}
-	}
-	return as, nil
+func MembersAll(db *gorm.DB) ([]Member, error) {
+	var members []Member
+	err := db.Find(&members).Error
+	return members, err
 }
 
 // MemberOne example
-func MemberOne(id int) (Member, error) {
-	for _, v := range Members {
-		if id == v.ID {
-			return v, nil
-		}
-	}
-	return Member{}, fmt.Errorf("Member id=%d is not found", id)
+func MemberOne(db *gorm.DB, id int) (Member, error) {
+	var member Member
+	err := db.Where("id = ?", id).First(&member).Error
+	return member, err
 }
+
 
 // Insert example
-func (a Member) Insert() (int, error) {
-	MemberMaxID++
-	a.ID = MemberMaxID
-	a.Name = fmt.Sprintf("Member_%d", MemberMaxID)
-	Members = append(Members, a)
-	return MemberMaxID, nil
-}
-
-// Delete example
-func Delete(id int) error {
-	for k, v := range Members {
-		if id == v.ID {
-			Members = append(Members[:k], Members[k+1:]...)
-			return nil
-		}
-	}
-	return fmt.Errorf("Member id=%d is not found", id)
+func Insert(db *gorm.DB, member Member) (Member, error) {
+	err := db.Create(&member).Error
+	return member, err
 }
 
 // Update example
-func (a Member) Update() error {
-	for k, v := range Members {
-		if a.ID == v.ID {
-			Members[k].Name = a.Name
-			return nil
-		}
-	}
-	return fmt.Errorf("Member id=%d is not found", a.ID)
+func Update(db *gorm.DB, member Member) (Member, error) {
+	err := db.Model(&Member{}).Where("id = ?", member.ID).Update("name", member.Name).Error
+	return member, err
 }
 
-var MemberMaxID = 3
-var Members = []Member{
-	{ID: 1, Name: "Member_1"},
-	{ID: 2, Name: "Member_2"},
-	{ID: 3, Name: "Member_3"},
+// Delete example
+func Delete(db *gorm.DB, id int) error {
+	var member Member
+	err := db.Where("id=?", id).First(&member).Error
+	if err != nil{
+		return err
+	}
+	err = db.Delete(&member).Error
+	return err
 }

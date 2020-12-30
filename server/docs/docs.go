@@ -37,15 +37,6 @@ var doc = `{
                     "Members"
                 ],
                 "summary": "List Members",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "format": "email",
-                        "description": "name search by q",
-                        "name": "q",
-                        "in": "query"
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -95,7 +86,7 @@ var doc = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/model.AddMember"
+                            "$ref": "#/definitions/model.EditMember"
                         }
                     }
                 ],
@@ -251,7 +242,7 @@ var doc = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/model.UpdateMember"
+                            "$ref": "#/definitions/model.EditMember"
                         }
                     }
                 ],
@@ -298,7 +289,7 @@ var doc = `{
                 }
             }
         },
-        "model.AddMember": {
+        "model.EditMember": {
             "type": "object",
             "properties": {
                 "name": {
@@ -315,15 +306,6 @@ var doc = `{
                     "format": "int64",
                     "example": 1
                 },
-                "name": {
-                    "type": "string",
-                    "example": "Member name"
-                }
-            }
-        },
-        "model.UpdateMember": {
-            "type": "object",
-            "properties": {
                 "name": {
                     "type": "string",
                     "example": "Member name"

@@ -1,0 +1,17 @@
+.searchinput{
+	display: flex;
+	width: 100%;
+	.searchinput-container{
+		display: flex;
+		width: 100%;
+		justify-content: flex-start;
+		align-items: center;
+		.searchinput-inputbase{
+			padding: 0;
+		}
+		.searchinput-iconbtn{
+			padding: 5px;
+			margin: 10px 10px 0px 5px;
+		}
+	}
+}

@@ -1,26 +1,18 @@
 import React from 'react';
-import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import { Route, Switch, BrowserRouter } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
+import { Grid } from '@material-ui/core';
 import { Login, Main } from './components/View';
-
-const theme = createMuiTheme({
-  typography: {
-    fontFamily: 'Noto Sans KR',
-  },
-});
+import './scss/main.scss';
 
 function App() {
-  return (
-    <MuiThemeProvider theme={theme}>
-      <BrowserRouter>
-        <Switch>
-          {/* <Route exact path="/" component={Login} /> */}
-          {/* <Route path="/home" component={Main} /> */}
-          <Route path="/" component={Main} />
-        </Switch>
-      </BrowserRouter>
-    </MuiThemeProvider>
-  );
+	return (
+		<Grid className="app">
+			<Switch>
+				<Route exact path="/login" component={Login} />
+				<Route path="/" component={Main} />
+			</Switch>
+		</Grid>
+	);
 }
 
 export default App;

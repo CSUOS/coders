@@ -1,6 +1,13 @@
 import React from 'react';
 import { Grid, Button } from '@material-ui/core';
-import { PageHeader, Dropdown, SearchInput, ProblemTable } from '../UI';
+import {
+	PageHeader,
+	Dropdown,
+	SearchInput,
+	ProblemTable,
+	Pagination,
+	MenuBar,
+} from '../UI';
 
 const HomeView = () => {
 	const mainTitle = '문제 선택';
@@ -13,9 +20,10 @@ const HomeView = () => {
 	const label4 = '↑↓ 좋아요 수로 정렬';
 	const label5 = '한 페이지 당 문제 수:';
 	const dropdownHasLabel = false;
-	const values2 = Array(12).fill(12);
+	const values2 = [...Array(12)].map((_, index) => index + 1);
 	return (
 		<Grid className="home">
+			<MenuBar />
 			<Grid className="home-container">
 				<PageHeader mainTitle={mainTitle} />
 				<Grid className="home-content">
@@ -50,6 +58,7 @@ const HomeView = () => {
 								defaultValue={12}
 							/>
 						</Grid>
+						<Pagination count={4} />
 					</Grid>
 				</Grid>
 			</Grid>

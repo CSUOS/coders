@@ -4,3 +4,4 @@ export { default as Dropdown } from './Dropdown';
 export { default as SearchInput } from './SearchInput';
 export { default as ProblemTable } from './ProblemTable';
 export { default as Pagination } from './Pagination';
+export { default as MenuBar } from './MenuBar';

@@ -7,6 +7,8 @@ const HomeView = () => {
 	const label1 = '해결 여부';
 	const values = ['해결', '미해결'];
 	const label2 = '제목, 내용, 분류로 검색';
+	const tableHead = ['문제 번호', '제목', '분류', '정답률', '좋아요 수'];
+	const tableBody = [1, '문제 1', '카카오 2020 코딩테스트', `33%`, 15];
 	return (
 		<Grid className="home">
 			<Grid className="home-container">
@@ -26,7 +28,10 @@ const HomeView = () => {
 							</Grid>
 						</Grid>
 					</Grid>
-					<ProblemTable />
+					<ProblemTable
+						head={tableHead}
+						rows={[...Array(10)].map(() => tableBody)}
+					/>
 				</Grid>
 			</Grid>
 		</Grid>

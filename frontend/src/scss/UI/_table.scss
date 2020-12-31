@@ -1,0 +1,17 @@
+.table {
+  display: flex;
+  width: 100%;
+  border: 2px solid #9e9b9a;
+  .table-head {
+	background-color: #e5e5e5;
+	.table-headcell{
+		font-size: 18px;
+	}
+  }
+  .table-bodyrow{
+	  .table-bodycell{
+		  font-size: 16px;
+		  padding-top: 10px;
+	  }
+  }
+}

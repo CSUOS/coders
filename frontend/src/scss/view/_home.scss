@@ -10,10 +10,16 @@
 				display: flex;
 				justify-content: space-between;
 				padding: 20px 17px;
+				.home-tableselector-start{
+					display: inline-flex;
+					align-items: center;
+					Button{
+						font-size: 17px;
+						font-weight: 400;
+					}
+				}
 				.home-dropdowns{
-					display: flex;
-					width: 100%;
-					justify-content: flex-end;
+					display: inline-flex;
 					.home-dropdown{
 						margin-left: 10px;
 					}

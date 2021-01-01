@@ -1,0 +1,18 @@
+.pagination{
+	display: inline-flex;
+	.pagination-button{
+		margin-right: 10px;
+		button {
+			width: 40px;
+			height: 40px;
+			border-radius: 5px;
+			border: 0;
+			font-size: 16px;
+			&:hover, &:active, &:focus{
+				background-color: #3498db;
+				outline: none;
+				color: white;
+			}
+		}
+	}
+}

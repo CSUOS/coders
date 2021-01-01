@@ -1,32 +1,65 @@
 import React from 'react';
-import { Grid } from '@material-ui/core';
-import { PageHeader, Dropdown, SearchInput, ProblemTable } from '../UI';
+import { Grid, Button } from '@material-ui/core';
+import {
+	PageHeader,
+	Dropdown,
+	SearchInput,
+	ProblemTable,
+	Pagination,
+	MenuBar,
+} from '../UI';
 
 const HomeView = () => {
 	const mainTitle = '문제 선택';
 	const label1 = '해결 여부';
-	const values = ['해결', '미해결'];
+	const values1 = ['해결', '미해결'];
 	const label2 = '제목, 내용, 분류로 검색';
+	const tableHead = ['문제 번호', '제목', '분류', '정답률', '좋아요 수'];
+	const tableBody = [1, '문제 1', '카카오 2020 코딩테스트', `33%`, 15];
+	const label3 = '↑↓ 제목으로 정렬';
+	const label4 = '↑↓ 좋아요 수로 정렬';
+	const label5 = '한 페이지 당 문제 수:';
+	const dropdownHasLabel = false;
+	const values2 = [...Array(12)].map((_, index) => index + 1);
 	return (
 		<Grid className="home">
+			<MenuBar />
 			<Grid className="home-container">
 				<PageHeader mainTitle={mainTitle} />
 				<Grid className="home-content">
 					<Grid className="home-tableselector">
-						<SearchInput label={label2} />
+						<Grid className="home-tableselector-start">
+							<SearchInput label={label2} />
+							<Button>{label3}</Button>
+							<Button>{label4}</Button>
+						</Grid>
 						<Grid className="home-dropdowns">
 							<Grid className="home-dropdown">
-								<Dropdown label={label1} values={values} />
+								<Dropdown label={label1} values={values1} />
 							</Grid>
 							<Grid className="home-dropdown">
-								<Dropdown label={label1} values={values} />
+								<Dropdown label={label1} values={values1} />
 							</Grid>
 							<Grid className="home-dropdown">
-								<Dropdown label={label1} values={values} />
+								<Dropdown label={label1} values={values1} />
 							</Grid>
 						</Grid>
 					</Grid>
-					<ProblemTable />
+					<ProblemTable
+						head={tableHead}
+						rows={[...Array(10)].map(() => tableBody)}
+					/>
+					<Grid className="home-tableselector">
+						<Grid className="home-tableselector-start">
+							{label5}
+							<Dropdown
+								hasLabel={dropdownHasLabel}
+								values={values2}
+								defaultValue={12}
+							/>
+						</Grid>
+						<Pagination count={4} />
+					</Grid>
 				</Grid>
 			</Grid>
 		</Grid>

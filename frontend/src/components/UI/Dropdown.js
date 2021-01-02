@@ -1,13 +1,7 @@
 import React, { useState } from 'react';
-import {
-	Grid,
-	InputLabel,
-	MenuItem,
-	FormControl,
-	Select,
-} from '@material-ui/core';
+import { Grid, MenuItem, FormControl, Select } from '@material-ui/core';
 
-const Dropdown = ({ label, values, defaultValue }) => {
+const Dropdown = ({ label, values, defaultValue, hasLabel = true }) => {
 	const [state, setState] = useState();
 
 	const handleChange = (event) => {
@@ -17,19 +11,21 @@ const Dropdown = ({ label, values, defaultValue }) => {
 	return (
 		<Grid className="dropdown">
 			<FormControl
-				// variant="outlined"
-				// size="small"
+				variant="outlined"
+				size="small"
 				className="dropdown-form"
 			>
-				<InputLabel>{label}</InputLabel>
 				<Select
 					value={state}
 					onChange={handleChange}
 					defaultValue={defaultValue}
+					displayEmpty
 				>
-					<MenuItem>
-						<em>선택 없음</em>
-					</MenuItem>
+					{hasLabel ? (
+						<MenuItem disabled>
+							<em>{label}</em>
+						</MenuItem>
+					) : undefined}
 					{values.map((value) => (
 						<MenuItem value={value}>{value}</MenuItem>
 					))}

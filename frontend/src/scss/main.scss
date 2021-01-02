@@ -8,6 +8,10 @@
 @import './UI/pageheader';
 @import './UI/dropdown';
 @import './UI/searchinput';
+@import './UI/Problem/probleminfo';
+@import './UI/Problem/probleminput';
+@import './UI/Problem/problemrank';
+@import './UI/Problem/problemscore';
 @import './UI/table';
 @import './UI/pagination';
 @import './UI/menubar';
@@ -15,3 +19,4 @@
 // view
 @import './view/main';
 @import './view/home';
+@import './view/problem';

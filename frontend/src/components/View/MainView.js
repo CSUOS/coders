@@ -13,7 +13,7 @@ const MainView = () => {
 			<Grid>
 				<Route exact path="/" component={Home} />
 				<Route exact path="/user" component={User} />
-				<Route exact path="/problem" component={Problem} />
+				<Route path="/problem" component={Problem} />
 			</Grid>
 		</>
 	);

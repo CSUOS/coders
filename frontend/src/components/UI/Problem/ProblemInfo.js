@@ -1,16 +1,15 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import { Grid } from '@material-ui/core';
 
 const ProblemInfo = ({ title, problemInfo, inputType, outputType }) => {
 	return (
-		<Grid>
+		<Grid className="problem-info-container">
 			<h1>{title}</h1>
-			{problemInfo}
-			<h2>입력 형식</h2>
-			{inputType}
-			<h2>출력 형식</h2>
-			{outputType}
+			<b>{problemInfo}</b>
+			<h1>입력 형식</h1>
+			<b>{inputType}</b>
+			<h1>출력 형식</h1>
+			<b>{outputType}</b>
 		</Grid>
 	);
 };

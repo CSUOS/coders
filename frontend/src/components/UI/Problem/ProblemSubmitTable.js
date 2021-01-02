@@ -19,34 +19,7 @@ const StyledTableCell = withStyles((theme) => ({
 	},
 }))(TableCell);
 
-const createData = (
-	number,
-	id,
-	memory,
-	time,
-	language,
-	codeLen,
-	submitTime
-) => {
-	return {
-		number,
-		id,
-		memory,
-		time,
-		language,
-		codeLen,
-		submitTime,
-	};
-};
-
-const rows = [
-	createData('4', 'powergee', '1KB', '1ms', 'C++', '1236B', '9달 전'),
-	createData('3', 'gusrb', '1KB', '1ms', 'Python3', '16B', '3달 전'),
-	createData('1', 'igee', '2KB', '2ms', 'C++', '1236B', '9달 전'),
-	createData('2', '22e', '1KB', '1ms', 'C++', '136B', '5달 전'),
-];
-
-const ProblemRank = () => {
+const ProblemRank = ({ rows, isResult }) => {
 	return (
 		<Grid>
 			<TableContainer>
@@ -59,6 +32,11 @@ const ProblemRank = () => {
 							<StyledTableCell align="center">
 								아이디
 							</StyledTableCell>
+							{isResult ? (
+								<StyledTableCell align="center">
+									결과
+								</StyledTableCell>
+							) : null}
 							<StyledTableCell align="center">
 								메모리
 							</StyledTableCell>
@@ -89,6 +67,11 @@ const ProblemRank = () => {
 								<StyledTableCell align="center">
 									{row.id}
 								</StyledTableCell>
+								{isResult ? (
+									<StyledTableCell align="center">
+										{row.result}
+									</StyledTableCell>
+								) : null}
 								<StyledTableCell align="center">
 									{row.memory}
 								</StyledTableCell>

@@ -13,12 +13,7 @@ const MainView = () => {
 			<Grid>
 				<Route exact path="/" component={Home} />
 				<Route exact path="/user" component={User} />
-<<<<<<< HEAD
-				<Route exact path="/problem" component={Problem} />
-				<Route exact path="/login" component={Login} />
-=======
 				<Route path="/problem" component={Problem} />
->>>>>>> parent of f62b0bc... Fix conflicts
 			</Grid>
 		</>
 	);

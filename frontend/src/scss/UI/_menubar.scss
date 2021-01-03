@@ -1,0 +1,16 @@
+.menubar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 30px;
+  .menubar-menu {
+    margin-left: 40px;
+	font-size: 20px;
+	border-bottom: 1px solid white;
+    &:hover,
+    &:active,
+    &:focus {
+      border-bottom: 1px solid black;
+    }
+  }
+}

@@ -10,7 +10,7 @@ type Problem struct {
 	Title string `json:"title" example:"Problem title"`
 	Desc string `json:"desc" example:"Problem description"`
 	TimeLimit int `json:"timeLimit" example:"1000" format:"int64"`
-	MemoryLimit int `json:"memoryLimit" example:"1024" format:"int64"`
+	MemoryLimit int `json:"memoryLimit" example:"128" format:"int64"`
 	ShortCircuit bool `json:"shortCircuit" example:"false"`
 }
 

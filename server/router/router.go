@@ -31,5 +31,4 @@ func ApplyRoutes(r *gin.Engine) {
 			problems.DELETE(":id", c.DeleteProblem)
 		}
 	}
-
 }

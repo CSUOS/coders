@@ -100,7 +100,6 @@ func AddProblem(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, result)
 }
 
-
 // UpdateProblem godoc
 // @Summary Update an Problem
 // @Description Update by json Problem

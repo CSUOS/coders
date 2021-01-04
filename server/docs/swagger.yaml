@@ -55,7 +55,7 @@ definitions:
         format: int64
         type: integer
       memoryLimit:
-        example: 1024
+        example: 128
         format: int64
         type: integer
       shortCircuit:

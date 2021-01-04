@@ -604,7 +604,7 @@ var doc = `{
                 "memoryLimit": {
                     "type": "integer",
                     "format": "int64",
-                    "example": 1024
+                    "example": 128
                 },
                 "shortCircuit": {
                     "type": "boolean",

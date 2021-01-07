@@ -11,40 +11,40 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// ListMembers godoc
-// @Summary List Members
-// @Description get Members
-// @Tags Members
+// ListProblems godoc
+// @Summary List Problems
+// @Description get Problems
+// @Tags Problems
 // @Accept  json
 // @Produce  json
-// @Success 200 {array} model.Member
+// @Success 200 {array} model.Problem
 // @Failure 400 {object} httputil.HTTPError
 // @Failure 404 {object} httputil.HTTPError
 // @Failure 500 {object} httputil.HTTPError
-// @Router /members [get]
-func ListMembers(ctx *gin.Context) {
+// @Router /problems [get]
+func ListProblems(ctx *gin.Context) {
 	db := ctx.MustGet("db").(*gorm.DB)
-	members, err := model.MembersAll(db)
+	problems, err := model.ProblemsAll(db)
 	if err != nil {
 		httputil.Error(ctx, http.StatusNotFound, err)
 		return
 	}
-	ctx.JSON(http.StatusOK, members)
+	ctx.JSON(http.StatusOK, problems)
 }
 
-// ShowMember godoc
-// @Summary Show an Member
+// ShowProblem godoc
+// @Summary Show an Problem
 // @Description get string by ID
-// @Tags Members
+// @Tags Problems
 // @Accept  json
 // @Produce  json
-// @Param id path int true "Member ID"
-// @Success 200 {object} model.Member
+// @Param id path int true "Problem ID"
+// @Success 200 {object} model.Problem
 // @Failure 400 {object} httputil.HTTPError
 // @Failure 404 {object} httputil.HTTPError
 // @Failure 500 {object} httputil.HTTPError
-// @Router /members/{id} [get]
-func ShowMember(ctx *gin.Context) {
+// @Router /problems/{id} [get]
+func ShowProblem(ctx *gin.Context) {
 	db := ctx.MustGet("db").(*gorm.DB)
 	id := ctx.Param("id")
 	aid, err := strconv.Atoi(id)
@@ -52,43 +52,47 @@ func ShowMember(ctx *gin.Context) {
 		httputil.Error(ctx, http.StatusBadRequest, err)
 		return
 	}
-	member, err := model.MemberOne(db, aid)
+	problem, err := model.ProblemOne(db, aid)
 	if err != nil {
 		httputil.Error(ctx, http.StatusNotFound, err)
 		return
 	}
-	ctx.JSON(http.StatusOK, member)
+	ctx.JSON(http.StatusOK, problem)
 }
 
-// AddMember godoc
-// @Summary Add an Member
-// @Description add by json Member
-// @Tags Members
+// AddProblem godoc
+// @Summary Add an Problem
+// @Description add by json Problem
+// @Tags Problems
 // @Accept  json
 // @Produce  json
-// @Param Member body model.EditMember true "Add Member"
-// @Success 200 {object} model.Member
+// @Param Problem body model.EditProblem true "Add Problem"
+// @Success 200 {object} model.Problem
 // @Failure 400 {object} httputil.HTTPError
 // @Failure 404 {object} httputil.HTTPError
 // @Failure 500 {object} httputil.HTTPError
-// @Router /members [post]
-func AddMember(ctx *gin.Context) {
+// @Router /problems [post]
+func AddProblem(ctx *gin.Context) {
 	db := ctx.MustGet("db").(*gorm.DB)
 
-	var req model.EditMember
+	var req model.EditProblem
 	if err := ctx.ShouldBindJSON(&req); err != nil {
 		httputil.Error(ctx, http.StatusBadRequest, err)
 		return
 	}
-	if err := req.Validation(); err != nil {
+	if err := req.ProblemValidation(); err != nil {
 		httputil.Error(ctx, http.StatusBadRequest, err)
 		return
 	}
 
-	member := model.Member{
-		Name: req.Name,
+	problem := model.Problem{
+		Title: req.Title,
+		Desc: req.Desc,
+		TimeLimit: req.TimeLimit,
+		MemoryLimit: req.MemoryLimit,
+		ShortCircuit: req.ShortCircuit,
 	}
-	result, err := model.Insert(db, member)
+	result, err := model.ProblemInsert(db, problem)
 	if err != nil {
 		httputil.Error(ctx, http.StatusBadRequest, err)
 		return
@@ -96,21 +100,20 @@ func AddMember(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, result)
 }
 
-
-// UpdateMember godoc
-// @Summary Update an Member
-// @Description Update by json Member
-// @Tags Members
+// UpdateProblem godoc
+// @Summary Update an Problem
+// @Description Update by json Problem
+// @Tags Problems
 // @Accept  json
 // @Produce  json
-// @Param  id path int true "Member ID"
-// @Param  Member body model.EditMember true "Update Member"
-// @Success 200 {object} model.Member
+// @Param  id path int true "Problem ID"
+// @Param  Problem body model.EditProblem true "Update Problem"
+// @Success 200 {object} model.Problem
 // @Failure 400 {object} httputil.HTTPError
 // @Failure 404 {object} httputil.HTTPError
 // @Failure 500 {object} httputil.HTTPError
-// @Router /members/{id} [patch]
-func UpdateMember(ctx *gin.Context) {
+// @Router /problems/{id} [patch]
+func UpdateProblem(ctx *gin.Context) {
 	db := ctx.MustGet("db").(*gorm.DB)
 	id := ctx.Param("id")
 	aid, err := strconv.Atoi(id)
@@ -119,17 +122,21 @@ func UpdateMember(ctx *gin.Context) {
 		return
 	}
 
-	var req model.EditMember
+	var req model.EditProblem
 	if err := ctx.ShouldBindJSON(&req); err != nil {
 		httputil.Error(ctx, http.StatusBadRequest, err)
 		return
 	}
 
-	member := model.Member{
+	problem := model.Problem{
 		ID:   aid,
-		Name: req.Name,
+		Title: req.Title,
+		Desc: req.Desc,
+		TimeLimit: req.TimeLimit,
+		MemoryLimit: req.MemoryLimit,
+		ShortCircuit: req.ShortCircuit,
 	}
-	result, err := model.Update(db, member)
+	result, err := model.ProblemUpdate(db, problem)
 	if err != nil {
 		httputil.Error(ctx, http.StatusNotFound, err)
 		return
@@ -137,19 +144,19 @@ func UpdateMember(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, result)
 }
 
-// DeleteMember godoc
-// @Summary Delete an Member
-// @Description Delete by Member ID
-// @Tags Members
+// DeleteProblem godoc
+// @Summary Delete an Problem
+// @Description Delete by Problem ID
+// @Tags Problems
 // @Accept  json
 // @Produce  json
-// @Param  id path int true "Member ID" Format(int64)
-// @Success 204 {object} model.Member
+// @Param  id path int true "Problem ID" Format(int64)
+// @Success 204 {object} model.Problem
 // @Failure 400 {object} httputil.HTTPError
 // @Failure 404 {object} httputil.HTTPError
 // @Failure 500 {object} httputil.HTTPError
-// @Router /members/{id} [delete]
-func DeleteMember(ctx *gin.Context) {
+// @Router /problems/{id} [delete]
+func DeleteProblem(ctx *gin.Context) {
 	db := ctx.MustGet("db").(*gorm.DB)
 	id := ctx.Param("id")
 	aid, err := strconv.Atoi(id)
@@ -157,7 +164,7 @@ func DeleteMember(ctx *gin.Context) {
 		httputil.Error(ctx, http.StatusBadRequest, err)
 		return
 	}
-	err = model.Delete(db, aid)
+	err = model.ProblemDelete(db, aid)
 	if err != nil {
 		httputil.Error(ctx, http.StatusNotFound, err)
 		return

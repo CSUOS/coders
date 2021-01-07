@@ -15,6 +15,26 @@ definitions:
         example: Member name
         type: string
     type: object
+  model.EditProblem:
+    properties:
+      desc:
+        example: Problem description
+        type: string
+      memoryLimit:
+        example: 1024
+        format: int64
+        type: integer
+      shortCircuit:
+        example: false
+        type: boolean
+      timeLimit:
+        example: 1000
+        format: int64
+        type: integer
+      title:
+        example: Problem title
+        type: string
+    type: object
   model.Member:
     properties:
       id:
@@ -23,6 +43,30 @@ definitions:
         type: integer
       name:
         example: Member name
+        type: string
+    type: object
+  model.Problem:
+    properties:
+      desc:
+        example: Problem description
+        type: string
+      id:
+        example: 1
+        format: int64
+        type: integer
+      memoryLimit:
+        example: 128
+        format: int64
+        type: integer
+      shortCircuit:
+        example: false
+        type: boolean
+      timeLimit:
+        example: 1000
+        format: int64
+        type: integer
+      title:
+        example: Problem title
         type: string
     type: object
 info:
@@ -197,4 +241,170 @@ paths:
       summary: Update an Member
       tags:
       - Members
+  /problems:
+    get:
+      consumes:
+      - application/json
+      description: get Problems
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.Problem'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+      summary: List Problems
+      tags:
+      - Problems
+    post:
+      consumes:
+      - application/json
+      description: add by json Problem
+      parameters:
+      - description: Add Problem
+        in: body
+        name: Problem
+        required: true
+        schema:
+          $ref: '#/definitions/model.EditProblem'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Problem'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+      summary: Add an Problem
+      tags:
+      - Problems
+  /problems/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete by Problem ID
+      parameters:
+      - description: Problem ID
+        format: int64
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+          schema:
+            $ref: '#/definitions/model.Problem'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+      summary: Delete an Problem
+      tags:
+      - Problems
+    get:
+      consumes:
+      - application/json
+      description: get string by ID
+      parameters:
+      - description: Problem ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Problem'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+      summary: Show an Problem
+      tags:
+      - Problems
+    patch:
+      consumes:
+      - application/json
+      description: Update by json Problem
+      parameters:
+      - description: Problem ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Update Problem
+        in: body
+        name: Problem
+        required: true
+        schema:
+          $ref: '#/definitions/model.EditProblem'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Problem'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+      summary: Update an Problem
+      tags:
+      - Problems
 swagger: "2.0"

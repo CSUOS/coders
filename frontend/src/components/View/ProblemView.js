@@ -6,7 +6,6 @@ import Star from '@material-ui/icons/Star';
 import ThumbUp from '@material-ui/icons/ThumbUp';
 import ThumbUpAltOutlinedIcon from '@material-ui/icons/ThumbUpAltOutlined';
 import {
-	ProblemInfo,
 	ProblemInput,
 	ProblemRank,
 	ProblemScore,

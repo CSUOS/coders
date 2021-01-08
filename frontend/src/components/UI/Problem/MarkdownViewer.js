@@ -15,7 +15,6 @@ import {
 } from '@material-ui/core';
 import 'katex/dist/katex.min.css';
 import emoji from 'emoji-dictionary';
-import '../../../scss/md.css';
 
 const OutlinedPaper = (props) => {
 	return <Paper variant="outlined">{props.children}</Paper>;

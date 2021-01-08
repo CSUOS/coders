@@ -30,4 +30,4 @@ jobs:
         run: npm install
 
       - name: Try Building
-        run: npm run build
+        run: CI='' npm run build

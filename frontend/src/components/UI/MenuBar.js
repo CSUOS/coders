@@ -4,8 +4,8 @@ import { Grid } from '@material-ui/core';
 
 const MenuBar = () => {
 	const menus = [
-		['질문 게시판', '/board'],
-		['문제 출제하기', '/question'],
+		['질문 게시판', '/question'],
+		['문제 출제하기', '/submit'],
 		['회원 랭킹', '/rankings'],
 	];
 	return (

@@ -1,0 +1,13 @@
+.question-input {
+  padding: 2% 0%;
+  width: 100%;
+  display: flex;
+  .question-text {
+    justify-content: center;
+    padding: 3% 2%;
+  }
+  .btn {
+    margin-left: auto;
+    margin-right: 2%;
+  }
+}

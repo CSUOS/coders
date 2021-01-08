@@ -1,32 +1,28 @@
 .user {
-    .user-header{
-      padding: 2% 10%;
-    }
-    .user-container {
-      padding: 0% 10%;
-      width: 100%;
+  .user-container {
+    padding: 2% 10%;
+    width: 100%;
+    height: 100%;
+    justify-content: space-between;
+    align-items: center;
+    .user-menu {
+      display: flex;
+      width: 20%;
       height: 100%;
-      justify-content: space-between;
-      align-items: center;
-      .user-menu {
+    }
+    .user-table {
+      display: flex;
+      width: 80%;
+      height: 100%;
+      .user-tableselector {
         display: flex;
-        width: 20%;
-        height: 100%;
-      }
-      .user-table {
-        display: flex;
-        width: 80%;
-        height: 100%;
-        .user-tableselector {
-          display: flex;
-          justify-content: space-between;
-          padding: 20px 15px;
-          .user-tableselector-start {
-            display: inline-flex;
-            align-items: center;
-          }
+        justify-content: space-between;
+        padding: 20px 15px;
+        .user-tableselector-start {
+          display: inline-flex;
+          align-items: center;
         }
       }
     }
   }
-  
+}

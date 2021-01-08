@@ -31,3 +31,5 @@ jobs:
 
       - name: Try Building
         run: npm run build
+        env: 
+          CI: ""

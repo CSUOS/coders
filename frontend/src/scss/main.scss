@@ -15,6 +15,11 @@
 @import './UI/table';
 @import './UI/pagination';
 @import './UI/menubar';
+@import './UI/Question/questiontable';
+@import './UI/Question/questioninput';
+@import './UI/Question/questioninfo';
+@import './UI/Question/inputbox';
+@import './UI/Question/searchbar';
 
 // view
 @import './view/main';
@@ -22,3 +27,4 @@
 @import './view/problem';
 @import './view/user';
 @import './view/login';
+@import './view/question';

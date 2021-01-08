@@ -1,7 +1,7 @@
 import React from 'react';
-import { Grid, Button, FormControl, NativeSelect } from '@material-ui/core';
+import { Grid, Button } from '@material-ui/core';
 import FormatListNumberedIcon from '@material-ui/icons/FormatListNumbered';
-import ProblemSubmitTable from './ProblemSubmitTable';
+import { ProblemSubmitTable, SelectForm } from '..';
 
 const createData = (
 	number,
@@ -92,15 +92,11 @@ const ProblemScore = () => {
 				<FormatListNumberedIcon style={{ fontSize: '2rem' }} />
 				<b>나의 제출 현황</b>
 			</Grid>
-			<Grid className="problem-score-select">
-				<FormControl>
-					<NativeSelect defaultValue="모든 결과">
-						<option value="모든 결과">모든 결과</option>
-						<option value="통과">통과</option>
-						<option value="컴파일 에러">컴파일 에러</option>
-						<option value="오답">오답</option>
-					</NativeSelect>
-				</FormControl>
+			<Grid className="problem-score-order">
+				<SelectForm
+					defaultValue="모든 결과"
+					values={['모든 결과', '통과', '컴파일 에러', '오답']}
+				/>
 				<Button size="small">↓ 메모리로 정렬</Button>
 				<Button size="small">↓ 시간으로 정렬</Button>
 			</Grid>

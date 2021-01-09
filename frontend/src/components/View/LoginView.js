@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Grid, TextField, Button, Box } from '@material-ui/core';
+import { Grid, TextField, Button, Box, Paper } from '@material-ui/core';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import LockIcon from '@material-ui/icons/Lock';
 import { Header } from '../UI';
@@ -9,11 +9,7 @@ const LoginView = () => {
 	return (
 		<Grid className="login">
 			<Header authorized={false} />
-			<Box
-				borderColor="primary.main"
-				borderRadius="5%"
-				className="login-box"
-			>
+			<Paper className="login-box">
 				<Grid container direction="row" className="login-container">
 					<Grid className="login-text">로그인</Grid>
 					<Grid container className="login-field">
@@ -36,7 +32,7 @@ const LoginView = () => {
 						</Link>
 					</Grid>
 				</Grid>
-			</Box>
+			</Paper>
 		</Grid>
 	);
 };

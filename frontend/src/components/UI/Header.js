@@ -12,7 +12,7 @@ const styles = {
 	},
 };
 
-const Header = ({ userName }) => {
+const Header = ({ userName, authorized = true }) => {
 	return (
 		<Grid className="header">
 			<Link to="/">
@@ -24,18 +24,22 @@ const Header = ({ userName }) => {
 					Coders
 				</Button>
 			</Link>
-			<Grid className="header-buttons">
-				<Grid>
-					{userName}
-					님, 환영합니다!
+			{authorized && (
+				<Grid className="header-buttons">
+					<Grid>
+						{userName}
+						님, 환영합니다!
+					</Grid>
+					<Link to="/user">
+						<Button startIcon={<AccountCircleIcon />}>
+							회원 정보
+						</Button>
+					</Link>
+					<Link to="/login">
+						<Button startIcon={<ExitToAppIcon />}>로그아웃</Button>
+					</Link>
 				</Grid>
-				<Link to="/user">
-					<Button startIcon={<AccountCircleIcon />}>회원 정보</Button>
-				</Link>
-				<Link to="/login">
-					<Button startIcon={<ExitToAppIcon />}>로그아웃</Button>
-				</Link>
-			</Grid>
+			)}
 		</Grid>
 	);
 };

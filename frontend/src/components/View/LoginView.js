@@ -3,12 +3,12 @@ import { Link } from 'react-router-dom';
 import { Grid, TextField, Button, Box } from '@material-ui/core';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import LockIcon from '@material-ui/icons/Lock';
-import { LoginHeader } from '../UI';
+import { Header } from '../UI';
 
 const LoginView = () => {
 	return (
 		<Grid className="login">
-			<LoginHeader />
+			<Header authorized={false} />
 			<Box
 				borderColor="primary.main"
 				borderRadius="5%"

@@ -10,7 +10,9 @@
 			padding-bottom: 20px;
 		}
     }
-    .problem-score-select{
+    .problem-score-order{
+		display: flex;
+		align-items: center;
         Button{
             font-size: 1.2rem;
             font-weight: 200;

@@ -14,7 +14,7 @@ module.exports = {
 	},
 	plugins: ['prettier'],
 	rules: {
-		indent: ['error', 'tab'],
+		indent: ['error', 'tab', { SwitchCase: 1 }],
 		'import/prefer-default-export': ['off'],
 		'import/no-cycle': ['off'],
 		'react/prop-types': ['off'],

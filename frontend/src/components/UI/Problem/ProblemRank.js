@@ -8,7 +8,7 @@ import {
 	Button,
 } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
-import { ProblemSubmitTable } from '..';
+import { ProblemSubmitTable, SelectForm } from '..';
 
 const createData = (
 	number,
@@ -53,14 +53,10 @@ const ProblemRank = () => {
 					<SearchIcon />
 				</IconButton>
 
-				<FormControl className="problemrank-select">
-					<NativeSelect defaultValue="모든 언어">
-						<option value="모든 언어">모든 언어</option>
-						<option value="C++">C++</option>
-						<option value="Java">Java</option>
-						<option value="Python">Python</option>
-					</NativeSelect>
-				</FormControl>
+				<SelectForm
+					defaultValue="모든 언어"
+					values={['모든 언어', 'C++', 'Java', 'Python']}
+				/>
 				<Button size="small">↓ 메모리로 정렬</Button>
 				<Button size="small">↓ 시간으로 정렬</Button>
 			</Grid>

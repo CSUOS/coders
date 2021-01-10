@@ -11,6 +11,7 @@ import {
 	ProblemScore,
 	SelectForm,
 	MarkdownViewer,
+	AccordianComment,
 } from '../UI';
 
 const content = `
@@ -211,7 +212,9 @@ const ProblemView = ({ match }) => {
 						component={ProblemScore}
 					/>
 				</Grid>
+				{/* ace Editor 소스 코드 입력 */}
 				<ProblemInput language={language} />
+				<AccordianComment />
 			</Grid>
 		</Grid>
 	);

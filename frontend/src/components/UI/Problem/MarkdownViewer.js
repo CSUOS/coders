@@ -32,7 +32,7 @@ const MarkdownViewer = (props) => {
 				props.value.replace(/:[^:\s]*(?:::[^:\s]*)*:/gi, (name) =>
 					emoji.getUnicode(name)
 				),
-			break: (props) => <br />,
+			break: () => <br />,
 			paragraph: (props) => (
 				<p className="markdown_paragraph">{props.children}</p>
 			),

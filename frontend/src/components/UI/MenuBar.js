@@ -6,7 +6,7 @@ const MenuBar = () => {
 	const menus = [
 		['질문 게시판', '/question'],
 		['문제 출제하기', '/submit'],
-		['회원 랭킹', '/rankings'],
+		['회원 랭킹', '/ranking'],
 	];
 	return (
 		<Grid className="menubar">

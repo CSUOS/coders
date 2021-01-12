@@ -13,11 +13,15 @@ import (
 )
 
 // ListSubmissions godoc
-// @Summary List Submissions
-// @Description get Submissions
+// @Summary 조건에 맞는 submission 리스트를 반환한다.
+// @Description query parameter 는 필수적이지 않으므로, 몇개만 선택해서 사용할 수 있으며, 만약 아무것도 없다면 모든 submission 리스트를 보여준다.
 // @Tags Submissions
 // @Accept  json
 // @Produce  json
+// @Param problem query int false "problem ID"
+// @Param member query int false "member ID"
+// @Param language query string false "language"
+// @Param result query string false "result"
 // @Success 200 {array} model.Submission
 // @Failure 400 {object} httputil.HTTPError
 // @Failure 404 {object} httputil.HTTPError
@@ -25,11 +29,27 @@ import (
 // @Router /submissions [get]
 func ListSubmissions(ctx *gin.Context) {
 	db := ctx.MustGet("db").(*gorm.DB)
-	Submissions, err := model.SubmissionsAll(db)
-	if err != nil {
-		httputil.Error(ctx, http.StatusNotFound, err)
-		return
+	var pid, mid int
+	var err error
+	if ctx.Query("problem") != "" {
+		pid, err = strconv.Atoi(ctx.Query("problem"))
+		httputil.CheckError(ctx, err)
 	}
+	if ctx.Query("member") != "" {
+		mid, err = strconv.Atoi(ctx.Query("member"))
+		httputil.CheckError(ctx, err)
+	}
+
+	param := model.QuerySubmission{
+		ProblemID:	pid,
+		MemberID:	mid,
+		Language:	ctx.Query("language"),
+		Result:		ctx.Query("result"),
+	}
+
+	Submissions, err := model.SubmissionsQuery(db, param)
+	httputil.CheckError(ctx, err)
+
 	ctx.JSON(http.StatusOK, Submissions)
 }
 

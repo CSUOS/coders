@@ -33,11 +33,18 @@ type EditSubmission struct {
 	Meta         string `json:"meta" example:"meta data"`
 }
 
-// SubmissionsAll example
-func SubmissionsAll(db *gorm.DB) ([]Submission, error) {
-	var Submissions []Submission
-	err := db.Find(&Submissions).Error
-	return Submissions, err
+type QuerySubmission struct{
+	ProblemID    int   
+	MemberID     int   
+	Language     string
+	Result       string
+}
+
+// SubmissionsQuery example
+func SubmissionsQuery(db *gorm.DB, query QuerySubmission) ([]Submission, error) {
+	var submissions []Submission
+	err := db.Where(&query).Find(&submissions).Error
+	return submissions, err
 }
 
 // SubmissionOne example
@@ -48,18 +55,18 @@ func SubmissionOne(db *gorm.DB, memberID int) (Submission, error) {
 }
 
 // SubmissionInsert example
-func SubmissionInsert(db *gorm.DB, Submission Submission) (Submission, error) {
-	err := db.Create(&Submission).Error
-	return Submission, err
+func SubmissionInsert(db *gorm.DB, submission Submission) (Submission, error) {
+	err := db.Create(&submission).Error
+	return submission, err
 }
 
 // SubmissionDelete 는 submission id 를 받아 해당 submission 을 지운다
 func SubmissionDelete(db *gorm.DB, id int) error {
-	var Submission Submission
-	err := db.Where("id=?", id).First(&Submission).Error
+	var submission Submission
+	err := db.Where("id=?", id).First(&submission).Error
 	if err != nil {
 		return err
 	}
-	err = db.Delete(&Submission).Error
+	err = db.Delete(&submission).Error
 	return err
 }

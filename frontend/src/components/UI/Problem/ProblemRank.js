@@ -1,12 +1,5 @@
 import React from 'react';
-import {
-	Grid,
-	NativeSelect,
-	FormControl,
-	TextField,
-	IconButton,
-	Button,
-} from '@material-ui/core';
+import { Grid, TextField, IconButton, Button } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import { ProblemSubmitTable, SelectForm } from '..';
 

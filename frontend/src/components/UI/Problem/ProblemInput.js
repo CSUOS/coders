@@ -8,7 +8,7 @@ import 'ace-builds/src-noconflict/theme-tomorrow';
 
 const ProblemInput = ({ language }) => {
 	// input 언어 설정
-	const styles = { width: '100%', height: '90%' };
+	const styles = { width: '100%', height: '90%', fontFamily: 'monospace' };
 	let lang = 'c_cpp';
 	switch (language) {
 		case 'C++':
@@ -39,7 +39,7 @@ const ProblemInput = ({ language }) => {
 				name="codeInput"
 				// onLoad={onLoad}
 				// onChange={this.onChange}
-				fontSize={18}
+				fontSize={19}
 				showPrintMargin
 				showGutter
 				highlightActiveLine

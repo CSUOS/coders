@@ -8,7 +8,7 @@ import 'ace-builds/src-noconflict/theme-tomorrow';
 
 const ProblemInput = ({ language }) => {
 	// input 언어 설정
-	const styles = { width: '100%', height: '90%', fontFamily: 'monospace' };
+	const styles = { width: '100%', height: '90%' };
 	let lang = 'c_cpp';
 	switch (language) {
 		case 'C++':

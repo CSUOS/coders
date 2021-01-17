@@ -204,10 +204,36 @@ func Login(ctx *gin.Context) {
 	session.Set("rank", member.Rank)
 	session.Set("name", member.Name)
 	session.Set("intro", member.Intro)
-	
+
 	if err := session.Save(); err != nil {
 		httputil.Error(ctx, http.StatusInternalServerError, err)
 		return
 	}
 	ctx.JSON(http.StatusOK, member)
+}
+
+// Logout godoc
+// @Summary Request Logout
+// @Description Request logout
+// @Tags Members
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} model.Member
+// @Failure 500 {object} httputil.HTTPError
+// @Router /members/logout [post]
+func Logout(ctx *gin.Context) {
+	// 아직 RABUMS가 활성화되지 않았으므로,
+	// 통신 과정 없이 세션 비활성화.
+
+	session := sessions.Default(ctx)
+	session.Delete("id")
+	session.Delete("rank")
+	session.Delete("name")
+	session.Delete("intro")
+	
+	if err := session.Save(); err != nil {
+		httputil.Error(ctx, http.StatusInternalServerError, err)
+		return
+	}
+	ctx.JSON(http.StatusOK, "Done logout successfully.")
 }

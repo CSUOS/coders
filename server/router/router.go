@@ -25,6 +25,7 @@ func ApplyRoutes(r *gin.Engine) {
 			members.PATCH(":id", c.UpdateMember)
 			members.DELETE(":id", c.DeleteMember)
 			members.POST("/login", c.Login)
+			members.POST("/logout", c.Logout)
 		}
 		problems := v1.Group("/problems")
 		{

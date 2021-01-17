@@ -12,6 +12,7 @@ type Problem struct {
 	TimeLimit int `json:"timeLimit" example:"1000" format:"int64"`
 	MemoryLimit int `json:"memoryLimit" example:"128" format:"int64"`
 	ShortCircuit bool `json:"shortCircuit" example:"false"`
+	Submissions []Submission `gorm:"ForeignKey:ProblemID";constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
 }
 
 type EditProblem struct {

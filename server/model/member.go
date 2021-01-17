@@ -7,10 +7,11 @@ import (
 
 // Member example
 type Member struct {
-	ID   	int    	`json:"id" example:"1" format:"int64" gorm:"autoIncrement"`
+	ID   int    `json:"id" example:"1" format:"int64" gorm:"autoIncrement"`
+	Name string `json:"name" example:"Member name"`
 	Rank 	int		`json:"rank" example:"1" formant:"int64"`
-	Name 	string 	`json:"name" example:"Member name"`
 	Intro	string	`json:"intro" example:"Introduction which users set"`
+	Submissions []Submission `gorm:"ForeignKey:MemberID";constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
 }
 
 // EditMember adds or updates member record

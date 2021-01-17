@@ -5,6 +5,7 @@ go 1.15
 require (
 	github.com/alecthomas/template v0.0.0-20190718012654-fb15b899a751
 	github.com/cpuguy83/go-md2man/v2 v2.0.0 // indirect
+	github.com/gin-contrib/sessions v0.0.3
 	github.com/gin-gonic/gin v1.6.3
 	github.com/go-openapi/spec v0.20.0 // indirect
 	github.com/go-sql-driver/mysql v1.5.0
@@ -20,6 +21,7 @@ require (
 	golang.org/x/net v0.0.0-20201224014010-6772e930b67b // indirect
 	golang.org/x/text v0.3.5 // indirect
 	golang.org/x/tools v0.0.0-20210111221946-d33bae441459 // indirect
+	golang.org/x/tools v0.0.0-20210108195828-e2f9c7f1fc8e // indirect
 	gorm.io/driver/mysql v1.0.3
 	gorm.io/gorm v1.20.9
 )

@@ -6,9 +6,12 @@ import (
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
+	"github.com/gin-contrib/sessions"
+	"github.com/gin-contrib/sessions/cookie"
 )
 
 func ApplyRoutes(r *gin.Engine) {
+	r.Use(sessions.Sessions("session", cookie.NewStore([]byte("secret"))))
 	r.GET("/ping", c.PingExample)
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
@@ -21,6 +24,8 @@ func ApplyRoutes(r *gin.Engine) {
 			members.POST("", c.AddMember)
 			members.PATCH(":id", c.UpdateMember)
 			members.DELETE(":id", c.DeleteMember)
+			members.POST("/login", c.Login)
+			members.POST("/logout", c.Logout)
 		}
 		problems := v1.Group("/problems")
 		{
@@ -36,6 +41,14 @@ func ApplyRoutes(r *gin.Engine) {
 			submissions.GET(":id", c.ShowSubmission)
 			submissions.POST("", c.AddSubmission)
 			submissions.DELETE(":id", c.DeleteSubmission)
+		}
+		pcomments := v1.Group("/pcomments")
+		{
+			pcomments.GET("", c.ListPComments)
+			pcomments.GET(":id", c.ShowPComment)
+			pcomments.POST("", c.AddPComment)
+			pcomments.PATCH(":id", c.UpdatePComment)
+			pcomments.DELETE(":id", c.DeletePComment)
 		}
 	}
 }

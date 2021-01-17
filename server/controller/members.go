@@ -9,6 +9,7 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
+	"github.com/gin-contrib/sessions"
 )
 
 // ListMembers godoc
@@ -165,4 +166,48 @@ func DeleteMember(ctx *gin.Context) {
 		return
 	}
 	ctx.JSON(http.StatusNoContent, gin.H{})
+}
+
+// Login godoc
+// @Summary Request Login
+// @Description Request login to RABUMS
+// @Tags Members
+// @Accept  json
+// @Produce  json
+// @Param Info body model.LoginRequest true "ID/Password pair to request login"
+// @Success 200 {object} model.Member
+// @Failure 400 {object} httputil.HTTPError
+// @Failure 500 {object} httputil.HTTPError
+// @Router /members/login [post]
+func Login(ctx *gin.Context) {
+	var req model.LoginRequest
+	if err := ctx.ShouldBindJSON(&req); err != nil {
+		httputil.Error(ctx, http.StatusBadRequest, err)
+		return
+	}
+	if err := req.Validation(); err != nil {
+		httputil.Error(ctx, http.StatusBadRequest, err)
+		return
+	}
+
+	// 아직 RABUMS가 활성화되지 않았으므로,
+	// 통신 과정 없이 세션 활성화.
+
+	session := sessions.Default(ctx)
+	member := model.Member {
+		ID: 1,
+		Rank: 1,
+		Name: "홍길동",
+		Intro: "안녕하세요~",
+	}
+	session.Set("id", member.ID)
+	session.Set("rank", member.Rank)
+	session.Set("name", member.Name)
+	session.Set("intro", member.Intro)
+	
+	if err := session.Save(); err != nil {
+		httputil.Error(ctx, http.StatusInternalServerError, err)
+		return
+	}
+	ctx.JSON(http.StatusOK, member)
 }

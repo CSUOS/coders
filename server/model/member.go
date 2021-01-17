@@ -19,9 +19,16 @@ type EditMember struct {
 	Intro 	string `json:"intro" example:"Description which users set"`
 }
 
+// LoginRequest tries to login
+type LoginRequest struct {
+	ID 			string 	`json:"id" example:"ID to login"`
+	Password	string	`json:"password" example:"Password to login"`
+}
+
 //  example
 var (
 	ErrNameInvalid = errors.New("name is empty")
+	ErrLoginInvalid = errors.New("invalid login request")
 )
 
 // Validation example
@@ -32,6 +39,13 @@ func (m EditMember) Validation() error {
 	default:
 		return nil
 	}
+}
+
+func (r LoginRequest) Validation() error {
+	if len(r.ID) == 0 || len(r.Password) == 0 {
+		return ErrLoginInvalid
+	}
+	return nil
 }
 
 // MembersAll example

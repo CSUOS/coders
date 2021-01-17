@@ -9,27 +9,27 @@ import (
 // Submission example
 type Submission struct {
 	ID           uint      `json:"id" example:"1" format:"int64" gorm:"autoIncrement"` // packet 에서는 submission-id
-	MemberID     int       `json:"member-id" example:"1" format:"int64"`
-	ProblemID    int       `json:"problem-id" example:"1" format:"int64"` // packet 에서는 problem-id
+	MemberID     int       `json:"memberId" example:"1" format:"int64"`
+	ProblemID    int       `json:"problemId" example:"1" format:"int64"` // packet 에서는 problem-id
 	Language     string    `json:"language" example:"C11"`                // 참고: https://github.com/DMOJ/judge-server/tree/master/dmoj/executors
 	Source       string    `json:"source" example:"#include <stdio.h>" type:"text"`
 	Result       string    `json:"result" example:"WA"`
-	TimeLimit    int       `json:"time-limit" example:"1" format:"int64"`   // problem 모델과 통일 필요
-	MemoryLimit  int       `json:"memory-limit" example:"1" format:"int64"` // problem 모델과 통일 필요
-	ShortCircuit bool      `json:"short-circuit" example:"false"`           // problem 모델과 통일 필요
+	TimeLimit    int       `json:"timeLimit" example:"1" format:"int64"`   
+	MemoryLimit  int       `json:"memoryLimit" example:"1" format:"int64"` 
+	ShortCircuit bool      `json:"shortCircuit" example:"false"`           
 	Meta         string    `json:"meta" example:"meta data"`
 	CreatedAt    time.Time `json:"createdAt"`
 }
 
 // EditSubmission 은 ID, CreatedAt, Result 컬럼이 없다
 type EditSubmission struct {
-	MemberID     int    `json:"member-id" example:"1" format:"int64"`
-	ProblemID    int    `json:"problem-id" example:"1" format:"int64"` // packet 에서는 problem-id
+	MemberID     int    `json:"memberId" example:"1" format:"int64"`
+	ProblemID    int    `json:"problemId" example:"1" format:"int64"` // packet 에서는 problem-id
 	Language     string `json:"language" example:"C11"`                // 참고: https://github.com/DMOJ/judge-server/tree/master/dmoj/executors
 	Source       string `json:"source" example:"#include <stdio.h>" type:"text"`
-	TimeLimit    int    `json:"time-limit" example:"1" format:"int64"`   // problem 모델과 통일 필요
-	MemoryLimit  int    `json:"memory-limit" example:"1" format:"int64"` // problem 모델과 통일 필요
-	ShortCircuit bool   `json:"short-circuit" example:"false"`           // problem 모델과 통일 필요
+	TimeLimit    int    `json:"timeLimit" example:"1" format:"int64"`   
+	MemoryLimit  int    `json:"memoryLimit" example:"1" format:"int64"` 
+	ShortCircuit bool   `json:"shortCircuit" example:"false"`           
 	Meta         string `json:"meta" example:"meta data"`
 }
 

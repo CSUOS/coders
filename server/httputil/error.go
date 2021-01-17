@@ -1,6 +1,16 @@
 package httputil
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/gin-gonic/gin"
+	"net/http"
+)
+
+func CheckError(ctx *gin.Context, err error){
+	if err != nil {
+		Error(ctx, http.StatusBadRequest, err)
+		return
+	}
+}
 
 // Error example
 func Error(ctx *gin.Context, status int, err error) {

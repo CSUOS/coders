@@ -7,10 +7,12 @@
 			width: 80%;
 			height: 100%;
 			.ranking-tableselector{
+				display: flex;
 				padding: 20px 17px;
 				.ranking-search {
 					display: flex;
 					justify-content: flex-start;
+					align-items: center;
 				}
 				.ranking-pagination {
 					display: flex;

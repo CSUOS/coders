@@ -5,12 +5,36 @@
 		width: 100%;
 		justify-content: flex-start;
 		align-items: center;
+		border-radius: 3px;
+		border: 1.3px solid $grey;
+		&:hover, &:focus, &:active{
+			border-radius: 3px;
+			border: 1.3px solid black;
+		}
 		.searchinput-inputbase{
-			padding: 0;
+			padding: 3px;
+			margin: 0;
+			font-size: 1.2rem;
+			border: 0;
+			&:hover, &:focus{
+				outline: none;
+			}
 		}
 		.searchinput-iconbtn{
-			padding: 5px;
-			margin: 10px 10px 0px 5px;
+			border: 0px;
+			border-radius: 3px;
+			height: 100;
+			svg{
+				font-size: 1.7rem;
+				color: $grey;
+			}
+			&:hover{
+				background-color: $light-grey;
+			}
+			&:focus{
+				border: none;
+				outline: none;
+			}
 		}
 	}
 }

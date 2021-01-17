@@ -8,18 +8,20 @@
 			height: 100%;
 			.home-tableselector{
 				display: flex;
-				justify-content: space-between;
 				padding: 20px 17px;
+				justify-content: space-between;
 				.home-tableselector-start{
-					display: inline-flex;
+					display: flex;
 					align-items: center;
-					Button{
-						font-size: 17px;
+					.sort-button{
+						font-size: 1.2rem;
 						font-weight: 400;
+						padding: 3px;
+						margin: 0px 5px;
 					}
 				}
 				.home-dropdowns{
-					display: inline-flex;
+					display: flex;
 					.home-dropdown{
 						margin-left: 10px;
 					}

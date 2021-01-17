@@ -7,13 +7,16 @@ import (
 
 // Member example
 type Member struct {
-	ID   int    `json:"id" example:"1" format:"int64" gorm:"autoIncrement"`
-	Name string `json:"name" example:"Member name"`
+	ID   	int    	`json:"id" example:"1" format:"int64" gorm:"autoIncrement"`
+	Rank 	int		`json:"rank" example:"1" formant:"int64"`
+	Name 	string 	`json:"name" example:"Member name"`
+	Intro	string	`json:"intro" example:"Introduction which users set"`
 }
 
 // EditMember adds or updates member record
 type EditMember struct {
-	Name string `json:"name" example:"Member name"`
+	Name 	string `json:"name" example:"Member name"`
+	Intro 	string `json:"intro" example:"Description which users set"`
 }
 
 //  example
@@ -54,7 +57,7 @@ func Insert(db *gorm.DB, member Member) (Member, error) {
 
 // Update example
 func Update(db *gorm.DB, member Member) (Member, error) {
-	err := db.Model(&Member{}).Where("id = ?", member.ID).Update("name", member.Name).Error
+	err := db.Model(&Member{}).Where("id = ?", member.ID).Update("name", member.Name).Update("intro", member.Intro).Error
 	return member, err
 }
 

@@ -87,6 +87,7 @@ func AddMember(ctx *gin.Context) {
 
 	member := model.Member{
 		Name: req.Name,
+		Intro: req.Intro,
 	}
 	result, err := model.Insert(db, member)
 	if err != nil {
@@ -128,6 +129,7 @@ func UpdateMember(ctx *gin.Context) {
 	member := model.Member{
 		ID:   aid,
 		Name: req.Name,
+		Intro: req.Intro,
 	}
 	result, err := model.Update(db, member)
 	if err != nil {

@@ -30,8 +30,8 @@ const HomeView = () => {
 					<Grid className="home-tableselector">
 						<Grid className="home-tableselector-start">
 							<SearchInput label={label2} />
-							<Button>{label3}</Button>
-							<Button>{label4}</Button>
+							<Button className="sort-button">{label3}</Button>
+							<Button className="sort-button">{label4}</Button>
 						</Grid>
 						<Grid className="home-dropdowns">
 							<Grid className="home-dropdown">

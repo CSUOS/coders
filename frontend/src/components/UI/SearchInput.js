@@ -6,14 +6,14 @@ const SearchInput = ({ label }) => {
 	return (
 		<Grid className="searchinput">
 			<Grid className="searchinput-container" component="form">
-				<TextField className="searchinput-inputbase" label={label} />
-				<IconButton
-					type="submit"
-					className="searchinput-iconbtn"
-					aria-label="search"
-				>
+				<input
+					type="text"
+					className="searchinput-inputbase"
+					placeholder={label}
+				/>
+				<button type="button" className="searchinput-iconbtn">
 					<SearchIcon />
-				</IconButton>
+				</button>
 			</Grid>
 		</Grid>
 	);

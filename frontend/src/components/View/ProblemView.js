@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Grid, Button, IconButton } from '@material-ui/core';
+import { Grid, Button, IconButton, Typography } from '@material-ui/core';
 import { Route, Link } from 'react-router-dom';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
 import Star from '@material-ui/icons/Star';
@@ -11,6 +11,7 @@ import {
 	ProblemScore,
 	SelectForm,
 	MarkdownViewer,
+	AccordianComment,
 } from '../UI';
 
 const content = `
@@ -184,6 +185,7 @@ const ProblemView = ({ match }) => {
 									/>
 								</div>
 							)}
+							<Typography>북마크 추가</Typography>
 						</IconButton>
 					</Grid>
 				</Grid>
@@ -211,7 +213,9 @@ const ProblemView = ({ match }) => {
 						component={ProblemScore}
 					/>
 				</Grid>
+				{/* ace Editor 소스 코드 입력 */}
 				<ProblemInput language={language} />
+				<AccordianComment />
 			</Grid>
 		</Grid>
 	);

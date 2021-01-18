@@ -8,7 +8,6 @@ import { Header } from '../UI';
 const LoginView = () => {
 	return (
 		<Grid className="login">
-			<Header authorized={false} />
 			<Paper className="login-box">
 				<Grid container direction="row" className="login-container">
 					<Grid className="login-text">로그인</Grid>

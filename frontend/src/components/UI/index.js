@@ -11,6 +11,7 @@ export { default as ProblemSubmitTable } from './Problem/ProblemSubmitTable';
 export { default as MarkdownViewer } from './Problem/MarkdownViewer';
 export { default as AccordianComment } from './Problem/AccordianComment';
 export { default as Comment } from './Problem/Comment';
+export { default as EditorBox } from './Problem/EditorBox';
 export { default as Pagination } from './Pagination';
 export { default as MenuBar } from './MenuBar';
 export { default as UserTable } from './User/UserTable';

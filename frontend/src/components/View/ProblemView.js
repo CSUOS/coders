@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Grid, Button, IconButton } from '@material-ui/core';
+import { Grid, Button, IconButton, Typography } from '@material-ui/core';
 import { Route, Link } from 'react-router-dom';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
 import Star from '@material-ui/icons/Star';
@@ -185,6 +185,7 @@ const ProblemView = ({ match }) => {
 									/>
 								</div>
 							)}
+							<Typography>북마크 추가</Typography>
 						</IconButton>
 					</Grid>
 				</Grid>

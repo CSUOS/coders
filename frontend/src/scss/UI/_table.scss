@@ -1,18 +1,27 @@
 .table {
-  display: flex;
-  width: 100%;
-  border: 2px solid $grey;
-  .table-head {
-	background-color: #e5e5e5;
-	.table-headcell{
-		font-size: 15px;
-		border-left: 1px solid $grey;
+	width: 100%;
+	border: 2px solid $grey;
+	.table-head {
+	  background-color: $light-grey;
+	  .table-headCell {
+		text-align: center;
+		vertical-align: middle;
+		font-size: 18px;
+		font-weight: 700;
+		border-bottom: 1px solid $grey;
+		border-right: 1px solid $grey;
+	  }
+	}
+	.table-bodyrow {
+	  border-bottom: 1px solid $grey;
+	  .table-bodycell {
+		text-align: center;
+		vertical-align: middle;
+		font-size: 16px;
+		border-right: 1px solid $grey;
+		padding: 5px 0px;
+	  }
 	}
   }
-  .table-bodyrow{
-	  .table-bodycell{
-		  font-size: 15px;
-		  border-left: 1px solid #9e9b9a;
-	  }
-  }
-}
+
+  

@@ -7,8 +7,13 @@
     align-items: center;
     .user-menu {
       display: flex;
-      width: 20%;
+      width: 10%;
       height: 100%;
+    }
+    .user-dropdown {
+      margin-bottom:2%;
+      display: flex;
+      justify-content:flex-end;
     }
     .user-table {
       display: flex;

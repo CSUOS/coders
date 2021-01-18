@@ -3,11 +3,18 @@ import { Grid, MenuList, MenuItem, ListItemIcon } from '@material-ui/core';
 import DoneOutlineIcon from '@material-ui/icons/DoneOutline';
 import CreateIcon from '@material-ui/icons/Create';
 import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
+import StarIcon from '@material-ui/icons/Star';
 
 const UserMenu = () => {
 	return (
 		<Grid className="user-menu">
 			<MenuList>
+				<MenuItem>
+					<ListItemIcon>
+						<StarIcon fontSize="small" />
+					</ListItemIcon>
+					즐겨찾기
+				</MenuItem>
 				<MenuItem>
 					<ListItemIcon>
 						<DoneOutlineIcon fontSize="small" />

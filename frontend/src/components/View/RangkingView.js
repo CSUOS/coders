@@ -1,12 +1,6 @@
 import React from 'react';
 import { Grid } from '@material-ui/core';
-import {
-	PageHeader,
-	MenuBar,
-	ProblemTable,
-	Pagination,
-	SearchInput,
-} from '../UI';
+import { PageHeader, ProblemTable, Pagination, SearchInput } from '../UI';
 
 const RangkingView = () => {
 	const mainTitle = '회원 랭킹';
@@ -30,7 +24,6 @@ const RangkingView = () => {
 
 	return (
 		<Grid className="ranking">
-			<MenuBar />
 			<Grid className="ranking-container">
 				<PageHeader mainTitle={mainTitle} />
 				<Grid className="ranking-content">

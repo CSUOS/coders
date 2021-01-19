@@ -6,8 +6,16 @@
       padding: 0% 10%;
       width: 80%;
       height: 100%;
+      .dropdown-box {
+        display: flex;
+        justify-content: flex-end;
+        padding-bottom: 2%;
+        .dropdown {
+          margin-left: 2%;
+        }
+      }
       .search {
-        padding: 2% 0%;
+        padding-top: 2%;
         display: flex;
         justify-content: center;
       }

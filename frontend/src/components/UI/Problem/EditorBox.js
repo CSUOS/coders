@@ -12,7 +12,7 @@ import 'ace-builds/src-noconflict/theme-tomorrow';
  * handleChange를 통해 getValue 를 사용할 수 있습니다.
  * 미리 초기값을 넣어주려면 initValue에 넣으면 됩니다.
  */
-const EditorBox = ({ styles, lang, handleChange, initValue }) => {
+const EditorBox = ({ styles, lang, handleChange, initValue, readFlag }) => {
 	return (
 		<AceEditor
 			style={styles}
@@ -28,6 +28,7 @@ const EditorBox = ({ styles, lang, handleChange, initValue }) => {
 			showGutter
 			highlightActiveLine
 			value={initValue}
+			readOnly={readFlag}
 			setOptions={{
 				enableBasicAutocompletion: false,
 				enableLiveAutocompletion: false,

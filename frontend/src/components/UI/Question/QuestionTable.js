@@ -44,6 +44,12 @@ const QuestionTable = ({ head, rows }) => {
 									className="table-bodycell"
 									align="center"
 								>
+									{row.status}
+								</TableCell>
+								<TableCell
+									className="table-bodycell"
+									align="center"
+								>
 									<Grid
 										component={Link}
 										to={`/question/id/${row.number}`}

@@ -6,7 +6,6 @@ import {
 	SearchInput,
 	ProblemTable,
 	Pagination,
-	MenuBar,
 } from '../UI';
 
 const HomeView = ({ problems }) => {
@@ -29,7 +28,6 @@ const HomeView = ({ problems }) => {
 	const values2 = [...Array(12)].map((_, index) => index + 1);
 	return (
 		<Grid className="home">
-			<MenuBar />
 			<Grid className="home-container">
 				<PageHeader mainTitle={mainTitle} />
 				<Grid className="home-content">

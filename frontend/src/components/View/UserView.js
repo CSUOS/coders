@@ -1,6 +1,6 @@
 import React from 'react';
 import { Grid } from '@material-ui/core';
-import { PageHeader, Dropdown, Pagination, UserTable, UserMenu } from '../UI';
+import { PageHeader, Dropdown, Pagination, UserMenu, Table } from '../UI';
 
 const UserView = () => {
 	const mainTitle = '회원 정보';
@@ -25,7 +25,7 @@ const UserView = () => {
 					<Grid container className="user-dropdown" direction="row">
 						<Dropdown label={label2} values={values2} />
 					</Grid>
-					<UserTable
+					<Table
 						head={tableHead}
 						rows={[...Array(10)].map(() => tableBody)}
 					/>

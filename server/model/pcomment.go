@@ -11,21 +11,21 @@ import (
 // PCommnet belongs to Member, Problem
 type PComment struct {
 	ID        int       `json:"id" example:"1" format:"int64" gorm:"autoIncrement"`
+	MemberID  int       `json:"userId" example:"1" format:"int64"`
+	ProblemID int       `json:"problemId" example:"1" format:"int64"`
 	Text      string    `json:"text" example:"problem comment"`
 	CreateAt  time.Time `json:"createdAt"`
 	Edited    bool      `json:"edited" example:"false"`
 	Deleted   bool      `json:"deleted" example:"false"`
-	MemberID  int       `json:"userid" example:"1"`
-	Member    Member    `gorm:"foreginKey:MemberID;association_foreginKey:ID"`
-	ProblemID int       `json:"problemid" example:"1"`
-	Problem   Problem   `gorm:"foreginKey:ProblemID;association_foreginKey:ID"`
 }
 
 // EditPComment adds or updates problem comment record
 type EditPComment struct {
-	Text    string `json:"text" example:"problem comment"`
-	Edited  bool   `json:"edited" example:"true"`
-	Deleted bool   `json:"deleted" example:"true"`
+	MemberID  int    `json:"userId" example:"1" format:"int64"`
+	ProblemID int    `json:"problemId" example:"1" format:"int64"`
+	Text      string `json:"text" example:"problem comment"`
+	Edited    bool   `json:"edited" example:"false"`
+	Deleted   bool   `json:"deleted" example:"false"`
 }
 
 //  .
@@ -43,10 +43,10 @@ func (c EditPComment) PCommentValidation() error {
 	}
 }
 
-// PCommentsAll .
-func PCommentsAll(db *gorm.DB) ([]PComment, error) {
+// PCommentsQuery example
+func PCommentsQuery(db *gorm.DB, problemID int) ([]PComment, error) {
 	var pcomments []PComment
-	err := db.Find(&pcomments).Error
+	err := db.Where("problem_id", problemID).Find(&pcomments).Error
 	return pcomments, err
 }
 
@@ -65,7 +65,7 @@ func PCommentInsert(db *gorm.DB, pcomment PComment) (PComment, error) {
 
 // PCommentUpdate .
 func PCommentUpdate(db *gorm.DB, pcomment PComment) (PComment, error) {
-	err := db.Model(&PComment{}).Where("id = ?", pcomment.ID).Update("text", pcomment.Text).Error
+	err := db.Model(&pcomment).Where("id = ?", pcomment.ID).Updates(PComment{MemberID: pcomment.MemberID, ProblemID: pcomment.ProblemID, Text: pcomment.Text, Edited: pcomment.Edited, Deleted: pcomment.Deleted}).Error
 	return pcomment, err
 }
 

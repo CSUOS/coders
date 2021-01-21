@@ -14,10 +14,11 @@ import (
 
 // ListPComments godc
 // @Summary List PComments
-// @Description get problem comments
+// @Description get problem comments by problem id
 // @Tags PComments
 // @Accept json
 // @Produce json
+// @Param problem_id query int true "Problem ID"
 // @Success 200 {array} model.PComment
 // @Failure 400 {object} httputil.HTTPError
 // @Failure 404 {object} httputil.HTTPError
@@ -25,7 +26,13 @@ import (
 // @Router /pcomments [get]
 func ListPComments(ctx *gin.Context) {
 	db := ctx.MustGet("db").(*gorm.DB)
-	pcomments, err := model.PCommentsAll(db)
+	problemID := ctx.Query("problem_id")
+	aid, err := strconv.Atoi(problemID)
+	if err != nil {
+		httputil.Error(ctx, http.StatusBadRequest, err)
+		return
+	}
+	pcomments, err := model.PCommentsQuery(db, aid)
 	if err != nil {
 		httputil.Error(ctx, http.StatusNotFound, err)
 		return
@@ -44,7 +51,7 @@ func ListPComments(ctx *gin.Context) {
 // @Failure 400 {object} httputil.HTTPError
 // @Failure 404 {object} httputil.HTTPError
 // @Failure 500 {object} httputil.HTTPError
-// @Router /pcomment/{id} [get]
+// @Router /pcomments/{id} [get]
 func ShowPComment(ctx *gin.Context) {
 	db := ctx.MustGet("db").(*gorm.DB)
 	id := ctx.Param("id")
@@ -72,7 +79,7 @@ func ShowPComment(ctx *gin.Context) {
 // @Failure 400 {object} httputil.HTTPError
 // @Failure 404 {object} httputil.HTTPError
 // @Failure 500 {object} httputil.HTTPError
-// @Router /pcomment [post]
+// @Router /pcomments [post]
 func AddPComment(ctx *gin.Context) {
 	db := ctx.MustGet("db").(*gorm.DB)
 
@@ -87,9 +94,11 @@ func AddPComment(ctx *gin.Context) {
 	}
 
 	pcomment := model.PComment{
-		Text:    req.Text,
-		Edited:  req.Edited,
-		Deleted: req.Deleted,
+		MemberID:  req.MemberID,
+		ProblemID: req.ProblemID,
+		Text:      req.Text,
+		Edited:    req.Edited,
+		Deleted:   req.Deleted,
 	}
 	result, err := model.PCommentInsert(db, pcomment)
 	if err != nil {
@@ -111,7 +120,7 @@ func AddPComment(ctx *gin.Context) {
 // @Failure 400 {object} httputil.HTTPError
 // @Failure 404 {object} httputil.HTTPError
 // @Failure 500 {object} httputil.HTTPError
-// @Router /pcomment/{id} [patch]
+// @Router /pcomments/{id} [patch]
 func UpdatePComment(ctx *gin.Context) {
 	db := ctx.MustGet("db").(*gorm.DB)
 	id := ctx.Param("id")
@@ -128,10 +137,12 @@ func UpdatePComment(ctx *gin.Context) {
 	}
 
 	pcomment := model.PComment{
-		ID:      aid,
-		Text:    req.Text,
-		Edited:  req.Edited,
-		Deleted: req.Deleted,
+		ID:        aid,
+		MemberID:  req.MemberID,
+		ProblemID: req.ProblemID,
+		Text:      req.Text,
+		Edited:    req.Edited,
+		Deleted:   req.Deleted,
 	}
 	result, err := model.PCommentUpdate(db, pcomment)
 	if err != nil {
@@ -152,7 +163,7 @@ func UpdatePComment(ctx *gin.Context) {
 // @Failure 400 {object} httputil.HTTPError
 // @Failure 404 {object} httputil.HTTPError
 // @Failure 500 {object} httputil.HTTPError
-// @Router /pcomment/{id} [delete]
+// @Router /pcomments/{id} [delete]
 func DeletePComment(ctx *gin.Context) {
 	db := ctx.MustGet("db").(*gorm.DB)
 	id := ctx.Param("id")

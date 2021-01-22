@@ -1,6 +1,5 @@
 import React from 'react';
-import { Grid, TextField, IconButton, Button } from '@material-ui/core';
-import SearchIcon from '@material-ui/icons/Search';
+import { Grid, Button } from '@material-ui/core';
 import { ProblemSubmitTable, SelectForm, SearchInput } from '..';
 
 const createData = (
@@ -34,20 +33,9 @@ const ProblemRank = () => {
 	return (
 		<Grid className="problemrank-container">
 			<Grid className="problemrank-input" container>
-				<Grid>
+				<Grid className="problemrank-search">
 					<SearchInput label="아이디로 검색" />
 				</Grid>
-				{/* <TextField
-					className="problemrank-textfield"
-					label="아이디로 검색"
-				/>
-				<IconButton
-					type="submit"
-					className="problemrank-iconbtn"
-					aria-label="search"
-				>
-					<SearchIcon />
-				</IconButton> */}
 				<SelectForm
 					defaultValue="모든 언어"
 					values={['모든 언어', 'C++', 'Java', 'Python']}

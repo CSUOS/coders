@@ -6,7 +6,12 @@ import { Route } from 'react-router-dom';
 import { Home, Login, User, Problem, Question, Rangking, Submit } from './View';
 import { Header } from './UI';
 
-import { useProblemDataContext, useProblemDispatchContext } from './Model';
+import {
+	useProblemDataContext,
+	useProblemDispatchContext,
+	usePInfoContext,
+	usePInfoDispatchContext,
+} from './Model';
 
 const ViewModel = () => {
 	const userName = '사용자';
@@ -14,6 +19,8 @@ const ViewModel = () => {
 	const problems = useProblemDataContext();
 	const setProblem = useProblemDispatchContext();
 
+	const pInfo = usePInfoContext();
+	const setPInfo = usePInfoDispatchContext();
 	return (
 		<>
 			<Header userName={userName} />
@@ -25,7 +32,10 @@ const ViewModel = () => {
 				/>
 				<Route exact path="/login" component={Login} />
 				<Route exact path="/user" component={User} />
-				<Route path="/problem" component={Problem} />
+				<Route
+					path="/problem"
+					render={() => <Problem pInfo={pInfo} />}
+				/>
 				<Route path="/question" component={Question} />
 				<Route path="/submit" component={Submit} />
 				<Route path="/ranking" component={Rangking} />

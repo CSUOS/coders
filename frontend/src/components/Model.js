@@ -5,6 +5,7 @@ import data from '../data.json';
 
 const problemData = data.problem;
 const userData = data.user;
+const problemInfo = data.problem_info[0];
 // ==================================
 
 // ================= [ problem context ] ======================
@@ -30,6 +31,31 @@ export const useProblemDataContext = () => {
 
 export const useProblemDispatchContext = () => {
 	const context = useContext(ProblemDispatchContext);
+	return context;
+};
+// ===================================================================
+
+// ================= [ problemInfo context ] ======================
+const pInfoContext = createContext();
+const pInfoDispatchContext = createContext();
+
+export const ProblemInfoContextProvider = ({ children }) => {
+	const [pInfo, setPInfo] = useState(problemInfo);
+	return (
+		<pInfoContext.Provider value={pInfo}>
+			<pInfoDispatchContext.Provider value={setPInfo}>
+				{children}
+			</pInfoDispatchContext.Provider>
+		</pInfoContext.Provider>
+	);
+};
+
+export const usePInfoContext = () => {
+	const context = useContext(pInfoContext);
+	return context;
+};
+export const usePInfoDispatchContext = () => {
+	const context = useContext(pInfoDispatchContext);
 	return context;
 };
 // ===================================================================

@@ -8,7 +8,7 @@ import {
 import { withStyles } from '@material-ui/core/styles';
 import MuiAccordion from '@material-ui/core/Accordion';
 import DoubleArrowIcon from '@material-ui/icons/DoubleArrow';
-import { Comment } from '..';
+import { CommentForm } from '..';
 
 const Accordion = withStyles({
 	root: {
@@ -48,12 +48,7 @@ const AccordianComment = () => {
 				</AccordionSummary>
 				<AccordionDetails>
 					<Grid className="accordion-detail">
-						{comments.map((comment) => (
-							<Comment
-								userName={comment.userName}
-								comment={comment.comment}
-							/>
-						))}
+						<CommentForm comments={comments} />
 					</Grid>
 				</AccordionDetails>
 			</Accordion>

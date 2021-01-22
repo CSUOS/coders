@@ -1,3 +1,5 @@
+import CommentForm from './CommentForm';
+
 export { default as Header } from './Header';
 export { default as PageHeader } from './PageHeader';
 export { default as Dropdown } from './Dropdown';
@@ -10,7 +12,7 @@ export { default as SelectForm } from './Problem/SelectForm';
 export { default as ProblemSubmitTable } from './Problem/ProblemSubmitTable';
 export { default as MarkdownViewer } from './Problem/MarkdownViewer';
 export { default as AccordianComment } from './Problem/AccordianComment';
-export { default as Comment } from './Problem/Comment';
+export { default as Comment } from './Comment';
 export { default as EditorBox } from './Problem/EditorBox';
 export { default as Pagination } from './Pagination';
 export { default as MenuBar } from './MenuBar';
@@ -24,3 +26,4 @@ export { default as InputBox } from './Question/InputBox';
 export { default as InputDropDown } from './Question/InputDropDown';
 export { default as SearchBar } from './Question/SearchBar';
 export { default as LabelInput } from './LabelInput';
+export { default as CommentForm } from './CommentForm';

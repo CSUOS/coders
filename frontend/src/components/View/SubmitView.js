@@ -1,14 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Grid, Button } from '@material-ui/core';
-import { PageHeader, InputBox, InputDropDown, EditorBox } from '../UI';
+import {
+	PageHeader,
+	InputBox,
+	InputDropDown,
+	EditorBox,
+	MarkdownViewer,
+} from '../UI';
 
 const SubmitView = () => {
 	const mainTitle = '문제 출제하기';
 	const labels = ['제목', '분류'];
 	const values = ['BFS', 'DFS'];
-	const styles = { width: '100%', height: '400px' };
-	const lang = 'c_cpp';
+	const styles = { width: '100%', height: '70vh' };
+	const lang = 'markdown';
+	const [input, setInput] = useState('# 문제 설명');
+	const handleInput = (e) => {
+		setInput(e);
+	};
 
 	return (
 		<Grid className="submit">
@@ -20,17 +30,17 @@ const SubmitView = () => {
 							<InputBox title={label} size="10" />
 						))}
 						<InputDropDown title="태그" value={values} />
-						<Grid className="submit-text">
-							<EditorBox
-								styles={styles}
-								lang={lang}
-								initValue={`#include <iostream>
-using namespace std;
-
-int main(void) {
-	cout << "Hello World" << endl;
-}`}
-							/>
+						<Grid className="submit-form">
+							<Grid className="submit-text">
+								<EditorBox
+									styles={styles}
+									lang={lang}
+									handleChange={handleInput}
+								/>
+							</Grid>
+							<Grid className="submit-viewer">
+								<MarkdownViewer source={input} />
+							</Grid>
 						</Grid>
 						<Grid className="btn">
 							<Link to="/">

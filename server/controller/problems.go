@@ -3,7 +3,6 @@ package controller
 import (
 	"coders/httputil"
 	"coders/model"
-
 	"gorm.io/gorm"
 	"net/http"
 	"strconv"
@@ -91,6 +90,7 @@ func AddProblem(ctx *gin.Context) {
 		TimeLimit: req.TimeLimit,
 		MemoryLimit: req.MemoryLimit,
 		ShortCircuit: req.ShortCircuit,
+		MemberID: req.MemberID,
 	}
 	result, err := model.ProblemInsert(db, problem)
 	if err != nil {

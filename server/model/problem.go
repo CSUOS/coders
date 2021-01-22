@@ -6,21 +6,24 @@ import (
 )
 
 type Problem struct {
-	ID   int    `json:"id" example:"1" format:"int64" gorm:"autoIncrement"`
-	Title string `json:"title" example:"Problem title"`
-	Desc string `json:"desc" example:"Problem description"`
-	TimeLimit int `json:"timeLimit" example:"1000" format:"int64"`
-	MemoryLimit int `json:"memoryLimit" example:"128" format:"int64"`
-	ShortCircuit bool `json:"shortCircuit" example:"false"`
-	Submissions []Submission `gorm:"ForeignKey:ProblemID";constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
+	ID  		 int          `json:"id" example:"1" format:"int64" gorm:"autoIncrement"`
+	Title 		 string 	  `json:"title" example:"Problem title"`
+	Desc 		 string 	  `json:"desc" example:"Problem description"`
+	TimeLimit    int		  `json:"timeLimit" example:"1000" format:"int64"`
+	MemoryLimit  int 		  `json:"memoryLimit" example:"128" format:"int64"`
+	ShortCircuit bool 		  `json:"shortCircuit" example:"false"`
+	MemberID     int 		  `json:"memberID" example:"1" format:"int64"`
+	Member 		 Member 	  `gorm:"ForeignKey:MemberID;"`
+	Submissions  []Submission `gorm:"ForeignKey:ProblemID";constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
 }
 
 type EditProblem struct {
-	Title string `json:"title" example:"Problem title"`
-	Desc string `json:"desc" example:"Problem description"`
-	TimeLimit int `json:"timeLimit" example:"1000" format:"int64"`
-	MemoryLimit int `json:"memoryLimit" example:"1024" format:"int64"`
-	ShortCircuit bool `json:"shortCircuit" example:"false"`
+	Title		 string `json:"title" example:"Problem title"`
+	Desc 		 string `json:"desc" example:"Problem description"`
+	TimeLimit    int 	`json:"timeLimit" example:"1000" format:"int64"`
+	MemoryLimit  int 	`json:"memoryLimit" example:"1024" format:"int64"`
+	ShortCircuit bool   `json:"shortCircuit" example:"false"`
+	MemberID     int    `json:"memberID" example:"1" format:"int64"`
 }
 
 var (
@@ -74,7 +77,6 @@ func ProblemUpdate(db *gorm.DB, problem Problem) (Problem, error) {
 	err = db.Model(&Problem{}).Where("id = ?", problem.ID).Update("short_circuit", problem.ShortCircuit).Error
 	if err!=nil { return problem, err }
 	return problem, err
-	// time_limit > timeLimit ?
 }
 
 func ProblemDelete(db *gorm.DB, id int) error {

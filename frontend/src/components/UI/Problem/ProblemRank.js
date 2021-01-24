@@ -2,6 +2,7 @@ import React from 'react';
 import { Grid, TextField, IconButton, Button } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import { ProblemSubmitTable, SelectForm, SearchInput } from '..';
+import Table from '../Table';
 
 const createData = (
 	number,
@@ -30,6 +31,17 @@ const rows = [
 	createData('2', '22e', '1KB', '1ms', 'C++', '136B', '5달 전'),
 ];
 
+const head = [
+	'채점 번호',
+	'아이디',
+	'메모리',
+	'시간',
+	'언어',
+	'코드 길이',
+	'제출한 시간',
+];
+const row = ['3', 'gusrb', '1KB', '1ms', 'Python3', '16B', '3달 전'];
+
 const ProblemRank = () => {
 	return (
 		<Grid className="problemrank-container">
@@ -55,7 +67,7 @@ const ProblemRank = () => {
 				<Button size="small">↓ 메모리로 정렬</Button>
 				<Button size="small">↓ 시간으로 정렬</Button>
 			</Grid>
-			<ProblemSubmitTable rows={rows} />
+			<Table head={head} rows={[...Array(5)].map(() => row)} />
 		</Grid>
 	);
 };

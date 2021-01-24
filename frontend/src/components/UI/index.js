@@ -24,3 +24,4 @@ export { default as InputBox } from './Question/InputBox';
 export { default as InputDropDown } from './Question/InputDropDown';
 export { default as SearchBar } from './Question/SearchBar';
 export { default as LabelInput } from './LabelInput';
+export { default as Table } from './Table';

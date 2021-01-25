@@ -1,12 +1,20 @@
 import React from 'react';
 
-import { ProblemContextProvider } from './Model';
+import {
+	CommentsContextProvider,
+	ProblemContextProvider,
+	ProblemInfoContextProvider,
+} from './Model';
 import ViewModel from './ViewModel';
 
 const Provider = () => (
-	<ProblemContextProvider>
-		<ViewModel />
-	</ProblemContextProvider>
+	<CommentsContextProvider>
+		<ProblemContextProvider>
+			<ProblemInfoContextProvider>
+				<ViewModel />
+			</ProblemInfoContextProvider>
+		</ProblemContextProvider>
+	</CommentsContextProvider>
 );
 
 export default Provider;

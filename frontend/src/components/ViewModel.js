@@ -6,7 +6,12 @@ import { Route } from 'react-router-dom';
 import { Home, Login, User, Problem, Question, Rangking, Submit } from './View';
 import { Header, MenuBar } from './UI';
 
-import { useProblemDataContext, useProblemDispatchContext } from './Model';
+import {
+	useProblemDataContext,
+	useProblemDispatchContext,
+	usePInfoContext,
+	usePInfoDispatchContext,
+} from './Model';
 
 const ViewModel = () => {
 	const [hasMenu, setHasMenu] = useState(false);
@@ -14,6 +19,9 @@ const ViewModel = () => {
 
 	const problems = useProblemDataContext();
 	const setProblem = useProblemDispatchContext();
+
+	const pInfo = usePInfoContext();
+	const setPInfo = usePInfoDispatchContext();
 
 	return (
 		<>
@@ -29,8 +37,11 @@ const ViewModel = () => {
 					}}
 				/>
 				<Route exact path="/login" component={Login} />
-				<Route path="/problem" component={Problem} />
 				<Route exact path="/user" component={User} />
+				<Route
+					path="/problem"
+					render={() => <Problem pInfo={pInfo} />}
+				/>
 				<Route path="/question" component={Question} />
 				<Route path="/submit" component={Submit} />
 				<Route path="/ranking" component={Rangking} />

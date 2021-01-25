@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Grid } from '@material-ui/core';
 import { Route } from 'react-router-dom';
 
 import { Home, Login, User, Problem, Question, Rangking, Submit } from './View';
-import { Header } from './UI';
+import { Header, MenuBar } from './UI';
 
 import {
 	useProblemDataContext,
@@ -14,6 +14,7 @@ import {
 } from './Model';
 
 const ViewModel = () => {
+	const [hasMenu, setHasMenu] = useState(false);
 	const userName = '사용자';
 
 	const problems = useProblemDataContext();
@@ -26,10 +27,14 @@ const ViewModel = () => {
 		<>
 			<Header userName={userName} />
 			<Grid>
+				{hasMenu && <MenuBar />}
 				<Route
 					exact
 					path="/"
-					render={() => <Home problems={problems} />}
+					render={() => {
+						setHasMenu(true);
+						return <Home problems={problems} />;
+					}}
 				/>
 				<Route exact path="/login" component={Login} />
 				<Route exact path="/user" component={User} />

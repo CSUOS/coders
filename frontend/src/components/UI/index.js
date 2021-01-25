@@ -1,5 +1,3 @@
-import CommentForm from './CommentForm';
-
 export { default as Header } from './Header';
 export { default as PageHeader } from './PageHeader';
 export { default as Dropdown } from './Dropdown';
@@ -27,3 +25,4 @@ export { default as InputDropDown } from './Question/InputDropDown';
 export { default as SearchBar } from './Question/SearchBar';
 export { default as LabelInput } from './LabelInput';
 export { default as CommentForm } from './CommentForm';
+export { default as Table } from './Table';

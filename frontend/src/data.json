@@ -72,7 +72,7 @@
 			"deleted":false
 		}
 	],
-	"submissions":[
+	"submit_log":[
 		{
 			"id":1,
 			"userId":"powergee",
@@ -85,8 +85,8 @@
 			"createAt":"2020-10-01"
 		},
 		{
-			"id":1,
-			"userId":"powergee",
+			"id":2,
+			"userId":"powergee2",
 			"problemId":1,
 			"language":"java",
 			"source":"",
@@ -96,14 +96,38 @@
 			"createAt":"2020-10-01"
 		},
 		{
-			"id":1,
-			"userId":"powergee",
+			"id":3,
+			"userId":"powergee3",
 			"problemId":1,
 			"language":"java",
 			"source":"",
 			"result":"Accepted",
 			"memory":"22MB",
 			"time":"12ms",
+			"createAt":"2020-10-01"
+		}
+	],
+	"mySubmit_log":[
+		{
+			"id":1,
+			"userId":"gusrb",
+			"problemId":1,
+			"language":"java",
+			"source":"",
+			"result":"Accepted",
+			"memory":"22GB",
+			"time":"12ms",
+			"createAt":"2020-10-01"
+		},
+		{
+			"id":2,
+			"userId":"gusrb",
+			"problemId":1,
+			"language":"c++",
+			"source":"",
+			"result":"Accepted",
+			"memory":"22MB",
+			"time":"12s",
 			"createAt":"2020-10-01"
 		}
 	]

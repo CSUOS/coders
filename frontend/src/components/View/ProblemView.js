@@ -14,7 +14,7 @@ import {
 	AccordianComment,
 } from '../UI';
 
-const ProblemView = ({ pInfo }) => {
+const ProblemView = ({ pInfo, comments, submissions, mySubmissions }) => {
 	const [star, setStar] = useState(false);
 	const [like, setLike] = useState(false);
 	const [language, setLanguage] = useState('C++');
@@ -90,16 +90,22 @@ const ProblemView = ({ pInfo }) => {
 						path="/problem"
 						render={() => <MarkdownViewer source={pInfo.desc} />}
 					/>
-					<Route exact path="/problem/rank" component={ProblemRank} />
+					<Route
+						exact
+						path="/problem/rank"
+						render={() => <ProblemRank submissions={submissions} />}
+					/>
 					<Route
 						exact
 						path="/problem/score"
-						component={ProblemScore}
+						render={() => (
+							<ProblemScore mySubmissions={mySubmissions} />
+						)}
 					/>
 				</Grid>
 				{/* ace Editor 소스 코드 입력 */}
 				<ProblemInput language={language} />
-				<AccordianComment />
+				<AccordianComment comments={comments} />
 			</Grid>
 		</Grid>
 	);

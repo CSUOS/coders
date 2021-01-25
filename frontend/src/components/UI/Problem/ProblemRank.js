@@ -14,7 +14,7 @@ const head = [
 ];
 const row = ['3', 'gusrb', '1KB', '1ms', 'Python3', '16B', '3달 전'];
 
-const ProblemRank = () => {
+const ProblemRank = ({ submissions }) => {
 	return (
 		<Grid className="problemrank-container">
 			<Grid className="problemrank-input" container>

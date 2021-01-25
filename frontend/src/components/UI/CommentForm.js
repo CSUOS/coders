@@ -23,8 +23,8 @@ const CommentForm = ({ comments }) => {
 			<Grid className="comment-comments">
 				{comments.map((comment) => (
 					<Comment
-						userName={comment.userName}
-						comment={comment.comment}
+						userName={comment.userId}
+						comment={comment.text}
 						createAt={comment.createdAt}
 					/>
 				))}

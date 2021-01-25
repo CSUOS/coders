@@ -11,6 +11,12 @@ import {
 	useProblemDispatchContext,
 	usePInfoContext,
 	usePInfoDispatchContext,
+	useCommentsContext,
+	useCommentsDispatchContext,
+	useSubmissionsContext,
+	useSubmissionsDispatchContext,
+	useMySubmissionsContext,
+	useMySubmissionsDispatchContext,
 } from './Model';
 
 const ViewModel = () => {
@@ -18,10 +24,19 @@ const ViewModel = () => {
 	const userName = '사용자';
 
 	const problems = useProblemDataContext();
-	const setProblem = useProblemDispatchContext();
+	// const setProblem = useProblemDispatchContext();
 
 	const pInfo = usePInfoContext();
-	const setPInfo = usePInfoDispatchContext();
+	// const setPInfo = usePInfoDispatchContext();
+
+	const comments = useCommentsContext();
+	// const setComments = useCommentsDispatchContext();
+
+	const submissions = useSubmissionsContext();
+	// const setSubmissions = useSubmissionsDispatchContext();
+
+	const mySubmissions = useMySubmissionsContext();
+	// const setMySubmissions = useMySubmissionsDispatchContext();
 
 	return (
 		<>
@@ -40,7 +55,14 @@ const ViewModel = () => {
 				<Route exact path="/user" component={User} />
 				<Route
 					path="/problem"
-					render={() => <Problem pInfo={pInfo} />}
+					render={() => (
+						<Problem
+							pInfo={pInfo}
+							comments={comments}
+							submissions={submissions}
+							mySubmissions={mySubmissions}
+						/>
+					)}
 				/>
 				<Route path="/question" component={Question} />
 				<Route path="/submit" component={Submit} />

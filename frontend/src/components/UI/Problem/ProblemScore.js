@@ -24,7 +24,7 @@ const row = [
 	'16B',
 	'3달 전',
 ];
-const ProblemScore = () => {
+const ProblemScore = ({ mySubmissions }) => {
 	return (
 		<Grid className="problem-score" direction="column">
 			<Grid className="problem-score-info">

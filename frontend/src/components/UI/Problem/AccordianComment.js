@@ -21,14 +21,17 @@ const comments = [
 	{
 		userName: 'gusrb',
 		comment: '어렵네요',
+		createdAt: '2020-10-01',
 	},
 	{
 		userName: 'powergee',
 		comment: 'BFSDFS',
+		createdAt: '2020-10-01',
 	},
 	{
 		userName: '취준생',
 		comment: '어렵네요',
+		createdAt: '2020-10-01',
 	},
 ];
 

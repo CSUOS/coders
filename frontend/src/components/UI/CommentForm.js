@@ -25,6 +25,7 @@ const CommentForm = ({ comments }) => {
 					<Comment
 						userName={comment.userName}
 						comment={comment.comment}
+						createAt={comment.createdAt}
 					/>
 				))}
 			</Grid>

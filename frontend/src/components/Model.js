@@ -9,6 +9,7 @@ const problemInfo = data.problem_info[0];
 const problemComments = data.P_Comment;
 const submitLog = data.submit_log;
 const mySubmitLog = data.mySubmit_log;
+const problemLog = data.problem_log;
 // ==================================
 
 // ================= [ problem context ] ============================
@@ -134,6 +135,31 @@ export const useMySubmissionsContext = () => {
 };
 export const useMySubmissionsDispatchContext = () => {
 	const context = useContext(MySubmissionsDispatchContext);
+	return context;
+};
+// ===================================================================
+
+// ================= [ problemSubmit context ] =========================
+const ProblemSubmitContext = createContext();
+const ProblemSubmitDispatchContext = createContext();
+
+export const ProblemSubmitContextProvider = ({ children }) => {
+	const [problemSubmit, setProblemSubmit] = useState(problemLog);
+	return (
+		<ProblemSubmitContext.Provider value={problemSubmit}>
+			<ProblemSubmitDispatchContext.Provider value={setProblemSubmit}>
+				{children}
+			</ProblemSubmitDispatchContext.Provider>
+		</ProblemSubmitContext.Provider>
+	);
+};
+
+export const useProblemSubmitContext = () => {
+	const context = useContext(ProblemSubmitContext);
+	return context;
+};
+export const useProblemDispatchSubmitContext = () => {
+	const context = useContext(ProblemSubmitDispatchContext);
 	return context;
 };
 // ===================================================================

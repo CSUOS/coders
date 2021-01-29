@@ -17,6 +17,8 @@ import {
 	useSubmissionsDispatchContext,
 	useMySubmissionsContext,
 	useMySubmissionsDispatchContext,
+	useProblemSubmitContext,
+	useProblemDispatchSubmitContext,
 } from './Model';
 
 const ViewModel = () => {
@@ -24,7 +26,7 @@ const ViewModel = () => {
 	const userName = '사용자';
 
 	const problems = useProblemDataContext();
-	// const setProblem = useProblemDispatchContext();
+	const setProblem = useProblemDispatchContext();
 
 	const pInfo = usePInfoContext();
 	// const setPInfo = usePInfoDispatchContext();
@@ -38,6 +40,8 @@ const ViewModel = () => {
 	const mySubmissions = useMySubmissionsContext();
 	// const setMySubmissions = useMySubmissionsDispatchContext();
 
+	const problemSubmit = useProblemSubmitContext();
+	// const setProblemSubmit = useProblemDispatchContext();
 	return (
 		<>
 			<Header userName={userName} />
@@ -61,6 +65,7 @@ const ViewModel = () => {
 							comments={comments}
 							submissions={submissions}
 							mySubmissions={mySubmissions}
+							submitValue={problemSubmit}
 						/>
 					)}
 				/>

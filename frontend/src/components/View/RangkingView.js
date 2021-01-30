@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Grid } from '@material-ui/core';
-import { PageHeader, Table, Pagination, SearchInput } from '../UI';
+import { PageHeader, Table, Pagination, SearchInput, Dropdown } from '../UI';
 import { getTotalPageCount } from '../../function/PaginationManager';
 
 const mainTitle = '회원 랭킹';
@@ -12,6 +12,16 @@ const tableHead = [
 	'제출한 문제',
 	'정답률',
 ];
+const userDropdownLabel = '사용자 필터링';
+const userDropdownValues = [
+	'전체',
+	'사용 언어',
+	'출제한 문제수',
+	'제출한 문제수',
+	'소속별',
+];
+const languages = ['C++', 'Java', 'Python'];
+const groups = ['소속1', '소속2'];
 
 const RangkingView = ({ users }) => {
 	// =============[ for pagination ] ===========================
@@ -20,6 +30,14 @@ const RangkingView = ({ users }) => {
 	const [currentPageIndex, setCurrentPageIndex] = useState(0);
 	const totalPageCount = getTotalPageCount(totalUserCount, pageLimit);
 	// ===========================================================
+
+	// =============[ for filtering ] ===========================
+	const [userFilter, setUserFilter] = useState();
+	const [hasExtraFilter, setHasExtraFilter] = useState(false);
+	const [extraFilterOptions, setExtraFilterOptions] = useState(undefined);
+	const [extraFilter, setExtraFilter] = useState();
+	// ===========================================================
+
 	const tableBody = users.map((user) => [
 		user.rank,
 		user.name,
@@ -53,6 +71,26 @@ const RangkingView = ({ users }) => {
 		setCurrentPageIndex(indexToMove);
 	};
 
+	const handleUserFilter = (e) => {
+		const selectedUserFilter = e.target.value;
+		if (selectedUserFilter === userDropdownValues[1]) {
+			setExtraFilterOptions(languages);
+			setExtraFilter(languages[0]);
+			setHasExtraFilter(true);
+		} else if (selectedUserFilter === userDropdownValues[4]) {
+			setExtraFilterOptions(groups);
+			setExtraFilter(groups[0]);
+			setHasExtraFilter(true);
+		} else {
+			setUserFilter(selectedUserFilter);
+			setHasExtraFilter(false);
+		}
+	};
+
+	const handleExtraFilter = (e) => {
+		setExtraFilter(e.target.value);
+	};
+
 	return (
 		<Grid className="ranking">
 			<Grid className="ranking-container">
@@ -64,6 +102,26 @@ const RangkingView = ({ users }) => {
 								getInput={(e) => getInput(e)}
 								label={label}
 							/>
+						</Grid>
+						<Grid className="ranking-dropdowns">
+							<Grid className="ranking-dropdown">
+								{hasExtraFilter && (
+									<Dropdown
+										values={extraFilterOptions}
+										selectedValue={extraFilter}
+										handleSelectedValue={handleExtraFilter}
+										hasLabel={false}
+									/>
+								)}
+							</Grid>
+							<Grid className="ranking-dropdown">
+								<Dropdown
+									label={userDropdownLabel}
+									values={userDropdownValues}
+									selectedValue={userFilter}
+									handleSelectedValue={handleUserFilter}
+								/>
+							</Grid>
 						</Grid>
 					</Grid>
 					<Table

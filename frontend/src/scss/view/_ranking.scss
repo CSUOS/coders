@@ -9,6 +9,10 @@
 			.ranking-tableselector{
 				display: flex;
 				padding: 20px 17px;
+				justify-content: space-between;
+				.ranking-dropdowns{
+					display: flex;
+				}
 				.ranking-search {
 					display: flex;
 					justify-content: flex-start;

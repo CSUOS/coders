@@ -13,7 +13,7 @@ const MainView = () => {
 			<MenuBar />
 			<Grid>
 				<Route exact path="/" component={Home} />
-				<Route exact path="/user" component={User} />
+				<Route path="/user" component={User} />
 				<Route path="/problem" component={Problem} />
 				<Route path="/question" component={Question} />
 				<Route path="/submit" component={Submit} />

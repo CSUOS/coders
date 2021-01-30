@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Grid, Button } from '@material-ui/core';
 import {
 	PageHeader,
@@ -26,6 +26,26 @@ const HomeView = ({ problems }) => {
 	const label5 = '한 페이지 당 문제 수:';
 	const dropdownHasLabel = false;
 	const values2 = [...Array(12)].map((_, index) => index + 1);
+	const [input, setInput] = useState('');
+	const [filterPb, setFilterPb] = useState(null);
+	const getInput = (e) => {
+		setInput(e);
+	};
+	useEffect(() => {
+		let data = problems.filter(
+			(x) => x.title.includes(input) || x.class.includes(input)
+		);
+		if (data != null) {
+			data = data.map((problem, index) => [
+				index + 1,
+				problem.title,
+				problem.class,
+				`33%`,
+				15,
+			]);
+			setFilterPb(data);
+		}
+	}, [input]);
 	return (
 		<Grid className="home">
 			<Grid className="home-container">
@@ -33,7 +53,10 @@ const HomeView = ({ problems }) => {
 				<Grid className="home-content">
 					<Grid className="home-tableselector">
 						<Grid className="home-tableselector-start">
-							<SearchInput label={label2} />
+							<SearchInput
+								getInput={(e) => getInput(e)}
+								label={label2}
+							/>
 							<Button className="sort-button">{label3}</Button>
 							<Button className="sort-button">{label4}</Button>
 						</Grid>
@@ -49,10 +72,13 @@ const HomeView = ({ problems }) => {
 							</Grid>
 						</Grid>
 					</Grid>
-					<ProblemTable head={tableHead} rows={tableBody} />
+					<ProblemTable
+						head={tableHead}
+						rows={filterPb != null ? filterPb : tableBody}
+					/>
 					<Grid className="home-tableselector">
 						<Grid className="home-tableselector-start">
-							{label5}
+							<Grid className="page-label">{label5}</Grid>
 							<Dropdown
 								hasLabel={dropdownHasLabel}
 								values={values2}

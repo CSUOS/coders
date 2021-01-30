@@ -7,6 +7,7 @@ import {
 	ProblemTable,
 	Pagination,
 } from '../UI';
+import { getTotalPageCount } from '../../function/PaginationManager';
 
 const mainTitle = '문제 선택';
 const dropdownLabel = '해결 여부';
@@ -19,7 +20,9 @@ const paginationDropdownValues = [...Array(4)].map(
 	(_, index) => (index + 1) * 5
 );
 const dropdownHasLabel = false;
+
 const HomeView = ({ problems }) => {
+	const totalProblemCount = problems.length;
 	const tableBody = problems.map((problem, index) => [
 		index + 1,
 		problem.title,
@@ -27,7 +30,13 @@ const HomeView = ({ problems }) => {
 		`33%`,
 		15,
 	]);
-
+	// =============[ for pagination ] ===========================
+	const [currentPageIndex, setCurrentPageIndex] = useState(0);
+	const [currentLimit, setCurrentLimit] = useState(
+		paginationDropdownValues[0]
+	);
+	const totalPageCount = getTotalPageCount(totalProblemCount, currentLimit);
+	// ===========================================================
 	const [input, setInput] = useState('');
 	const [filterPb, setFilterPb] = useState(null);
 	const getInput = (e) => {
@@ -48,6 +57,15 @@ const HomeView = ({ problems }) => {
 			setFilterPb(data);
 		}
 	}, [input]);
+
+	const handleCurrentPageIndex = (indexToMove) => {
+		setCurrentPageIndex(indexToMove);
+	};
+
+	const handleCurrentLimit = (e) => {
+		setCurrentLimit(e.target.value);
+	};
+
 	return (
 		<Grid className="home">
 			<Grid className="home-container">
@@ -84,10 +102,15 @@ const HomeView = ({ problems }) => {
 							<Dropdown
 								hasLabel={dropdownHasLabel}
 								values={paginationDropdownValues}
-								defaultValue={12}
+								selectedValue={currentLimit}
+								handleSelectedValue={handleCurrentLimit}
 							/>
 						</Grid>
-						<Pagination count={4} />
+						<Pagination
+							totalPageCount={totalPageCount}
+							currentPageIndex={currentPageIndex}
+							handleCurrentPageIndex={handleCurrentPageIndex}
+						/>
 					</Grid>
 				</Grid>
 			</Grid>

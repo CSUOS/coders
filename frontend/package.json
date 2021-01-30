@@ -9,6 +9,7 @@
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
     "ace-builds": "^1.4.12",
+    "clsx": "^1.1.1",
     "emoji-dictionary": "^1.0.11",
     "katex": "^0.12.0",
     "node-sass": "^4.14.1",

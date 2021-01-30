@@ -1,27 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import { Grid } from '@material-ui/core';
 import { PageHeader, Table, Pagination, SearchInput } from '../UI';
+import { getTotalPageCount } from '../../function/PaginationManager';
+
+const mainTitle = '회원 랭킹';
+const tableHead = [
+	'등수',
+	'닉네임',
+	'상태 메시지',
+	'맞은 문제',
+	'제출한 문제',
+	'정답률',
+];
 
 const RangkingView = ({ users }) => {
-	const mainTitle = '회원 랭킹';
-	const tableHead = [
-		'등수',
-		'닉네임',
-		'상태 메시지',
-		'맞은 문제',
-		'제출한 문제',
-		'정답률',
-	];
-	/*
-	const tableBody = [...Array(10)].map((_, index) => [
-		index + 1,
-		'소보루',
-		'소보루의 상태 메시지입니다.',
-		'1',
-		'100',
-		'1%',
-	]);
-	*/
+	// =============[ for pagination ] ===========================
+	const totalUserCount = users.length;
+	const pageLimit = 20;
+	const [currentPageIndex, setCurrentPageIndex] = useState(0);
+	const totalPageCount = getTotalPageCount(totalUserCount, pageLimit);
+	// ===========================================================
 	const tableBody = users.map((user) => [
 		user.rank,
 		user.name,
@@ -50,6 +48,11 @@ const RangkingView = ({ users }) => {
 			setFilterUser(data);
 		}
 	}, [input]);
+
+	const handleCurrentPageIndex = (indexToMove) => {
+		setCurrentPageIndex(indexToMove);
+	};
+
 	return (
 		<Grid className="ranking">
 			<Grid className="ranking-container">
@@ -69,7 +72,11 @@ const RangkingView = ({ users }) => {
 					/>
 					<Grid className="ranking-tableselector">
 						<Grid className="ranking-pagination">
-							<Pagination count={4} />
+							<Pagination
+								totalPageCount={totalPageCount}
+								currentPageIndex={currentPageIndex}
+								handleCurrentPageIndex={handleCurrentPageIndex}
+							/>
 						</Grid>
 					</Grid>
 				</Grid>

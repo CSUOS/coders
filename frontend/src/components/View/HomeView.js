@@ -22,7 +22,6 @@ const paginationDropdownValues = [...Array(4)].map(
 const dropdownHasLabel = false;
 
 const HomeView = ({ problems }) => {
-	const totalProblemCount = problems.length;
 	const tableBody = problems.map((problem, index) => [
 		index + 1,
 		problem.title,
@@ -31,12 +30,16 @@ const HomeView = ({ problems }) => {
 		15,
 	]);
 	// =============[ for pagination ] ===========================
+	const totalProblemCount = problems.length;
 	const [currentPageIndex, setCurrentPageIndex] = useState(0);
 	const [currentLimit, setCurrentLimit] = useState(
 		paginationDropdownValues[0]
 	);
 	const totalPageCount = getTotalPageCount(totalProblemCount, currentLimit);
 	// ===========================================================
+
+	const [solved, setSolved] = useState();
+
 	const [input, setInput] = useState('');
 	const [filterPb, setFilterPb] = useState(null);
 	const getInput = (e) => {
@@ -86,6 +89,7 @@ const HomeView = ({ problems }) => {
 								<Dropdown
 									label={dropdownLabel}
 									values={dropdownValues}
+									selectedValue={solved}
 								/>
 							</Grid>
 						</Grid>

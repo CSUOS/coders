@@ -26,3 +26,5 @@ export { default as SearchBar } from './Question/SearchBar';
 export { default as LabelInput } from './LabelInput';
 export { default as CommentForm } from './CommentForm';
 export { default as Table } from './Table';
+export { default as NoticeDialog } from './NoticeDialog';
+export { default as LeavingGuard } from './LeavingGuard';

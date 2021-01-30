@@ -85,3 +85,29 @@ export const useCommentsDispatchContext = () => {
 	return context;
 };
 // ===================================================================
+
+// ================= [ user context ] ======================
+const UserDataContext = createContext();
+const UserDispatchContext = createContext();
+
+export const UserContextProvider = ({ children }) => {
+	const [users, setUsers] = useState(userData);
+
+	return (
+		<UserDataContext.Provider value={users}>
+			<UserDispatchContext.Provider value={setUsers}>
+				{children}
+			</UserDispatchContext.Provider>
+		</UserDataContext.Provider>
+	);
+};
+
+export const useUserDataContext = () => {
+	const context = useContext(UserDataContext);
+	return context;
+};
+
+export const useUserDispatchContext = () => {
+	const context = useContext(UserDispatchContext);
+	return context;
+};

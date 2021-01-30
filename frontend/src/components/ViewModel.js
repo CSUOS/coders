@@ -11,6 +11,8 @@ import {
 	useProblemDispatchContext,
 	usePInfoContext,
 	usePInfoDispatchContext,
+	useUserDataContext,
+	useUserDispatchContext,
 } from './Model';
 
 const ViewModel = () => {
@@ -22,6 +24,9 @@ const ViewModel = () => {
 
 	const pInfo = usePInfoContext();
 	const setPInfo = usePInfoDispatchContext();
+
+	const users = useUserDataContext();
+	const setUserInfo = useUserDispatchContext();
 
 	return (
 		<>
@@ -37,14 +42,20 @@ const ViewModel = () => {
 					}}
 				/>
 				<Route exact path="/login" component={Login} />
-				<Route exact path="/user" component={User} />
+				<Route
+					path="/user"
+					render={() => <User users={users} problems={problems} />}
+				/>
 				<Route
 					path="/problem"
 					render={() => <Problem pInfo={pInfo} />}
 				/>
 				<Route path="/question" component={Question} />
 				<Route path="/submit" component={Submit} />
-				<Route path="/ranking" component={Rangking} />
+				<Route
+					path="/ranking"
+					render={() => <Rangking users={users} />}
+				/>
 			</Grid>
 		</>
 	);

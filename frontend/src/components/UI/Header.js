@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Grid, Button } from '@material-ui/core';
 import LocalLibraryRoundedIcon from '@material-ui/icons/LocalLibraryRounded';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import { NoticeDialog } from '.';
 
 const styles = {
 	logoButton: {
@@ -13,6 +14,10 @@ const styles = {
 };
 
 const Header = ({ userName, authorized = true }) => {
+	const [notice, setNotice] = useState(false);
+	const showNotice = () => {
+		setNotice(!notice);
+	};
 	return (
 		<Grid className="header">
 			<Link to="/">
@@ -35,9 +40,22 @@ const Header = ({ userName, authorized = true }) => {
 							회원 정보
 						</Button>
 					</Link>
-					<Link to="/login">
-						<Button startIcon={<ExitToAppIcon />}>로그아웃</Button>
-					</Link>
+					<Button
+						startIcon={<ExitToAppIcon />}
+						onClick={() => {
+							showNotice();
+						}}
+					>
+						{notice ? (
+							<NoticeDialog
+								visible={notice}
+								title="확인"
+								info="로그아웃 하시겠습니까?"
+								path="/login"
+							/>
+						) : null}
+						로그아웃
+					</Button>
 				</Grid>
 			)}
 		</Grid>

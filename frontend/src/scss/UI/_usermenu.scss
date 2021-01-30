@@ -1,0 +1,12 @@
+.user-menu {
+  display: flex;
+  padding: 0% 2%;
+
+  border-radius: 7px;
+  .menu-icon {
+    color: rgb(223, 20, 20);
+  }
+  .menu-item {
+    border-bottom: 1px dotted $grey;
+  }
+}

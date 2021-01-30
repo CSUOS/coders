@@ -8,12 +8,18 @@ import {
 	Pagination,
 } from '../UI';
 
+const mainTitle = '문제 선택';
+const dropdownLabel = '해결 여부';
+const dropdownValues = ['해결', '미해결'];
+const searchInputLabel = '제목, 내용, 분류로 검색';
+const tableHead = ['문제 번호', '제목', '분류', '정답률', '좋아요 수'];
+const sortButtonText = '↑↓ 제목으로 정렬';
+const paginationDropdownLabel = '한 페이지 당 문제 수:';
+const paginationDropdownValues = [...Array(4)].map(
+	(_, index) => (index + 1) * 5
+);
+const dropdownHasLabel = false;
 const HomeView = ({ problems }) => {
-	const mainTitle = '문제 선택';
-	const label1 = '해결 여부';
-	const values1 = ['해결', '미해결'];
-	const label2 = '제목, 내용, 분류로 검색';
-	const tableHead = ['문제 번호', '제목', '분류', '정답률', '좋아요 수'];
 	const tableBody = problems.map((problem, index) => [
 		index + 1,
 		problem.title,
@@ -21,11 +27,7 @@ const HomeView = ({ problems }) => {
 		`33%`,
 		15,
 	]);
-	const label3 = '↑↓ 제목으로 정렬';
-	const label4 = '↑↓ 좋아요 수로 정렬';
-	const label5 = '한 페이지 당 문제 수:';
-	const dropdownHasLabel = false;
-	const values2 = [...Array(12)].map((_, index) => index + 1);
+
 	const [input, setInput] = useState('');
 	const [filterPb, setFilterPb] = useState(null);
 	const getInput = (e) => {
@@ -55,20 +57,18 @@ const HomeView = ({ problems }) => {
 						<Grid className="home-tableselector-start">
 							<SearchInput
 								getInput={(e) => getInput(e)}
-								label={label2}
+								label={searchInputLabel}
 							/>
-							<Button className="sort-button">{label3}</Button>
-							<Button className="sort-button">{label4}</Button>
+							<Button className="sort-button">
+								{sortButtonText}
+							</Button>
 						</Grid>
 						<Grid className="home-dropdowns">
 							<Grid className="home-dropdown">
-								<Dropdown label={label1} values={values1} />
-							</Grid>
-							<Grid className="home-dropdown">
-								<Dropdown label={label1} values={values1} />
-							</Grid>
-							<Grid className="home-dropdown">
-								<Dropdown label={label1} values={values1} />
+								<Dropdown
+									label={dropdownLabel}
+									values={dropdownValues}
+								/>
 							</Grid>
 						</Grid>
 					</Grid>
@@ -78,10 +78,12 @@ const HomeView = ({ problems }) => {
 					/>
 					<Grid className="home-tableselector">
 						<Grid className="home-tableselector-start">
-							<Grid className="page-label">{label5}</Grid>
+							<Grid className="page-label">
+								{paginationDropdownLabel}
+							</Grid>
 							<Dropdown
 								hasLabel={dropdownHasLabel}
-								values={values2}
+								values={paginationDropdownValues}
 								defaultValue={12}
 							/>
 						</Grid>

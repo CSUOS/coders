@@ -23,9 +23,10 @@ type PComment struct {
 
 // EditPComment adds or updates problem comment record
 type EditPComment struct {
-	Text    string `json:"text" example:"problem comment"`
-	Edited  bool   `json:"edited" example:"true"`
-	Deleted bool   `json:"deleted" example:"true"`
+	Text    	string 	`json:"text" example:"problem comment"`
+	Edited  	bool   	`json:"edited" example:"true"`
+	Deleted 	bool   	`json:"deleted" example:"true"`
+	ProblemID	int		`json:"problemid" example:"1"`
 }
 
 //  .
@@ -43,10 +44,10 @@ func (c EditPComment) PCommentValidation() error {
 	}
 }
 
-// PCommentsAll .
-func PCommentsAll(db *gorm.DB) ([]PComment, error) {
+// PCommentsByProblemID .
+func PCommentsByProblemID(db *gorm.DB, problemId int) ([]PComment, error) {
 	var pcomments []PComment
-	err := db.Find(&pcomments).Error
+	err := db.Where("problem_id = ?", problemId).Find(&pcomments).Error
 	return pcomments, err
 }
 

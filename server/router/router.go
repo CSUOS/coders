@@ -37,8 +37,7 @@ func ApplyRoutes(r *gin.Engine) {
 		}
 		pcomments := v1.Group("/pcomments")
 		{
-			pcomments.GET("", c.ListPComments)
-			pcomments.GET(":id", c.ShowPComment)
+			pcomments.GET(":id", c.ListPComments)
 			pcomments.POST("", c.AddPComment)
 			pcomments.PATCH(":id", c.UpdatePComment)
 			pcomments.DELETE(":id", c.DeletePComment)

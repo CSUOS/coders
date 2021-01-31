@@ -201,8 +201,8 @@ func Login(ctx *gin.Context) {
 		// 로그인이 성공하면 JWT 토큰 발급
 		secret := GetSecret()
 		atClaims := jwt.MapClaims{}
-		atClaims["id"] = req.ID
-		atClaims["rank"] = 1
+		atClaims["id"] = int(1)
+		atClaims["rank"] = int(1)
 		atClaims["name"] = "홍길동"
 		atClaims["intro"] = "안녕하세요!"
 		accessToken := jwt.NewWithClaims(jwt.SigningMethodHS256, atClaims)

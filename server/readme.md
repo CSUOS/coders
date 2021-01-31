@@ -163,7 +163,7 @@ func SampleAPI(ctx *gin.Context) {
 
 	// 토큰에 저장되어있는 특정 데이터에 접근
 	// 토큰에 어떤 데이터가 저장되어있는지는 members.go의 Login 함수를 확인해주세요.
-	currentId := claims["id"].(string)
+	currentId := int(claims["id"].(float64))
 }
 ```
 

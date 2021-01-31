@@ -35,6 +35,13 @@ func ApplyRoutes(r *gin.Engine) {
 			problems.PATCH(":id", c.UpdateProblem)
 			problems.DELETE(":id", c.DeleteProblem)
 		}
+		submissions := v1.Group("/submissions")
+		{
+			submissions.GET("", c.ListSubmissions)
+			submissions.GET(":id", c.ShowSubmission)
+			submissions.POST("", c.AddSubmission)
+			submissions.DELETE(":id", c.DeleteSubmission)
+		}
 		pcomments := v1.Group("/pcomments")
 		{
 			pcomments.GET(":id", c.ListPComments)

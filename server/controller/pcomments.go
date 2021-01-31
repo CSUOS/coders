@@ -28,10 +28,9 @@ import (
 // @Router /pcomments/{id} [get]
 func ListPComments(ctx *gin.Context) {
 	db := ctx.MustGet("db").(*gorm.DB)
-
 	problemIdStr := ctx.Param("id")
 	problemId, err := strconv.Atoi(problemIdStr)
-
+  
 	if err != nil {
 		httputil.Error(ctx, http.StatusBadRequest, err)
 		return
@@ -159,10 +158,12 @@ func UpdatePComment(ctx *gin.Context) {
 	}
 
 	pcomment := model.PComment{
-		ID:      commentId,
-		Text:    req.Text,
-		Edited:  req.Edited,
-		Deleted: req.Deleted,
+		ID:        commentId,
+		MemberID:  req.MemberID,
+		ProblemID: req.ProblemID,
+		Text:      req.Text,
+		Edited:    req.Edited,
+		Deleted:   req.Deleted,
 	}
 	result, err := model.PCommentUpdate(db, pcomment)
 	if err != nil {

@@ -3,6 +3,7 @@ package controller
 import (
 	"coders/httputil"
 	"coders/model"
+	"errors"
 	"time"
 
 	"net/http"
@@ -80,13 +81,27 @@ func AddPComment(ctx *gin.Context) {
 		return
 	}
 
+	requester, err := model.MemberOne(db, requesterId)
+	if err != nil {
+		httputil.Error(ctx, http.StatusNotFound, errors.New("There's no member which matches with current logged-in session."))
+		return
+	}
+
+	problem, err := model.ProblemOne(db, req.ProblemID)
+	if err != nil {
+		httputil.Error(ctx, http.StatusNotFound, errors.New("There's no problem which matches with the request."))
+		return
+	}
+
 	pcomment := model.PComment{
 		Text:    req.Text,
 		CreateAt: time.Now(),
 		Edited:  req.Edited,
 		Deleted: req.Deleted,
 		MemberID: requesterId,
+		Member: requester,
 		ProblemID: req.ProblemID,
+		Problem: problem,
 	}
 	result, err := model.PCommentInsert(db, pcomment)
 	if err != nil {

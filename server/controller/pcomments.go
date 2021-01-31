@@ -80,13 +80,13 @@ func AddPComment(ctx *gin.Context) {
 		return
 	}
 
-	requester, err := model.MemberOne(db, requesterId)
+	_, err = model.MemberOne(db, requesterId)
 	if err != nil {
 		httputil.Error(ctx, http.StatusNotFound, errors.New("There's no member which matches with current logged-in session."))
 		return
 	}
 
-	problem, err := model.ProblemOne(db, req.ProblemID)
+	_, err = model.ProblemOne(db, req.ProblemID)
 	if err != nil {
 		httputil.Error(ctx, http.StatusNotFound, errors.New("There's no problem which matches with the request."))
 		return
@@ -98,9 +98,7 @@ func AddPComment(ctx *gin.Context) {
 		Edited:  req.Edited,
 		Deleted: req.Deleted,
 		MemberID: requesterId,
-		Member: requester,
 		ProblemID: req.ProblemID,
-		Problem: problem,
 	}
 	result, err := model.PCommentInsert(db, pcomment)
 	if err != nil {
@@ -146,7 +144,7 @@ func UpdatePComment(ctx *gin.Context) {
 	requesterId := int(claims["id"].(float64))
 	
 	// 댓글의 작성자와 수정을 요청한 유저가 동일한 사람인지 확인
-	if comment.Member.ID != requesterId {
+	if comment.MemberID != requesterId {
 		ctx.AbortWithStatus(http.StatusUnauthorized)
 		return
 	}
@@ -205,10 +203,10 @@ func DeletePComment(ctx *gin.Context) {
 	}
 
 	comment, err := model.PCommentOne(db, commentId)
-	requesterId := claims["id"].(int)
+	requesterId := int(claims["id"].(float64))
 	
 	// 댓글의 작성자와 삭제를 요청한 유저가 동일한 사람인지 확인
-	if comment.Member.ID != requesterId {
+	if comment.MemberID != requesterId {
 		ctx.AbortWithStatus(http.StatusUnauthorized)
 		return
 	}

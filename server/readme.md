@@ -146,9 +146,11 @@ ACCESS_SECRET = [임의의 토큰]
 
 # 로그인 세션 확인 방법 안내
 
+## 백엔드
+
 백엔드의 몇몇 기능들은 로그인 된 상태에서만 접근할 수 있어야 합니다. 따라서 몇몇 API에서는 이를 확인하는 코드를 넣어야 하는데, 아래와 같이 할 수 있습니다.
 
-## 정상적으로 로그인되었는지 확인
+### 정상적으로 로그인되었는지 확인
 
 ```go
 func SampleAPI(ctx *gin.Context) {
@@ -164,6 +166,26 @@ func SampleAPI(ctx *gin.Context) {
 	// 토큰에 저장되어있는 특정 데이터에 접근
 	// 토큰에 어떤 데이터가 저장되어있는지는 members.go의 Login 함수를 확인해주세요.
 	currentId := int(claims["id"].(float64))
+}
+```
+
+## 프론트엔드
+
+백엔드에서 쿠키에 발행한 토큰을 가져올 때는 `jsonwebtoken` 패키지를 활용할 수 있습니다.
+
+### 백엔드에서 쿠키에 발행한 토큰 가져오기
+
+```js
+import jwt from "jsonwebtoken"
+
+export default function getToken(cookies){
+    try{
+        const access_token = cookies.get('access_token');
+        const token = jwt.decode(access_token);
+        return token;
+    }catch(err){
+        return null;
+    }
 }
 ```
 

@@ -43,10 +43,10 @@ func (c EditPComment) PCommentValidation() error {
 	}
 }
 
-// PCommentsQuery example
-func PCommentsQuery(db *gorm.DB, problemID int) ([]PComment, error) {
+// PCommentsByProblemID .
+func PCommentsByProblemID(db *gorm.DB, problemId int) ([]PComment, error) {
 	var pcomments []PComment
-	err := db.Where("problem_id", problemID).Find(&pcomments).Error
+	err := db.Where("problem_id = ?", problemId).Find(&pcomments).Error
 	return pcomments, err
 }
 

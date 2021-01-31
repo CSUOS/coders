@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Grid, Button, IconButton, Typography } from '@material-ui/core';
 import { Route, Link } from 'react-router-dom';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
@@ -14,7 +14,17 @@ import {
 	AccordianComment,
 } from '../UI';
 
-const ProblemView = ({ pInfo }) => {
+const ProblemView = (props) => {
+	const {
+		problemInfo,
+		handleProblemInfo,
+		comments,
+		setComments,
+		submissions,
+		setSubmissions,
+		mySubmissions,
+		setMySubmissions,
+	} = props;
 	const [star, setStar] = useState(false);
 	const [like, setLike] = useState(false);
 	const [language, setLanguage] = useState('C++');
@@ -28,6 +38,10 @@ const ProblemView = ({ pInfo }) => {
 	const changeLang = (e) => {
 		setLanguage(e.target.value);
 	};
+	useEffect(() => {
+		handleProblemInfo(1);
+	}, [problemInfo]);
+	console.log(problemInfo);
 	return (
 		<Grid className="problem">
 			<Grid container direction="row" className="problem-container">
@@ -87,19 +101,36 @@ const ProblemView = ({ pInfo }) => {
 				<Grid container className="problem-info">
 					<Route
 						exact
-						path="/problem"
-						render={() => <MarkdownViewer source={pInfo.desc} />}
+						path="/problem/"
+						render={() => <MarkdownViewer source={problemInfo} />}
 					/>
-					<Route exact path="/problem/rank" component={ProblemRank} />
+					<Route
+						exact
+						path="/problem/rank"
+						render={() => (
+							<ProblemRank
+								submissions={submissions}
+								setSubmissions={setSubmissions}
+							/>
+						)}
+					/>
 					<Route
 						exact
 						path="/problem/score"
-						component={ProblemScore}
+						render={() => (
+							<ProblemScore
+								mySubmissions={mySubmissions}
+								setMySubmissions={setMySubmissions}
+							/>
+						)}
 					/>
 				</Grid>
 				{/* ace Editor 소스 코드 입력 */}
 				<ProblemInput language={language} />
-				<AccordianComment />
+				<AccordianComment
+					comments={comments}
+					setComments={setComments}
+				/>
 			</Grid>
 		</Grid>
 	);

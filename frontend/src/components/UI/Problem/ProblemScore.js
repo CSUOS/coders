@@ -1,8 +1,7 @@
 import React from 'react';
 import { Grid, Button } from '@material-ui/core';
 import FormatListNumberedIcon from '@material-ui/icons/FormatListNumbered';
-import { SelectForm } from '..';
-import Table from '../Table';
+import { SelectForm, Table, Pagination } from '..';
 
 const head = [
 	'채점 번호',
@@ -24,7 +23,7 @@ const row = [
 	'16B',
 	'3달 전',
 ];
-const ProblemScore = () => {
+const ProblemScore = ({ mySubmissions }) => {
 	return (
 		<Grid className="problem-score" direction="column">
 			<Grid className="problem-score-info">
@@ -45,6 +44,9 @@ const ProblemScore = () => {
 				<Button size="small">↓ 시간으로 정렬</Button>
 			</Grid>
 			<Table head={head} rows={[...Array(5)].map(() => row)} />
+			<Grid className="problem-score-pagination">
+				<Pagination />
+			</Grid>
 		</Grid>
 	);
 };

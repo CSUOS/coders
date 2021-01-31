@@ -1,6 +1,6 @@
 import React from 'react';
 import { Grid, Button } from '@material-ui/core';
-import { SelectForm, SearchInput } from '..';
+import { SelectForm, SearchInput, Pagination } from '..';
 import Table from '../Table';
 
 const head = [
@@ -14,7 +14,7 @@ const head = [
 ];
 const row = ['3', 'gusrb', '1KB', '1ms', 'Python3', '16B', '3달 전'];
 
-const ProblemRank = () => {
+const ProblemRank = ({ submissions }) => {
 	return (
 		<Grid className="problemrank-container">
 			<Grid className="problemrank-input" container>
@@ -29,6 +29,9 @@ const ProblemRank = () => {
 				<Button size="small">↓ 시간으로 정렬</Button>
 			</Grid>
 			<Table head={head} rows={[...Array(5)].map(() => row)} />
+			<Grid className="problemrank-pagination">
+				<Pagination />
+			</Grid>
 		</Grid>
 	);
 };

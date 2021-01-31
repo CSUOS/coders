@@ -3,9 +3,11 @@ import { Grid, Button } from '@material-ui/core';
 import { Prompt, useHistory } from 'react-router-dom';
 import { EditorBox, NoticeDialog, LeavingGuard } from '..';
 
-const ProblemInput = ({ language }) => {
-	// input 언어 설정
+const ProblemInput = ({ language, initValue }) => {
 	const styles = { width: '100%', height: '90%' };
+	// 제출하려는 값 관리
+	const [submitValue, setSubmitValue] = useState(initValue);
+	// input 언어 설정
 	let lang = 'c_cpp';
 	const [notice, setNotice] = useState(false);
 	const [guard, setGuard] = useState(true);
@@ -27,6 +29,15 @@ const ProblemInput = ({ language }) => {
 		default:
 			break;
 	}
+	const setText = (e) => {
+		setSubmitValue(e);
+	};
+	// put 요청하는 제출 부분
+	const onSubmit = () => {
+		console.log(submitValue);
+		console.log(lang);
+	};
+
 	const checkPage = (location) => {
 		return samePage.indexOf(location.pathname) > -1;
 	};
@@ -56,6 +67,8 @@ const ProblemInput = ({ language }) => {
 				className="problem-input-code"
 				styles={styles}
 				lang={lang}
+				handleChange={setText}
+				initValue={initValue}
 			/>
 
 			<Grid container direction="row">
@@ -67,6 +80,7 @@ const ProblemInput = ({ language }) => {
 					color="primary"
 					onClick={() => {
 						showNotice();
+						onSubmit();
 					}}
 				>
 					{notice ? (

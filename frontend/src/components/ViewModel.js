@@ -28,20 +28,27 @@ const ViewModel = () => {
 	const problems = useProblemDataContext();
 	const setProblem = useProblemDispatchContext();
 
-	const pInfo = usePInfoContext();
-	// const setPInfo = usePInfoDispatchContext();
-
+	const problemInfo = usePInfoContext();
+	const setProblemInfo = usePInfoDispatchContext();
+	const handleProblemInfo = (id) => {
+		setProblemInfo();
+	};
 	const comments = useCommentsContext();
-	// const setComments = useCommentsDispatchContext();
-
+	const setComments = useCommentsDispatchContext();
+	const handleComments = (id) => {
+		setComments();
+	};
 	const submissions = useSubmissionsContext();
-	// const setSubmissions = useSubmissionsDispatchContext();
-
+	const setSubmissions = useSubmissionsDispatchContext();
+	const handleSubmissions = (id) => {
+		setSubmissions();
+	};
 	const mySubmissions = useMySubmissionsContext();
-	// const setMySubmissions = useMySubmissionsDispatchContext();
+	const setMySubmissions = useMySubmissionsDispatchContext();
+	const handleMySubmissions = (id) => {
+		setMySubmissions();
+	};
 
-	const problemSubmit = useProblemSubmitContext();
-	// const setProblemSubmit = useProblemDispatchContext();
 	return (
 		<>
 			<Header userName={userName} />
@@ -61,11 +68,14 @@ const ViewModel = () => {
 					path="/problem"
 					render={() => (
 						<Problem
-							pInfo={pInfo}
+							problemInfo={problemInfo}
+							setProblemInfo={setProblemInfo}
 							comments={comments}
+							setComments={setComments}
 							submissions={submissions}
+							setSubmissions={setSubmissions}
 							mySubmissions={mySubmissions}
-							submitValue={problemSubmit}
+							setMySubmissions={setMySubmissions}
 						/>
 					)}
 				/>

@@ -5,7 +5,7 @@ import { Route } from 'react-router-dom';
 
 import { Home, Login, User, Problem, Question, Rangking, Submit } from './View';
 import { Header, MenuBar } from './UI';
-
+import data from '../data.json';
 import {
 	useProblemDataContext,
 	useProblemDispatchContext,
@@ -19,6 +19,8 @@ import {
 	useMySubmissionsDispatchContext,
 	useProblemSubmitContext,
 	useProblemDispatchSubmitContext,
+	useUserDataContext,
+	useUserDispatchContext,
 } from './Model';
 
 const ViewModel = () => {
@@ -31,7 +33,7 @@ const ViewModel = () => {
 	const problemInfo = usePInfoContext();
 	const setProblemInfo = usePInfoDispatchContext();
 	const handleProblemInfo = (id) => {
-		setProblemInfo();
+		setProblemInfo(data.problem_info[id - 1].desc);
 	};
 	const comments = useCommentsContext();
 	const setComments = useCommentsDispatchContext();
@@ -49,6 +51,9 @@ const ViewModel = () => {
 		setMySubmissions();
 	};
 
+	const users = useUserDataContext();
+	const setUserInfo = useUserDispatchContext();
+
 	return (
 		<>
 			<Header userName={userName} />
@@ -63,13 +68,16 @@ const ViewModel = () => {
 					}}
 				/>
 				<Route exact path="/login" component={Login} />
-				<Route exact path="/user" component={User} />
+				<Route
+					path="/user"
+					render={() => <User users={users} problems={problems} />}
+				/>
 				<Route
 					path="/problem"
 					render={() => (
 						<Problem
 							problemInfo={problemInfo}
-							setProblemInfo={setProblemInfo}
+							handleProblemInfo={handleProblemInfo}
 							comments={comments}
 							setComments={setComments}
 							submissions={submissions}
@@ -81,7 +89,10 @@ const ViewModel = () => {
 				/>
 				<Route path="/question" component={Question} />
 				<Route path="/submit" component={Submit} />
-				<Route path="/ranking" component={Rangking} />
+				<Route
+					path="/ranking"
+					render={() => <Rangking users={users} />}
+				/>
 			</Grid>
 		</>
 	);

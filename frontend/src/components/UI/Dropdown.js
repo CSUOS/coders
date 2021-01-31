@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { Grid, MenuItem, FormControl, Select } from '@material-ui/core';
 
-const Dropdown = ({ label, values, defaultValue, hasLabel = true }) => {
-	const [state, setState] = useState();
-
-	const handleChange = (event) => {
-		setState(event.target.value);
-	};
-
+const Dropdown = ({
+	label,
+	values,
+	selectedValue,
+	handleSelectedValue,
+	defaultValue,
+	hasLabel = true,
+}) => {
 	return (
 		<Grid className="dropdown">
 			<FormControl
@@ -16,8 +17,8 @@ const Dropdown = ({ label, values, defaultValue, hasLabel = true }) => {
 				className="dropdown-form"
 			>
 				<Select
-					value={state}
-					onChange={handleChange}
+					value={selectedValue}
+					onChange={handleSelectedValue}
 					defaultValue={defaultValue}
 					displayEmpty
 				>

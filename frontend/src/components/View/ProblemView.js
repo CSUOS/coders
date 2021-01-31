@@ -17,7 +17,7 @@ import {
 const ProblemView = (props) => {
 	const {
 		problemInfo,
-		setProblemInfo,
+		handleProblemInfo,
 		comments,
 		setComments,
 		submissions,
@@ -38,6 +38,10 @@ const ProblemView = (props) => {
 	const changeLang = (e) => {
 		setLanguage(e.target.value);
 	};
+	useEffect(() => {
+		handleProblemInfo(1);
+	}, [problemInfo]);
+	console.log(problemInfo);
 	return (
 		<Grid className="problem">
 			<Grid container direction="row" className="problem-container">
@@ -97,12 +101,12 @@ const ProblemView = (props) => {
 				<Grid container className="problem-info">
 					<Route
 						exact
-						path="/problem/:id"
+						path="/problem/"
 						render={() => <MarkdownViewer source={problemInfo} />}
 					/>
 					<Route
 						exact
-						path="/problem/:id/rank"
+						path="/problem/rank"
 						render={() => (
 							<ProblemRank
 								submissions={submissions}
@@ -112,7 +116,7 @@ const ProblemView = (props) => {
 					/>
 					<Route
 						exact
-						path="/problem/:id/score"
+						path="/problem/score"
 						render={() => (
 							<ProblemScore
 								mySubmissions={mySubmissions}

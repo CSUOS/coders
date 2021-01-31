@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Grid, Button } from '@material-ui/core';
 import {
 	PageHeader,
@@ -7,13 +7,21 @@ import {
 	ProblemTable,
 	Pagination,
 } from '../UI';
+import { getTotalPageCount } from '../../function/PaginationManager';
+
+const mainTitle = '문제 선택';
+const dropdownLabel = '해결 여부';
+const dropdownValues = ['해결', '미해결'];
+const searchInputLabel = '제목, 내용, 분류로 검색';
+const tableHead = ['문제 번호', '제목', '분류', '정답률', '좋아요 수'];
+const sortButtonText = '↑↓ 제목으로 정렬';
+const paginationDropdownLabel = '한 페이지 당 문제 수:';
+const paginationDropdownValues = [...Array(4)].map(
+	(_, index) => (index + 1) * 5
+);
+const dropdownHasLabel = false;
 
 const HomeView = ({ problems }) => {
-	const mainTitle = '문제 선택';
-	const label1 = '해결 여부';
-	const values1 = ['해결', '미해결'];
-	const label2 = '제목, 내용, 분류로 검색';
-	const tableHead = ['문제 번호', '제목', '분류', '정답률', '좋아요 수'];
 	const tableBody = problems.map((problem, index) => [
 		index + 1,
 		problem.title,
@@ -21,11 +29,46 @@ const HomeView = ({ problems }) => {
 		`33%`,
 		15,
 	]);
-	const label3 = '↑↓ 제목으로 정렬';
-	const label4 = '↑↓ 좋아요 수로 정렬';
-	const label5 = '한 페이지 당 문제 수:';
-	const dropdownHasLabel = false;
-	const values2 = [...Array(12)].map((_, index) => index + 1);
+	// =============[ for pagination ] ===========================
+	const totalProblemCount = problems.length;
+	const [currentPageIndex, setCurrentPageIndex] = useState(0);
+	const [currentLimit, setCurrentLimit] = useState(
+		paginationDropdownValues[0]
+	);
+	const totalPageCount = getTotalPageCount(totalProblemCount, currentLimit);
+	// ===========================================================
+
+	const [solved, setSolved] = useState();
+
+	const [input, setInput] = useState('');
+	const [filterPb, setFilterPb] = useState(null);
+	const getInput = (e) => {
+		setInput(e);
+	};
+	useEffect(() => {
+		let data = problems.filter(
+			(x) => x.title.includes(input) || x.class.includes(input)
+		);
+		if (data != null) {
+			data = data.map((problem, index) => [
+				index + 1,
+				problem.title,
+				problem.class,
+				`33%`,
+				15,
+			]);
+			setFilterPb(data);
+		}
+	}, [input]);
+
+	const handleCurrentPageIndex = (indexToMove) => {
+		setCurrentPageIndex(indexToMove);
+	};
+
+	const handleCurrentLimit = (e) => {
+		setCurrentLimit(e.target.value);
+	};
+
 	return (
 		<Grid className="home">
 			<Grid className="home-container">
@@ -33,33 +76,45 @@ const HomeView = ({ problems }) => {
 				<Grid className="home-content">
 					<Grid className="home-tableselector">
 						<Grid className="home-tableselector-start">
-							<SearchInput label={label2} />
-							<Button className="sort-button">{label3}</Button>
-							<Button className="sort-button">{label4}</Button>
+							<SearchInput
+								getInput={(e) => getInput(e)}
+								label={searchInputLabel}
+							/>
+							<Button className="sort-button">
+								{sortButtonText}
+							</Button>
 						</Grid>
 						<Grid className="home-dropdowns">
 							<Grid className="home-dropdown">
-								<Dropdown label={label1} values={values1} />
-							</Grid>
-							<Grid className="home-dropdown">
-								<Dropdown label={label1} values={values1} />
-							</Grid>
-							<Grid className="home-dropdown">
-								<Dropdown label={label1} values={values1} />
+								<Dropdown
+									label={dropdownLabel}
+									values={dropdownValues}
+									selectedValue={solved}
+								/>
 							</Grid>
 						</Grid>
 					</Grid>
-					<ProblemTable head={tableHead} rows={tableBody} />
+					<ProblemTable
+						head={tableHead}
+						rows={filterPb != null ? filterPb : tableBody}
+					/>
 					<Grid className="home-tableselector">
 						<Grid className="home-tableselector-start">
-							{label5}
+							<Grid className="page-label">
+								{paginationDropdownLabel}
+							</Grid>
 							<Dropdown
 								hasLabel={dropdownHasLabel}
-								values={values2}
-								defaultValue={12}
+								values={paginationDropdownValues}
+								selectedValue={currentLimit}
+								handleSelectedValue={handleCurrentLimit}
 							/>
 						</Grid>
-						<Pagination count={4} />
+						<Pagination
+							totalPageCount={totalPageCount}
+							currentPageIndex={currentPageIndex}
+							handleCurrentPageIndex={handleCurrentPageIndex}
+						/>
 					</Grid>
 				</Grid>
 			</Grid>

@@ -1,12 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Grid, Button, TextField } from '@material-ui/core';
-import { InputBox, InputDropDown, EditorBox } from '..';
+import { InputBox, InputDropDown, EditorBox, NoticeDialog } from '..';
 
 const QuestionInput = () => {
 	const values = ['질문', '자유', '공지'];
 	const styles = { width: '100%', height: '400px' };
 	const lang = 'c_cpp';
+	const [notice, setNotice] = useState(false);
+	const showNotice = () => {
+		setNotice(!notice);
+	};
 	return (
 		<Grid container className="question-input" direction="column">
 			<InputBox title="제목" size="10" />
@@ -23,11 +27,23 @@ const QuestionInput = () => {
 				<EditorBox styles={styles} lang={lang} />
 			</Grid>
 			<Grid className="btn">
-				<Link to="/question">
-					<Button variant="outlined" color="primary">
-						제출
-					</Button>
-				</Link>
+				<Button
+					variant="outlined"
+					color="primary"
+					onClick={() => {
+						showNotice();
+					}}
+				>
+					{notice ? (
+						<NoticeDialog
+							visible={notice}
+							title="확인"
+							info="질문을 게시하시겠습니까?"
+							path="/question"
+						/>
+					) : null}
+					제출
+				</Button>
 			</Grid>
 		</Grid>
 	);

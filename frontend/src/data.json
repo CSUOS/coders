@@ -16,19 +16,19 @@
 			"id": 1,
 			"name": "김현규",
 			"rank": 1,
-			"Intro": "Coders 팀 화이팅"
+			"intro": "Coders 팀 화이팅"
 		},
 		{
 			"id": 2,
 			"name": "박수현",
 			"rank": 2,
-			"Intro": "자기소개"
+			"intro": "아자!"
 		},
 		{
 			"id": 3,
-			"name": "박수현",
+			"name": "이준영",
 			"rank": 3,
-			"Intro": "자기소개"
+			"intro": "자기소개"
 		}
 	],
 	"problem_info":[

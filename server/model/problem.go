@@ -84,10 +84,10 @@ func ProblemAll(db *gorm.DB, num int, page int, mid int, search string, sort str
 	return problem, err
 }
 
-func ProblemOne(db *gorm.DB, id int) ([]Problem, error) {
-	var problems []Problem
-	err := db.Where("id = ?", id).First(&problems).Error
-	return problems, err
+func ProblemOne(db *gorm.DB, id int) (Problem, error) {
+	var problem Problem
+	err := db.Where("id = ?", id).First(&problem).Error
+	return problem, err
 }
 
 func ProblemInsert(db *gorm.DB, problem Problem) (Problem, error) {

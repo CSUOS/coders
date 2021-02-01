@@ -95,6 +95,11 @@ func ShowProblem(ctx *gin.Context) {
 // @Router /problems [post]
 func AddProblem(ctx *gin.Context) {
 	db := ctx.MustGet("db").(*gorm.DB)
+	claims, err := ParseValidAuthToken(ctx.Request)
+	if err != nil {
+		ctx.AbortWithStatus(http.StatusUnauthorized)
+		return
+	}
 
 	var req model.EditProblem
 	if err := ctx.ShouldBindJSON(&req); err != nil {
@@ -107,13 +112,13 @@ func AddProblem(ctx *gin.Context) {
 	}
 
 	problem := model.Problem{
-		Title: req.Title,
-		Class: req.Class,
-		Desc: req.Desc,
-		TimeLimit: req.TimeLimit,
-		MemoryLimit: req.MemoryLimit,
+		Title:        req.Title,
+		Class:        req.Class,
+		Desc:         req.Desc,
+		TimeLimit:    req.TimeLimit,
+		MemoryLimit:  req.MemoryLimit,
 		ShortCircuit: req.ShortCircuit,
-		MemberID: req.MemberID,
+		MemberID:     int(claims["id"].(float64)),
 	}
 	result, err := model.ProblemInsert(db, problem)
 	if err != nil {
@@ -152,12 +157,12 @@ func UpdateProblem(ctx *gin.Context) {
 	}
 
 	problem := model.Problem{
-		ID:   aid,
-		Title: req.Title,
-		Class: req.Class,
-		Desc: req.Desc,
-		TimeLimit: req.TimeLimit,
-		MemoryLimit: req.MemoryLimit,
+		ID:           aid,
+		Title:        req.Title,
+		Class:        req.Class,
+		Desc:         req.Desc,
+		TimeLimit:    req.TimeLimit,
+		MemoryLimit:  req.MemoryLimit,
 		ShortCircuit: req.ShortCircuit,
 	}
 	result, err := model.ProblemUpdate(db, problem)

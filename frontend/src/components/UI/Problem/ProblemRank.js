@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { Grid, Button } from '@material-ui/core';
 import { SelectForm, SearchInput, Pagination } from '..';
 import Table from '../Table';
@@ -12,9 +13,12 @@ const head = [
 	'코드 길이',
 	'제출한 시간',
 ];
-const row = ['3', 'gusrb', '1KB', '1ms', 'Python3', '16B', '3달 전'];
 
-const ProblemRank = ({ submissions }) => {
+const ProblemRank = ({ submissions, handleSubmissions }) => {
+	const { id } = useParams();
+	useEffect(() => {
+		handleSubmissions(id);
+	}, [id, submissions]);
 	return (
 		<Grid className="problemrank-container">
 			<Grid className="problemrank-input" container>
@@ -28,7 +32,7 @@ const ProblemRank = ({ submissions }) => {
 				<Button size="small">↓ 메모리로 정렬</Button>
 				<Button size="small">↓ 시간으로 정렬</Button>
 			</Grid>
-			<Table head={head} rows={[...Array(5)].map(() => row)} />
+			<Table head={head} rows={submissions} />
 			<Grid className="problemrank-pagination">
 				<Pagination />
 			</Grid>

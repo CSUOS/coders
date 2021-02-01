@@ -6,13 +6,13 @@ import {
 	ProblemInfoContextProvider,
 	SubmissionsContextProvider,
 	MySubmissionsContextProvider,
-	ProblemSubmitContextProvider,
+	ProblemCodeContextProvider,
 	UserContextProvider,
 } from './Model';
 import ViewModel from './ViewModel';
 
 const Provider = () => (
-	<ProblemSubmitContextProvider>
+	<ProblemCodeContextProvider>
 		<SubmissionsContextProvider>
 			<MySubmissionsContextProvider>
 				<UserContextProvider>
@@ -26,7 +26,7 @@ const Provider = () => (
 				</UserContextProvider>
 			</MySubmissionsContextProvider>
 		</SubmissionsContextProvider>
-	</ProblemSubmitContextProvider>
+	</ProblemCodeContextProvider>
 );
 
 export default Provider;

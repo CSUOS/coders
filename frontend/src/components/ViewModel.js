@@ -24,7 +24,6 @@ import {
 } from './Model';
 
 const ViewModel = () => {
-	const [hasMenu, setHasMenu] = useState(false);
 	const userName = '사용자';
 
 	const problems = useProblemDataContext();
@@ -68,12 +67,11 @@ const ViewModel = () => {
 		<>
 			<Header userName={userName} />
 			<Grid>
-				{hasMenu && <MenuBar />}
+				<MenuBar />
 				<Route
 					exact
 					path="/"
 					render={() => {
-						setHasMenu(true);
 						return <Home problems={problems} />;
 					}}
 				/>

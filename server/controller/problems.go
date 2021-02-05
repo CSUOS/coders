@@ -3,7 +3,6 @@ package controller
 import (
 	"coders/httputil"
 	"coders/model"
-
 	"gorm.io/gorm"
 	"net/http"
 	"strconv"
@@ -17,6 +16,11 @@ import (
 // @Tags Problems
 // @Accept  json
 // @Produce  json
+// @Param num query int false "num"
+// @Param page query int false "page"
+// @Param member query int false "member ID"
+// @Param sort query string false "sort"
+// @Param search query string false "search"
 // @Success 200 {array} model.Problem
 // @Failure 400 {object} httputil.HTTPError
 // @Failure 404 {object} httputil.HTTPError
@@ -24,11 +28,28 @@ import (
 // @Router /problems [get]
 func ListProblems(ctx *gin.Context) {
 	db := ctx.MustGet("db").(*gorm.DB)
-	problems, err := model.ProblemsAll(db)
-	if err != nil {
-		httputil.Error(ctx, http.StatusNotFound, err)
-		return
+
+	var search, sort string
+	var num, page, mid int
+	var err error
+	if ctx.Query("num") != "" {
+		num, err = strconv.Atoi(ctx.Query("num"))
+		httputil.CheckError(ctx, err)
 	}
+	if ctx.Query("page") != "" {
+		page, err = strconv.Atoi(ctx.Query("page"))
+		httputil.CheckError(ctx, err)
+	}
+	if ctx.Query("member") != "" {
+		mid, err = strconv.Atoi(ctx.Query("member"))
+		httputil.CheckError(ctx, err)
+	}
+	search = ctx.Query("search")
+	sort = ctx.Query("sort")
+
+	problems, err := model.ProblemAll(db, num, page, mid, search, sort)
+
+	httputil.CheckError(ctx, err)
 	ctx.JSON(http.StatusOK, problems)
 }
 
@@ -74,6 +95,11 @@ func ShowProblem(ctx *gin.Context) {
 // @Router /problems [post]
 func AddProblem(ctx *gin.Context) {
 	db := ctx.MustGet("db").(*gorm.DB)
+	claims, err := ParseValidAuthToken(ctx.Request)
+	if err != nil {
+		ctx.AbortWithStatus(http.StatusUnauthorized)
+		return
+	}
 
 	var req model.EditProblem
 	if err := ctx.ShouldBindJSON(&req); err != nil {
@@ -86,11 +112,13 @@ func AddProblem(ctx *gin.Context) {
 	}
 
 	problem := model.Problem{
-		Title: req.Title,
-		Desc: req.Desc,
-		TimeLimit: req.TimeLimit,
-		MemoryLimit: req.MemoryLimit,
+		Title:        req.Title,
+		Class:        req.Class,
+		Desc:         req.Desc,
+		TimeLimit:    req.TimeLimit,
+		MemoryLimit:  req.MemoryLimit,
 		ShortCircuit: req.ShortCircuit,
+		MemberID:     int(claims["id"].(float64)),
 	}
 	result, err := model.ProblemInsert(db, problem)
 	if err != nil {
@@ -129,11 +157,12 @@ func UpdateProblem(ctx *gin.Context) {
 	}
 
 	problem := model.Problem{
-		ID:   aid,
-		Title: req.Title,
-		Desc: req.Desc,
-		TimeLimit: req.TimeLimit,
-		MemoryLimit: req.MemoryLimit,
+		ID:           aid,
+		Title:        req.Title,
+		Class:        req.Class,
+		Desc:         req.Desc,
+		TimeLimit:    req.TimeLimit,
+		MemoryLimit:  req.MemoryLimit,
 		ShortCircuit: req.ShortCircuit,
 	}
 	result, err := model.ProblemUpdate(db, problem)

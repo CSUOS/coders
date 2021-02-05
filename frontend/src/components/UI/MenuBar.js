@@ -8,14 +8,21 @@ const MenuBar = () => {
 		['문제 출제하기', '/submit'],
 		['회원 랭킹', '/ranking'],
 	];
+	const checkUrl =
+		window.location.href.indexOf('login') !== -1 ||
+		window.location.href.indexOf('problem') !== -1;
 	return (
-		<Grid className="menubar">
-			{menus.map((menu) => (
-				<Grid className="menubar-menu">
-					<Link to={menu[1]}>{menu[0]}</Link>
+		<>
+			{checkUrl ? undefined : (
+				<Grid className="menubar">
+					{menus.map((menu) => (
+						<Grid className="menubar-menu">
+							<Link to={menu[1]}>{menu[0]}</Link>
+						</Grid>
+					))}
 				</Grid>
-			))}
-		</Grid>
+			)}
+		</>
 	);
 };
 

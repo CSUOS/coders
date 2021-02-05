@@ -17,14 +17,13 @@ import {
 	useSubmissionsDispatchContext,
 	useMySubmissionsContext,
 	useMySubmissionsDispatchContext,
-	useProblemSubmitContext,
-	useProblemDispatchSubmitContext,
+	useProblemCodeContext,
+	useProblemCodeDispatchContext,
 	useUserDataContext,
 	useUserDispatchContext,
 } from './Model';
 
 const ViewModel = () => {
-	const [hasMenu, setHasMenu] = useState(false);
 	const userName = '사용자';
 
 	const problems = useProblemDataContext();
@@ -33,22 +32,32 @@ const ViewModel = () => {
 	const problemInfo = usePInfoContext();
 	const setProblemInfo = usePInfoDispatchContext();
 	const handleProblemInfo = (id) => {
-		setProblemInfo(data.problem_info[id - 1].desc);
+		setProblemInfo(data.problem_info[id - 1].desc); // get요청으로 바꿀 예정
 	};
+
 	const comments = useCommentsContext();
 	const setComments = useCommentsDispatchContext();
 	const handleComments = (id) => {
-		setComments();
+		setComments(data.P_Comment);
 	};
+
 	const submissions = useSubmissionsContext();
 	const setSubmissions = useSubmissionsDispatchContext();
 	const handleSubmissions = (id) => {
-		setSubmissions();
+		setSubmissions(data.submit_log);
 	};
+
 	const mySubmissions = useMySubmissionsContext();
 	const setMySubmissions = useMySubmissionsDispatchContext();
 	const handleMySubmissions = (id) => {
-		setMySubmissions();
+		setMySubmissions(data.mySubmit_log);
+	};
+
+	const problemCode = useProblemCodeContext();
+	const setProblemCode = useProblemCodeDispatchContext();
+	const handleProblemCode = (id, lang, text) => {
+		setProblemCode(text);
+		console.log('id :', id, ', language : ', lang, ',code : ', text);
 	};
 
 	const users = useUserDataContext();
@@ -58,12 +67,11 @@ const ViewModel = () => {
 		<>
 			<Header userName={userName} />
 			<Grid>
-				{hasMenu && <MenuBar />}
+				<MenuBar />
 				<Route
 					exact
 					path="/"
 					render={() => {
-						setHasMenu(true);
 						return <Home problems={problems} />;
 					}}
 				/>
@@ -73,17 +81,19 @@ const ViewModel = () => {
 					render={() => <User users={users} problems={problems} />}
 				/>
 				<Route
-					path="/problem"
+					path="/problem/:id"
 					render={() => (
 						<Problem
 							problemInfo={problemInfo}
 							handleProblemInfo={handleProblemInfo}
 							comments={comments}
-							setComments={setComments}
+							handleComments={handleComments}
 							submissions={submissions}
-							setSubmissions={setSubmissions}
+							handleSubmissions={handleSubmissions}
 							mySubmissions={mySubmissions}
-							setMySubmissions={setMySubmissions}
+							handleMySubmissions={handleMySubmissions}
+							problemCode={problemCode}
+							handleProblemCode={handleProblemCode}
 						/>
 					)}
 				/>

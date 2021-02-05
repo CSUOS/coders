@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { Grid, Button } from '@material-ui/core';
 import FormatListNumberedIcon from '@material-ui/icons/FormatListNumbered';
 import { SelectForm, Table, Pagination } from '..';
@@ -23,7 +24,11 @@ const row = [
 	'16B',
 	'3달 전',
 ];
-const ProblemScore = ({ mySubmissions }) => {
+const ProblemScore = ({ mySubmissions, handleMySubmissions }) => {
+	const { id } = useParams();
+	useEffect(() => {
+		handleMySubmissions(id);
+	}, [id, mySubmissions]);
 	return (
 		<Grid className="problem-score" direction="column">
 			<Grid className="problem-score-info">
@@ -43,7 +48,7 @@ const ProblemScore = ({ mySubmissions }) => {
 				<Button size="small">↓ 메모리로 정렬</Button>
 				<Button size="small">↓ 시간으로 정렬</Button>
 			</Grid>
-			<Table head={head} rows={[...Array(5)].map(() => row)} />
+			<Table head={head} rows={mySubmissions} />
 			<Grid className="problem-score-pagination">
 				<Pagination />
 			</Grid>

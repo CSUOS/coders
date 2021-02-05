@@ -140,26 +140,26 @@ export const useMySubmissionsDispatchContext = () => {
 // ===================================================================
 
 // ================= [ problemSubmit context ] =========================
-const ProblemSubmitContext = createContext();
-const ProblemSubmitDispatchContext = createContext();
+const ProblemCodeContext = createContext();
+const ProblemCodeDispatchContext = createContext();
 
-export const ProblemSubmitContextProvider = ({ children }) => {
+export const ProblemCodeContextProvider = ({ children }) => {
 	const [problemSubmit, setProblemSubmit] = useState(problemLog);
 	return (
-		<ProblemSubmitContext.Provider value={problemSubmit}>
-			<ProblemSubmitDispatchContext.Provider value={setProblemSubmit}>
+		<ProblemCodeContext.Provider value={problemSubmit}>
+			<ProblemCodeDispatchContext.Provider value={setProblemSubmit}>
 				{children}
-			</ProblemSubmitDispatchContext.Provider>
-		</ProblemSubmitContext.Provider>
+			</ProblemCodeDispatchContext.Provider>
+		</ProblemCodeContext.Provider>
 	);
 };
 
-export const useProblemSubmitContext = () => {
-	const context = useContext(ProblemSubmitContext);
+export const useProblemCodeContext = () => {
+	const context = useContext(ProblemCodeContext);
 	return context;
 };
-export const useProblemDispatchSubmitContext = () => {
-	const context = useContext(ProblemSubmitDispatchContext);
+export const useProblemCodeDispatchContext = () => {
+	const context = useContext(ProblemCodeDispatchContext);
 	return context;
 };
 // ===================================================================

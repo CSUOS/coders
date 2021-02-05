@@ -20,15 +20,17 @@ const CommentForm = ({ comments }) => {
 					댓글 작성
 				</Button>
 			</Grid>
-			<Grid className="comment-comments">
-				{comments.map((comment) => (
-					<Comment
-						userName={comment.userId}
-						comment={comment.text}
-						createAt={comment.createdAt}
-					/>
-				))}
-			</Grid>
+			{comments ? (
+				<Grid className="comment-comments">
+					{comments.map((comment) => (
+						<Comment
+							userName={comment.userId}
+							comment={comment.text}
+							createAt={comment.createdAt}
+						/>
+					))}
+				</Grid>
+			) : null}
 		</Grid>
 	);
 };

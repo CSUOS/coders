@@ -35,13 +35,25 @@ const NoticeDialog = ({ visible, title, info, path, onCancel, onConfirm }) => {
 								>
 									취소
 								</Button>
-								<Button
-									variant="contained"
-									color="secondary"
-									onClick={confirm}
-								>
-									확인
-								</Button>
+								{path ? (
+									<Link to={path}>
+										<Button
+											variant="contained"
+											color="secondary"
+											onClick={confirm}
+										>
+											확인
+										</Button>
+									</Link>
+								) : (
+									<Button
+										variant="contained"
+										color="secondary"
+										onClick={confirm}
+									>
+										확인
+									</Button>
+								)}
 							</div>
 						) : (
 							<div>

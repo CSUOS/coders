@@ -73,63 +73,65 @@
 		}
 	],
 	"submit_log":[
-		{
-			"id":1,
-			"userId":"powergee",
-			"problemId":1,
-			"language":"java",
-			"source":"",
-			"result":"Accepted",
-			"memory":"22MB",
-			"time":"12ms",
-			"createAt":"2020-10-01"
-		},
-		{
-			"id":2,
-			"userId":"powergee2",
-			"problemId":1,
-			"language":"java",
-			"source":"",
-			"result":"Accepted",
-			"memory":"22MB",
-			"time":"12ms",
-			"createAt":"2020-10-01"
-		},
-		{
-			"id":3,
-			"userId":"powergee3",
-			"problemId":1,
-			"language":"java",
-			"source":"",
-			"result":"Accepted",
-			"memory":"22MB",
-			"time":"12ms",
-			"createAt":"2020-10-01"
-		}
+		[
+			1,
+			"powergee",
+			"22MB",
+			"12ms",
+			"java",
+			"22byte",
+			"2020-01-02, 09:00"
+		],
+		[
+			1,
+			"powergee",
+			"22MB",
+			"12ms",
+			"java",
+			"22byte",
+			"2020-01-02, 09:00"
+		],
+		[
+			1,
+			"powergee",
+			"22MB",
+			"12ms",
+			"java",
+			"22byte",
+			"2020-01-02, 09:00"
+		]
 	],
 	"mySubmit_log":[
-		{
-			"id":1,
-			"userId":"gusrb",
-			"problemId":1,
-			"language":"java",
-			"source":"",
-			"result":"Accepted",
-			"memory":"22GB",
-			"time":"12ms",
-			"createAt":"2020-10-01"
-		},
-		{
-			"id":2,
-			"userId":"gusrb",
-			"problemId":1,
-			"language":"c++",
-			"source":"",
-			"result":"Accepted",
-			"memory":"22MB",
-			"time":"12s",
-			"createAt":"2020-10-01"
-		}
+		[
+			1,
+			"powergee",
+			"Accepted",
+			"22MB",
+			"12ms",
+			"java",
+			"22byte",
+			"2020-01-02, 09:00"
+		],
+		[
+			1,
+			"powergee",
+			"Compile error",
+			"22MB",
+			"12ms",
+			"java",
+			"22byte",
+			"2020-01-02, 09:00"
+		],
+		[
+			1,
+			"powergee",
+			"Time Limit",
+			"22MB",
+			"12ms",
+			"java",
+			"22byte",
+			"2020-01-02, 09:00"
+		]
 	],
 	"problem_log":"기존 기록"
 }

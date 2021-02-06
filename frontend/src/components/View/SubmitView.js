@@ -18,6 +18,7 @@ const SubmitView = () => {
 	const styles = { width: '100%', height: '70vh' };
 	const lang = 'markdown';
 	const history = useHistory();
+	const samePage = ['/submit', '/login'];
 	const [input, setInput] = useState('# 문제 설명');
 	const [notice, setNotice] = useState(false);
 	const [guard, setGuard] = useState(true);
@@ -26,6 +27,9 @@ const SubmitView = () => {
 	};
 	const showNotice = () => {
 		setNotice(!notice);
+	};
+	const checkPage = (location) => {
+		return samePage.indexOf(location.pathname) > -1;
 	};
 
 	return (
@@ -38,7 +42,7 @@ const SubmitView = () => {
 							history.push(p);
 						}}
 						shouldBlockNavigation={(location) => {
-							if (guard && location.pathname !== '/submit') {
+							if (guard && !checkPage(location)) {
 								return true;
 							}
 							return false;

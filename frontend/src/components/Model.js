@@ -7,9 +7,12 @@ const problemData = data.problem;
 const userData = data.user;
 const problemInfo = data.problem_info[0];
 const problemComments = data.P_Comment;
+const submitLog = data.submit_log;
+const mySubmitLog = data.mySubmit_log;
+const problemLog = data.problem_log;
 // ==================================
 
-// ================= [ problem context ] ======================
+// ================= [ problem context ] ============================
 const ProblemDataContext = createContext();
 const ProblemDispatchContext = createContext();
 
@@ -36,7 +39,7 @@ export const useProblemDispatchContext = () => {
 };
 // ===================================================================
 
-// ================= [ problemInfo context ] ======================
+// ================= [ problemInfo context ] =========================
 const PInfoContext = createContext();
 const PInfoDispatchContext = createContext();
 
@@ -61,7 +64,7 @@ export const usePInfoDispatchContext = () => {
 };
 // ===================================================================
 
-// ================= [ comments context ] ======================
+// ================= [ comments context ] ============================
 const CommentsContext = createContext();
 const CommentsDispatchContext = createContext();
 
@@ -86,6 +89,80 @@ export const useCommentsDispatchContext = () => {
 };
 // ===================================================================
 
+// ================= [ submissions context ] =========================
+const SubmissionsContext = createContext();
+const SubmissionsDispatchContext = createContext();
+
+export const SubmissionsContextProvider = ({ children }) => {
+	const [submissions, setSubmissions] = useState(submitLog);
+	return (
+		<SubmissionsContext.Provider value={submissions}>
+			<SubmissionsDispatchContext.Provider value={setSubmissions}>
+				{children}
+			</SubmissionsDispatchContext.Provider>
+		</SubmissionsContext.Provider>
+	);
+};
+
+export const useSubmissionsContext = () => {
+	const context = useContext(SubmissionsContext);
+	return context;
+};
+export const useSubmissionsDispatchContext = () => {
+	const context = useContext(SubmissionsDispatchContext);
+	return context;
+};
+// ===================================================================
+
+// ================= [ mySubmissions context ] =========================
+const MySubmissionsContext = createContext();
+const MySubmissionsDispatchContext = createContext();
+
+export const MySubmissionsContextProvider = ({ children }) => {
+	const [mySubmissions, setMySubmissions] = useState(mySubmitLog);
+	return (
+		<MySubmissionsContext.Provider value={mySubmissions}>
+			<MySubmissionsDispatchContext.Provider value={setMySubmissions}>
+				{children}
+			</MySubmissionsDispatchContext.Provider>
+		</MySubmissionsContext.Provider>
+	);
+};
+
+export const useMySubmissionsContext = () => {
+	const context = useContext(MySubmissionsContext);
+	return context;
+};
+export const useMySubmissionsDispatchContext = () => {
+	const context = useContext(MySubmissionsDispatchContext);
+	return context;
+};
+// ===================================================================
+
+// ================= [ problemSubmit context ] =========================
+const ProblemCodeContext = createContext();
+const ProblemCodeDispatchContext = createContext();
+
+export const ProblemCodeContextProvider = ({ children }) => {
+	const [problemSubmit, setProblemSubmit] = useState(problemLog);
+	return (
+		<ProblemCodeContext.Provider value={problemSubmit}>
+			<ProblemCodeDispatchContext.Provider value={setProblemSubmit}>
+				{children}
+			</ProblemCodeDispatchContext.Provider>
+		</ProblemCodeContext.Provider>
+	);
+};
+
+export const useProblemCodeContext = () => {
+	const context = useContext(ProblemCodeContext);
+	return context;
+};
+export const useProblemCodeDispatchContext = () => {
+	const context = useContext(ProblemCodeDispatchContext);
+	return context;
+};
+// ===================================================================
 // ================= [ user context ] ======================
 const UserDataContext = createContext();
 const UserDispatchContext = createContext();

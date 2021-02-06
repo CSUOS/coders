@@ -27,7 +27,7 @@ const EditorBox = ({ styles, lang, handleChange, initValue, readFlag }) => {
 			showPrintMargin
 			showGutter
 			highlightActiveLine
-			value={initValue}
+			defaultValue={initValue}
 			readOnly={readFlag}
 			setOptions={{
 				enableBasicAutocompletion: false,

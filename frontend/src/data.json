@@ -72,39 +72,66 @@
 			"deleted":false
 		}
 	],
-	"submissions":[
-		{
-			"id":1,
-			"userId":"powergee",
-			"problemId":1,
-			"language":"java",
-			"source":"",
-			"result":"Accepted",
-			"memory":"22MB",
-			"time":"12ms",
-			"createAt":"2020-10-01"
-		},
-		{
-			"id":1,
-			"userId":"powergee",
-			"problemId":1,
-			"language":"java",
-			"source":"",
-			"result":"Accepted",
-			"memory":"22MB",
-			"time":"12ms",
-			"createAt":"2020-10-01"
-		},
-		{
-			"id":1,
-			"userId":"powergee",
-			"problemId":1,
-			"language":"java",
-			"source":"",
-			"result":"Accepted",
-			"memory":"22MB",
-			"time":"12ms",
-			"createAt":"2020-10-01"
-		}
-	]
+	"submit_log":[
+		[
+			1,
+			"powergee",
+			"22MB",
+			"12ms",
+			"java",
+			"22byte",
+			"2020-01-02, 09:00"
+		],
+		[
+			1,
+			"powergee",
+			"22MB",
+			"12ms",
+			"java",
+			"22byte",
+			"2020-01-02, 09:00"
+		],
+		[
+			1,
+			"powergee",
+			"22MB",
+			"12ms",
+			"java",
+			"22byte",
+			"2020-01-02, 09:00"
+		]
+	],
+	"mySubmit_log":[
+		[
+			1,
+			"powergee",
+			"Accepted",
+			"22MB",
+			"12ms",
+			"java",
+			"22byte",
+			"2020-01-02, 09:00"
+		],
+		[
+			1,
+			"powergee",
+			"Compile error",
+			"22MB",
+			"12ms",
+			"java",
+			"22byte",
+			"2020-01-02, 09:00"
+		],
+		[
+			1,
+			"powergee",
+			"Time Limit",
+			"22MB",
+			"12ms",
+			"java",
+			"22byte",
+			"2020-01-02, 09:00"
+		]
+	],
+	"problem_log":"기존 기록"
 }

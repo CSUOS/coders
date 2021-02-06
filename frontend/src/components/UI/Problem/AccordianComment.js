@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import {
 	Grid,
 	AccordionDetails,
@@ -17,30 +18,15 @@ const Accordion = withStyles({
 	expanded: {},
 })(MuiAccordion);
 
-const comments = [
-	{
-		userName: 'gusrb',
-		comment: '어렵네요',
-		createdAt: '2020-10-01',
-	},
-	{
-		userName: 'powergee',
-		comment: 'BFSDFS',
-		createdAt: '2020-10-01',
-	},
-	{
-		userName: '취준생',
-		comment: '어렵네요',
-		createdAt: '2020-10-01',
-	},
-];
-
-const AccordianComment = () => {
+const AccordianComment = ({ comments, handleComments }) => {
+	const { id } = useParams();
 	const [open, setOpen] = useState(false);
 	const handleClick = () => {
 		setOpen(!open);
 	};
-
+	useEffect(() => {
+		handleComments(id);
+	}, [comments, id]);
 	return (
 		<Grid xs={6}>
 			<Accordion className="accordion">

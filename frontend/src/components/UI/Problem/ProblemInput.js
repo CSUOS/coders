@@ -1,16 +1,24 @@
 import React, { useState } from 'react';
 import { Grid, Button } from '@material-ui/core';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { EditorBox, NoticeDialog, LeavingGuard } from '..';
 
-const ProblemInput = ({ language }) => {
-	// input 언어 설정
+const ProblemInput = ({ language, initValue, handleProblemCode }) => {
+	const { id } = useParams();
 	const styles = { width: '100%', height: '90%' };
+	// 제출하려는 값 관리
+	const [currentCode, setCurrentCode] = useState(initValue);
+	// input 언어 설정
 	let lang = 'c_cpp';
 	const [notice, setNotice] = useState(false);
 	const [guard, setGuard] = useState(true);
 	const history = useHistory();
-	const samePage = ['/problem', '/problem/rank', '/problem/score', '/login'];
+	const samePage = [
+		`/problem/${id}`,
+		`/problem/${id}/rank`,
+		`/problem/${id}/score`,
+		`/login`,
+	];
 	const showNotice = () => {
 		setNotice(!notice);
 	};
@@ -27,6 +35,14 @@ const ProblemInput = ({ language }) => {
 		default:
 			break;
 	}
+	const setText = (e) => {
+		setCurrentCode(e);
+	};
+	// put 요청하는 제출 부분
+	const onSubmit = () => {
+		handleProblemCode(id, lang, currentCode);
+	};
+
 	const checkPage = (location) => {
 		return samePage.indexOf(location.pathname) > -1;
 	};
@@ -56,6 +72,8 @@ const ProblemInput = ({ language }) => {
 				className="problem-input-code"
 				styles={styles}
 				lang={lang}
+				handleChange={setText}
+				initValue={initValue}
 			/>
 
 			<Grid container direction="row">
@@ -74,7 +92,9 @@ const ProblemInput = ({ language }) => {
 							visible={notice}
 							title="제출 확인"
 							info="문제를 제출하시겠습니까?"
-							path="/"
+							path={`/problem/${id}/score`}
+							onConfirm={onSubmit}
+							onCancel={showNotice}
 						/>
 					) : null}
 					제출

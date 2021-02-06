@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Grid, Button, IconButton, Typography } from '@material-ui/core';
-import { Route, Link } from 'react-router-dom';
+import { Route, Link, useParams, useHistory } from 'react-router-dom';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
 import Star from '@material-ui/icons/Star';
 import ThumbUp from '@material-ui/icons/ThumbUp';
@@ -14,7 +14,20 @@ import {
 	AccordianComment,
 } from '../UI';
 
-const ProblemView = ({ pInfo }) => {
+const ProblemView = (props) => {
+	const {
+		problemInfo,
+		handleProblemInfo,
+		comments,
+		handleComments,
+		submissions,
+		handleSubmissions,
+		mySubmissions,
+		handleMySubmissions,
+		problemCode,
+		handleProblemCode,
+	} = props;
+	const { id } = useParams();
 	const [star, setStar] = useState(false);
 	const [like, setLike] = useState(false);
 	const [language, setLanguage] = useState('C++');
@@ -28,18 +41,21 @@ const ProblemView = ({ pInfo }) => {
 	const changeLang = (e) => {
 		setLanguage(e.target.value);
 	};
+	useEffect(() => {
+		handleProblemInfo(id);
+	}, [problemInfo, id]);
 	return (
 		<Grid className="problem">
 			<Grid container direction="row" className="problem-container">
 				<Grid className="problem-bar">
 					<Grid className="bar-item">
-						<Link to="/problem">
+						<Link to={`/problem/${id}`}>
 							<Button>문제 설명</Button>
 						</Link>
-						<Link to="/problem/rank">
+						<Link to={`/problem/${id}/rank`}>
 							<Button>맞은 사람</Button>
 						</Link>
-						<Link to="/problem/score">
+						<Link to={`/problem/${id}/score`}>
 							<Button>채점 현황</Button>
 						</Link>
 					</Grid>
@@ -87,19 +103,39 @@ const ProblemView = ({ pInfo }) => {
 				<Grid container className="problem-info">
 					<Route
 						exact
-						path="/problem"
-						render={() => <MarkdownViewer source={pInfo.desc} />}
+						path="/problem/:id"
+						render={() => <MarkdownViewer source={problemInfo} />}
 					/>
-					<Route exact path="/problem/rank" component={ProblemRank} />
 					<Route
 						exact
-						path="/problem/score"
-						component={ProblemScore}
+						path="/problem/:id/rank"
+						render={() => (
+							<ProblemRank
+								submissions={submissions}
+								handleSubmissions={handleSubmissions}
+							/>
+						)}
+					/>
+					<Route
+						exact
+						path="/problem/:id/score"
+						render={() => (
+							<ProblemScore
+								mySubmissions={mySubmissions}
+								handleMySubmissions={handleMySubmissions}
+							/>
+						)}
 					/>
 				</Grid>
 				{/* ace Editor 소스 코드 입력 */}
-				<ProblemInput language={language} />
-				<AccordianComment />
+				<ProblemInput
+					language={language}
+					handleProblemCode={handleProblemCode}
+				/>
+				<AccordianComment
+					comments={comments}
+					handleComments={handleComments}
+				/>
 			</Grid>
 		</Grid>
 	);

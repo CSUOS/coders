@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Grid, Button } from '@material-ui/core';
-import { Prompt, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { EditorBox, NoticeDialog, LeavingGuard } from '..';
 
 const ProblemInput = ({ language }) => {
@@ -10,7 +10,7 @@ const ProblemInput = ({ language }) => {
 	const [notice, setNotice] = useState(false);
 	const [guard, setGuard] = useState(true);
 	const history = useHistory();
-	const samePage = ['/problem', '/problem/rank', '/problem/score'];
+	const samePage = ['/problem', '/problem/rank', '/problem/score', '/login'];
 	const showNotice = () => {
 		setNotice(!notice);
 	};

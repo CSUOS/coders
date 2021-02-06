@@ -1,7 +1,7 @@
 import React from 'react';
 import { Grid, TextField } from '@material-ui/core';
 
-const QuestionInputBox = ({ title, size }) => {
+const InputBox = ({ title, size }) => {
 	return (
 		<Grid container direction="row" className="input-box">
 			<Grid className="title">{title}</Grid>
@@ -17,4 +17,4 @@ const QuestionInputBox = ({ title, size }) => {
 	);
 };
 
-export default QuestionInputBox;
+export default InputBox;

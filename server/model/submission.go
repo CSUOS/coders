@@ -45,22 +45,21 @@ type QuerySubmission struct{
 // SubmissionsQuery example
 func SubmissionsQuery(db *gorm.DB, query QuerySubmission) ([]Submission, error) {
 	var submissions []Submission
-	queryColums := make(map[string]interface{})
 
-	if intPid, err := strconv.Atoi(query.ProblemID); err != nil {
-		queryColums["ProblemID"] = intPid
+	if intPid, err := strconv.Atoi(query.ProblemID); query.ProblemID != "" && err != nil {
+		db = db.Where("problem_id = ?", intPid)
 	}
-	if intMid, err := strconv.Atoi(query.MemberID); err != nil {
-		queryColums["MemberID"] = intMid
+	if intMid, err := strconv.Atoi(query.MemberID); query.MemberID != "" &&  err != nil {
+		db = db.Where("member_id = ?", intMid)
 	}
 	if query.Language != "" {
-		queryColums["Language"] = query.Language
+		db = db.Where("language = ?", query.Language)
 	}
 	if query.Result != "" {
-		queryColums["Result"] = query.Result
+		db = db.Where("result = ?", query.Result)
 	}
 
-	err := db.Where(&queryColums).Find(&submissions).Error
+	err := db.Find(&submissions).Error
 	return submissions, err
 }
 

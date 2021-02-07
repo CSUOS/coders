@@ -21,8 +21,8 @@ import (
 // @Tags Submissions
 // @Accept  json
 // @Produce  json
-// @Param problem query int false "problem ID"
-// @Param member query int false "member ID"
+// @Param problemId query int false "problem ID"
+// @Param memberId query int false "member ID"
 // @Param language query string false "language"
 // @Param result query string false "result"
 // @Success 200 {array} model.Submission
@@ -34,8 +34,8 @@ func ListSubmissions(ctx *gin.Context) {
 	db := ctx.MustGet("db").(*gorm.DB)
 
 	param := model.QuerySubmission{
-		ProblemID:	ctx.Query("problem"),
-		MemberID:	ctx.Query("member"),
+		ProblemID:	ctx.Query("problemId"),
+		MemberID:	ctx.Query("memberId"),
 		Language:	ctx.Query("language"),
 		Result:		ctx.Query("result"),
 	}

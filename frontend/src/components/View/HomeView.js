@@ -1,12 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Grid, Button } from '@material-ui/core';
-import {
-	PageHeader,
-	Dropdown,
-	SearchInput,
-	ProblemTable,
-	Pagination,
-} from '../UI';
+import { PageHeader, Dropdown, SearchInput, Table, Pagination } from '../UI';
 import { getTotalPageCount } from '../../function/PaginationManager';
 
 const mainTitle = '문제 선택';
@@ -94,7 +88,7 @@ const HomeView = ({ problems }) => {
 							</Grid>
 						</Grid>
 					</Grid>
-					<ProblemTable
+					<Table
 						head={tableHead}
 						rows={filterPb != null ? filterPb : tableBody}
 					/>

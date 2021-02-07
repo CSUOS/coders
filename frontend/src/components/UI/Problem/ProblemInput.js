@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Grid, Button } from '@material-ui/core';
-import { Prompt, useHistory, useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { EditorBox, NoticeDialog, LeavingGuard } from '..';
 
 const ProblemInput = ({ language, initValue, handleProblemCode }) => {
@@ -17,6 +17,7 @@ const ProblemInput = ({ language, initValue, handleProblemCode }) => {
 		`/problem/${id}`,
 		`/problem/${id}/rank`,
 		`/problem/${id}/score`,
+		`/login`,
 	];
 	const showNotice = () => {
 		setNotice(!notice);

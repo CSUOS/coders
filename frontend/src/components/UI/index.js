@@ -7,7 +7,6 @@ export { default as ProblemInput } from './Problem/ProblemInput';
 export { default as ProblemScore } from './Problem/ProblemScore';
 export { default as ProblemRank } from './Problem/ProblemRank';
 export { default as SelectForm } from './Problem/SelectForm';
-export { default as ProblemSubmitTable } from './Problem/ProblemSubmitTable';
 export { default as MarkdownViewer } from './Problem/MarkdownViewer';
 export { default as AccordianComment } from './Problem/AccordianComment';
 export { default as Comment } from './Comment';

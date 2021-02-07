@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Grid, Button } from '@material-ui/core';
+import { Grid, Button, CircularProgress } from '@material-ui/core';
 import FormatListNumberedIcon from '@material-ui/icons/FormatListNumbered';
 import { SelectForm, Table, Pagination } from '..';
 
@@ -26,7 +26,12 @@ const row = [
 ];
 const ProblemScore = ({ mySubmissions, handleMySubmissions }) => {
 	const { id } = useParams();
+	const [progress, setProgress] = useState(true);
+
 	useEffect(() => {
+		const timer = setInterval(() => {
+			setProgress(!progress);
+		}, 1000);
 		handleMySubmissions(id);
 	}, [id, mySubmissions]);
 	return (
@@ -35,7 +40,13 @@ const ProblemScore = ({ mySubmissions, handleMySubmissions }) => {
 				<FormatListNumberedIcon style={{ fontSize: '2rem' }} />
 				<b>채점 현황</b>
 			</Grid>
-			<Table head={head} rows={[row]} />
+			{progress ? (
+				<Grid className="problem-score-progress">
+					<CircularProgress color="inherit" />
+				</Grid>
+			) : (
+				<Table head={head} rows={[row]} />
+			)}
 			<Grid className="problem-score-info">
 				<FormatListNumberedIcon style={{ fontSize: '2rem' }} />
 				<b>나의 제출 현황</b>

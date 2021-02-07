@@ -8,6 +8,7 @@ import (
 
 	"net/http"
 	"strconv"
+	"time"
 
 	"gorm.io/gorm"
 
@@ -31,20 +32,10 @@ import (
 // @Router /submissions [get]
 func ListSubmissions(ctx *gin.Context) {
 	db := ctx.MustGet("db").(*gorm.DB)
-	var pid, mid int
-	var err error
-	if ctx.Query("problem") != "" {
-		pid, err = strconv.Atoi(ctx.Query("problem"))
-		httputil.CheckError(ctx, err)
-	}
-	if ctx.Query("member") != "" {
-		mid, err = strconv.Atoi(ctx.Query("member"))
-		httputil.CheckError(ctx, err)
-	}
 
 	param := model.QuerySubmission{
-		ProblemID:	pid,
-		MemberID:	mid,
+		ProblemID:	ctx.Query("problem"),
+		MemberID:	ctx.Query("member"),
 		Language:	ctx.Query("language"),
 		Result:		ctx.Query("result"),
 	}
@@ -56,8 +47,8 @@ func ListSubmissions(ctx *gin.Context) {
 }
 
 // ShowSubmission godoc
-// @Summary Show an Submission
-// @Description get string by ID
+// @Summary Show a Submission
+// @Description get Submission by ID
 // @Tags Submissions
 // @Accept  json
 // @Produce  json
@@ -69,17 +60,20 @@ func ListSubmissions(ctx *gin.Context) {
 // @Router /submissions/{id} [get]
 func ShowSubmission(ctx *gin.Context) {
 	db := ctx.MustGet("db").(*gorm.DB)
-	memberID := ctx.Param("id")
-	aid, err := strconv.Atoi(memberID)
+	subId := ctx.Param("id")
+
+	intSid, err := strconv.Atoi(subId)
 	if err != nil {
 		httputil.Error(ctx, http.StatusBadRequest, err)
 		return
 	}
-	Submission, err := model.SubmissionOne(db, aid)
+
+	Submission, err := model.SubmissionOne(db, intSid)
 	if err != nil {
 		httputil.Error(ctx, http.StatusNotFound, err)
 		return
 	}
+
 	ctx.JSON(http.StatusOK, Submission)
 }
 
@@ -109,10 +103,14 @@ func AddSubmission(ctx *gin.Context) {
 		ProblemID:    req.ProblemID,
 		Language:     req.Language,
 		Source:       req.Source,
+		// 첫 상태는 "채점 준비중"이고, 이후 채점기가
+		// "채점 준비중"이라고 표시된 Submission을 가져가 채점을 진행하게 됨.
+		Result:       "채점 준비중",
 		TimeLimit:    req.TimeLimit,
 		MemoryLimit:  req.MemoryLimit,
 		ShortCircuit: req.ShortCircuit,
 		Meta:         req.Meta,
+		CreatedAt:     time.Now(),
 	}
 	result, err := model.SubmissionInsert(db, Submission)
 	if err != nil {
@@ -130,11 +128,19 @@ func AddSubmission(ctx *gin.Context) {
 // @Produce  json
 // @Param  id path int true "Submission ID" Format(int64)
 // @Success 204 {object} model.Submission
-// @Failure 400 {object} httputil.HTTPError
+// @Failure 401 {object} httputil.HTTPError
 // @Failure 404 {object} httputil.HTTPError
 // @Failure 500 {object} httputil.HTTPError
 // @Router /submissions/{id} [delete]
 func DeleteSubmission(ctx *gin.Context) {
+	// 로그인되어있는지 확인
+	_, err := ParseValidAuthToken(ctx.Request)
+	if err != nil {
+		// 로그인되어있지 않다면 401 반환
+		ctx.AbortWithStatus(http.StatusUnauthorized)
+		return
+	}
+
 	db := ctx.MustGet("db").(*gorm.DB)
 	id := ctx.Param("id")
 	aid, err := strconv.Atoi(id)

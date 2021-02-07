@@ -1,6 +1,7 @@
 package model
 
 import (
+	"strconv"
 	"time"
 
 	"gorm.io/gorm"
@@ -34,8 +35,8 @@ type EditSubmission struct {
 }
 
 type QuerySubmission struct{
-	ProblemID    int   
-	MemberID     int   
+	ProblemID    string   
+	MemberID     string   
 	Language     string
 	Result       string
 }
@@ -43,7 +44,22 @@ type QuerySubmission struct{
 // SubmissionsQuery example
 func SubmissionsQuery(db *gorm.DB, query QuerySubmission) ([]Submission, error) {
 	var submissions []Submission
-	err := db.Where(&query).Find(&submissions).Error
+	queryColums := make(map[string]interface{})
+
+	if intPid, err := strconv.Atoi(query.ProblemID); err != nil {
+		queryColums["ProblemID"] = intPid
+	}
+	if intMid, err := strconv.Atoi(query.MemberID); err != nil {
+		queryColums["MemberID"] = intMid
+	}
+	if query.Language != "" {
+		queryColums["Language"] = query.Language
+	}
+	if query.Result != "" {
+		queryColums["Result"] = query.Result
+	}
+
+	err := db.Where(&queryColums).Find(&submissions).Error
 	return submissions, err
 }
 

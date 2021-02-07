@@ -14,8 +14,7 @@ type Problem struct {
 	MemoryLimit  int          `json:"memoryLimit" example:"128" format:"int64"`
 	ShortCircuit bool         `json:"shortCircuit" example:"false"`
 	MemberID     int          `json:"memberID" example:"1" format:"int64"`
-	Member       Member       `gorm:"ForeignKey:MemberID;"`
-	Submissions  []Submission `gorm:"ForeignKey:ProblemID";constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
+	Member    Member    `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
 }
 
 type EditProblem struct {

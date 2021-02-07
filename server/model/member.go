@@ -11,7 +11,6 @@ type Member struct {
 	Name string `json:"name" example:"Member name"`
 	Rank 	int		`json:"rank" example:"1" formant:"int64"`
 	Intro	string	`json:"intro" example:"Introduction which users set"`
-	Submissions []Submission `gorm:"ForeignKey:MemberID";constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
 }
 
 // EditMember adds or updates member record

@@ -19,6 +19,8 @@ type Submission struct {
 	ShortCircuit bool      `json:"shortCircuit" example:"false"`           
 	Meta         string    `json:"meta" example:"meta data"`
 	CreatedAt    time.Time `json:"createdAt"`
+	Member    Member    `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
+	Problem   Problem    `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
 }
 
 // EditSubmission 은 ID, CreatedAt, Result 컬럼이 없다

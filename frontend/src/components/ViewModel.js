@@ -43,13 +43,13 @@ const ViewModel = () => {
 
 	const submissions = useSubmissionsContext();
 	const setSubmissions = useSubmissionsDispatchContext();
-	const handleSubmissions = (id) => {
+	const handleSubmissions = (problemId, memberId, language) => {
 		setSubmissions(data.submit_log);
 	};
 
 	const mySubmissions = useMySubmissionsContext();
 	const setMySubmissions = useMySubmissionsDispatchContext();
-	const handleMySubmissions = (id) => {
+	const handleMySubmissions = (problemId, memberId, language) => {
 		setMySubmissions(data.mySubmit_log);
 	};
 

@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Grid, Button } from '@material-ui/core';
 import { SelectForm, SearchInput, Pagination } from '..';
 import Table from '../Table';
+import { getTotalPageCount } from '../../../function/PaginationManager';
 
 const head = [
 	'채점 번호',
@@ -19,6 +20,16 @@ const ProblemRank = ({ submissions, handleSubmissions }) => {
 	useEffect(() => {
 		handleSubmissions(id);
 	}, [id, submissions]);
+
+	// =============[ for pagination ] ===========================
+	const totalProblemCount = submissions.length;
+	const [currentPageIndex, setCurrentPageIndex] = useState(0);
+	const currentLimit = 10;
+	const totalPageCount = getTotalPageCount(totalProblemCount, currentLimit);
+	const handleCurrentPageIndex = (indexToMove) => {
+		setCurrentPageIndex(indexToMove);
+	};
+	// ===========================================================
 	return (
 		<Grid className="problemrank-container">
 			<Grid className="problemrank-input" container>
@@ -34,7 +45,11 @@ const ProblemRank = ({ submissions, handleSubmissions }) => {
 			</Grid>
 			<Table head={head} rows={submissions} />
 			<Grid className="problemrank-pagination">
-				<Pagination />
+				<Pagination
+					totalPageCount={totalPageCount}
+					currentPageIndex={currentPageIndex}
+					handleCurrentPageIndex={handleCurrentPageIndex}
+				/>
 			</Grid>
 		</Grid>
 	);

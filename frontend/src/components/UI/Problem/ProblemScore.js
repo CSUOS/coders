@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { Grid, Button, CircularProgress } from '@material-ui/core';
 import FormatListNumberedIcon from '@material-ui/icons/FormatListNumbered';
 import { SelectForm, Table, Pagination } from '..';
+import { getTotalPageCount } from '../../../function/PaginationManager';
 
 const head = [
 	'채점 번호',
@@ -34,6 +35,16 @@ const ProblemScore = ({ mySubmissions, handleMySubmissions }) => {
 		}, 1000);
 		handleMySubmissions(id);
 	}, [id, mySubmissions]);
+
+	// =============[ for pagination ] ===========================
+	const totalProblemCount = mySubmissions.length;
+	const [currentPageIndex, setCurrentPageIndex] = useState(0);
+	const currentLimit = 10;
+	const totalPageCount = getTotalPageCount(totalProblemCount, currentLimit);
+	const handleCurrentPageIndex = (indexToMove) => {
+		setCurrentPageIndex(indexToMove);
+	};
+	// ===========================================================
 	return (
 		<Grid className="problem-score" direction="column">
 			<Grid className="problem-score-info">
@@ -61,7 +72,11 @@ const ProblemScore = ({ mySubmissions, handleMySubmissions }) => {
 			</Grid>
 			<Table head={head} rows={mySubmissions} />
 			<Grid className="problem-score-pagination">
-				<Pagination />
+				<Pagination
+					totalPageCount={totalPageCount}
+					currentPageIndex={currentPageIndex}
+					handleCurrentPageIndex={handleCurrentPageIndex}
+				/>
 			</Grid>
 		</Grid>
 	);

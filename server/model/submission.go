@@ -14,6 +14,7 @@ type Submission struct {
 	ProblemID    int       `json:"problemId" example:"1" format:"int64"` // packet 에서는 problem-id
 	Language     string    `json:"language" example:"C11"`                // 참고: https://github.com/DMOJ/judge-server/tree/master/dmoj/executors
 	Source       string    `json:"source" example:"#include <stdio.h>" type:"text"`
+	IsJudging    bool      `json:"isJudging" example:"true"`
 	Result       string    `json:"result" example:"WA"`
 	TimeLimit    int       `json:"timeLimit" example:"1" format:"int64"`   
 	MemoryLimit  int       `json:"memoryLimit" example:"1" format:"int64"` 

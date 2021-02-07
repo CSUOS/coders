@@ -104,14 +104,16 @@ func AddSubmission(ctx *gin.Context) {
 		Language:     req.Language,
 		Source:       req.Source,
 		// 첫 상태는 "채점 준비중"이고, 이후 채점기가
-		// "채점 준비중"이라고 표시된 Submission을 가져가 채점을 진행하게 됨.
+		// IsJudging = true인 Submission을 가져가 채점을 진행하게 됨.
+		IsJudging:    true,
 		Result:       "채점 준비중",
 		TimeLimit:    req.TimeLimit,
 		MemoryLimit:  req.MemoryLimit,
 		ShortCircuit: req.ShortCircuit,
 		Meta:         req.Meta,
-		CreatedAt:     time.Now(),
+		CreatedAt:    time.Now(),
 	}
+
 	result, err := model.SubmissionInsert(db, Submission)
 	if err != nil {
 		httputil.Error(ctx, http.StatusBadRequest, err)

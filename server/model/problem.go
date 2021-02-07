@@ -27,6 +27,15 @@ type EditProblem struct {
 	MemberID     int    `json:"memberID" example:"1" format:"int64"`
 }
 
+type SubmittedProblem struct{
+	MemberID int		`json:"memberId"`
+	SubmissionID int	`json:"submissionId"`
+	ProblemID int		`json:"problemId"`
+	Title string		`json:"title"`
+	Class string		`json:"class"`
+	Result string		`json:"result"`
+}
+
 type PrintProblem struct {
 	Title string
 	Class string
@@ -81,6 +90,13 @@ func ProblemAll(db *gorm.DB, num int, page int, mid int, search string, sort str
 	}
 
 	return problem, err
+}
+
+// https://gorm.io/docs/query.html#Joins
+func ProblemSubmitted(db *gorm.DB, mid int, result string) ([]SubmittedProblem, error){
+	var submittedproblem []SubmittedProblem
+	err := db.Raw("select s.member_id, s.id, p.id, p.title, p.class, s.result from problems as p join submissions as s on s.problem_id = p.id where s.member_id = ? and result=?",mid, result).Scan(&submittedproblem).Error
+	return submittedproblem, err
 }
 
 func ProblemOne(db *gorm.DB, id int) (Problem, error) {

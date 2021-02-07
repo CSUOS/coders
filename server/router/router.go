@@ -14,7 +14,8 @@ func ApplyRoutes(r *gin.Engine) {
 	r.Use(sessions.Sessions("session", cookie.NewStore([]byte("secret"))))
 	r.GET("/ping", c.PingExample)
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
-
+	r.GET("/submitted", c.ListSubmittedProblems)
+	
 	v1 := r.Group("/api/v1")
 	{
 		members := v1.Group("/members")

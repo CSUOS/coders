@@ -38,7 +38,7 @@ func ListMembers(ctx *gin.Context) {
 }
 
 // ShowMember godoc
-// @Summary Show an Member
+// @Summary 사용자의 회원 정보 가져오기
 // @Description get string by ID
 // @Tags Members
 // @Accept  json
@@ -104,7 +104,7 @@ func AddMember(ctx *gin.Context) {
 
 
 // UpdateMember godoc
-// @Summary Update an Member
+// @Summary 사용자의 회원 정보 수정하기
 // @Description Update by json Member
 // @Tags Members
 // @Accept  json
@@ -117,13 +117,15 @@ func AddMember(ctx *gin.Context) {
 // @Failure 500 {object} httputil.HTTPError
 // @Router /members/{id} [patch]
 func UpdateMember(ctx *gin.Context) {
-	db := ctx.MustGet("db").(*gorm.DB)
-	id := ctx.Param("id")
-	aid, err := strconv.Atoi(id)
+	// 로그인되어있는지 확인
+	claims, err := ParseValidAuthToken(ctx.Request)
 	if err != nil {
-		httputil.Error(ctx, http.StatusBadRequest, err)
+		// 로그인되어있지 않다면 401 반환
+		ctx.AbortWithStatus(http.StatusUnauthorized)
 		return
 	}
+	db := ctx.MustGet("db").(*gorm.DB)
+	requesterId := int(claims["id"].(float64))
 
 	var req model.EditMember
 	if err := ctx.ShouldBindJSON(&req); err != nil {
@@ -132,7 +134,7 @@ func UpdateMember(ctx *gin.Context) {
 	}
 
 	member := model.Member{
-		ID:   aid,
+		ID:   requesterId,
 		Name: req.Name,
 		Intro: req.Intro,
 	}

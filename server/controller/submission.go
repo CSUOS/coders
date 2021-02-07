@@ -105,6 +105,7 @@ func AddSubmission(ctx *gin.Context) {
 		Source:       req.Source,
 		// 첫 상태는 "채점 준비중"이고, 이후 채점기가
 		// IsJudging = true인 Submission을 가져가 채점을 진행하게 됨.
+		// 채점이 완료되면 IsJudging이 false로 설정됨.
 		IsJudging:    true,
 		Result:       "채점 준비중",
 		TimeLimit:    req.TimeLimit,

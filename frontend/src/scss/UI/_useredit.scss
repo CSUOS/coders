@@ -1,0 +1,35 @@
+.user-edit {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding-bottom: 2%;
+  .edit-subtitle{
+    align-items: center;
+    border-radius: 3px;
+    border-left: 4px solid rgb(235, 15, 15);
+    width: 90%;
+    margin-bottom: 3%;
+    margin-left: 2%;
+    padding: 1% 1%;
+    .subtitle-icon{
+      color: rgb(235, 15, 15);
+    }
+    .subtitle-title{
+      font-size: 1.1rem;
+      margin-left: 8px;
+    }
+  }
+  .edit-title {
+    font-weight: bold;
+    position: absolute;
+    right: 60%;
+  }
+  .edit-content {
+    margin-left: 45%;
+  }
+  
+}
+.edit-btn {
+  display: flex;
+  justify-content: flex-end;
+}

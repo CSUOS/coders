@@ -1,0 +1,32 @@
+.problemrank-container {
+	width: 100%;
+
+	.problemrank-input {
+		display: flex;
+		justify-content: flex-start;
+		align-items: flex-end;
+		margin-bottom: 1%;
+		.problemrank-search {
+			margin-right: 1%;
+		}
+		.problemrank-textfield {
+			width: 20%;
+		}
+		.problemrank-iconbtn {
+			padding-bottom: 0%;
+		}
+		Button {
+			font-size: 1.2rem;
+			font-weight: 300;
+			text-align: end;
+			padding-bottom: 0%;
+		}
+	}
+	.problemrank-pagination {
+		width: 100%;
+		display: flex;
+		align-items: center;
+        justify-content: center;
+        margin-top: 1%;
+	}
+}

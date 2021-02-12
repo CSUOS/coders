@@ -1,0 +1,13 @@
+.accordion {
+	.arrow-icon {
+		margin: 0 auto;
+		transform: rotate(90deg);
+	}
+	.arrow-icon-on {
+		margin: 0 auto;
+		transform: rotate(-90deg);
+	}
+	.accordion-detail {
+		width: 100%;
+	}
+}

@@ -1,0 +1,12 @@
+.pageheader{
+	padding: 10px 17px;
+	margin : 0% 10%;
+	border-bottom: 1.8px solid $grey;
+	.pageheader-maintitle{
+		display: flex;
+		width: 100%;
+		align-items: center;
+		font-size: 30px;
+		font-weight: 700;
+	}
+}

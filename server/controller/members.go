@@ -24,6 +24,7 @@ import (
 // @Accept  json
 // @Produce  json
 // @Param name query string true "name"
+// @Param page query int false "page"
 // @Success 200 {array} model.Member
 // @Failure 400 {object} httputil.HTTPError
 // @Failure 404 {object} httputil.HTTPError

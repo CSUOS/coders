@@ -4,12 +4,13 @@ import (
 	"coders/httputil"
 	"coders/model"
 
-	"gorm.io/gorm"
-	"net/http"
-	"strconv"
-	"fmt"
-	"os"
 	"errors"
+	"fmt"
+	"net/http"
+	"os"
+	"strconv"
+
+	"gorm.io/gorm"
 
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
@@ -22,6 +23,7 @@ import (
 // @Tags Members
 // @Accept  json
 // @Produce  json
+// @Param name query string true "name"
 // @Success 200 {array} model.Member
 // @Failure 400 {object} httputil.HTTPError
 // @Failure 404 {object} httputil.HTTPError
@@ -29,7 +31,17 @@ import (
 // @Router /members [get]
 func ListMembers(ctx *gin.Context) {
 	db := ctx.MustGet("db").(*gorm.DB)
-	members, err := model.MembersAll(db)
+	var name string
+	var page int
+	var err error
+	if ctx.Query("page") != "" {
+		page, err = strconv.Atoi(ctx.Query("page"))
+		httputil.CheckError(ctx, err)
+	}
+	name = ctx.Query("name")
+
+	members, err := model.MembersQuery(db, name, page)
+
 	if err != nil {
 		httputil.Error(ctx, http.StatusNotFound, err)
 		return
@@ -91,7 +103,7 @@ func AddMember(ctx *gin.Context) {
 	}
 
 	member := model.Member{
-		Name: req.Name,
+		Name:  req.Name,
 		Intro: req.Intro,
 	}
 	result, err := model.Insert(db, member)
@@ -101,7 +113,6 @@ func AddMember(ctx *gin.Context) {
 	}
 	ctx.JSON(http.StatusOK, result)
 }
-
 
 // UpdateMember godoc
 // @Summary Update an Member
@@ -132,8 +143,8 @@ func UpdateMember(ctx *gin.Context) {
 	}
 
 	member := model.Member{
-		ID:   aid,
-		Name: req.Name,
+		ID:    aid,
+		Name:  req.Name,
 		Intro: req.Intro,
 	}
 	result, err := model.Update(db, member)
@@ -202,7 +213,7 @@ func Login(ctx *gin.Context) {
 		secret := GetSecret()
 		atClaims := jwt.MapClaims{}
 		atClaims["id"] = int(1)
-		atClaims["rank"] = int(1)
+		atClaims["member_rank"] = int(1)
 		atClaims["name"] = "홍길동"
 		atClaims["intro"] = "안녕하세요!"
 		accessToken := jwt.NewWithClaims(jwt.SigningMethodHS256, atClaims)
@@ -226,6 +237,7 @@ func Login(ctx *gin.Context) {
 		return
 	}
 }
+
 // GetSecret JWT 토큰을 발행하는데 필요한 secret을 .env에서 가져옴. 없을 경우 경고 메세지를 출력하고 기본값 사용
 func GetSecret() string {
 	err := godotenv.Load()
@@ -268,7 +280,7 @@ func ParseValidAuthToken(r *http.Request) (jwt.MapClaims, error) {
 	if !casted || !token.Valid {
 		return nil, errors.New("There's no valid auth token.")
 	}
-	
+
 	return claims, nil
 }
 

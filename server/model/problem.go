@@ -2,6 +2,7 @@ package model
 
 import (
 	"errors"
+
 	"gorm.io/gorm"
 )
 
@@ -29,8 +30,10 @@ type EditProblem struct {
 }
 
 type PrintProblem struct {
-	Title string
-	Class string
+	MemberID int
+	Total    int
+	Title    string
+	Class    string
 }
 
 var (
@@ -63,6 +66,9 @@ func ProblemAll(db *gorm.DB, num int, page int, mid int, search string, sort str
 	var err error
 
 	switch { // mid, search, sort의 공백 여부에 따라 분리
+	// mid == 0 && search == "" && sort != ""
+	case sort == "count(member_id) desc":
+		err = db.Model(&Problem{}).Order(sort).Limit(20).Offset(20*(page-1)).Select("member_id", "count(member_id) as total").Group("member_id").Find(&problem).Error
 	case mid == 0 && search == "" && sort == "":
 		err = db.Model(&Problem{}).Limit(num).Offset(num*(page-1)).Select("title", "class").Find(&problem).Error
 	case mid == 0 && search == "" && sort != "":

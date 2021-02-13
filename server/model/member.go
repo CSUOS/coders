@@ -2,33 +2,39 @@ package model
 
 import (
 	"errors"
+
 	"gorm.io/gorm"
 )
 
 // Member example
 type Member struct {
-	ID   int    `json:"id" example:"1" format:"int64" gorm:"autoIncrement"`
-	Name string `json:"name" example:"Member name"`
-	Rank 	int		`json:"rank" example:"1" formant:"int64"`
-	Intro	string	`json:"intro" example:"Introduction which users set"`
+	ID          int          `json:"id" example:"1" format:"int64" gorm:"autoIncrement"`
+	Name        string       `json:"name" example:"Member name"`
+	MemberRank  int          `json:"member_rank" example:"1" formant:"int64"`
+	Intro       string       `json:"intro" example:"Introduction which users set"`
 	Submissions []Submission `gorm:"ForeignKey:MemberID";constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
 }
 
 // EditMember adds or updates member record
 type EditMember struct {
-	Name 	string `json:"name" example:"Member name"`
-	Intro 	string `json:"intro" example:"Description which users set"`
+	Name  string `json:"name" example:"Member name"`
+	Intro string `json:"intro" example:"Description which users set"`
 }
 
 // LoginRequest tries to login
 type LoginRequest struct {
-	ID 			string 	`json:"id" example:"ID to login"`
-	Password	string	`json:"password" example:"Password to login"`
+	ID       string `json:"id" example:"ID to login"`
+	Password string `json:"password" example:"Password to login"`
+}
+
+type ResultMember struct {
+	Name  string
+	Intro string
 }
 
 //  example
 var (
-	ErrNameInvalid = errors.New("name is empty")
+	ErrNameInvalid  = errors.New("name is empty")
 	ErrLoginInvalid = errors.New("invalid login request")
 )
 
@@ -49,10 +55,10 @@ func (r LoginRequest) Validation() error {
 	return nil
 }
 
-// MembersAll example
-func MembersAll(db *gorm.DB) ([]Member, error) {
+// MembersQuery example
+func MembersQuery(db *gorm.DB, name string, page int) ([]Member, error) {
 	var members []Member
-	err := db.Find(&members).Error
+	err := db.Model(&Member{}).Limit(20).Offset(20*(page-1)).Where("name LIKE ?", "%"+name+"%").Find(&members).Error
 	return members, err
 }
 
@@ -62,7 +68,6 @@ func MemberOne(db *gorm.DB, id int) (Member, error) {
 	err := db.Where("id = ?", id).First(&member).Error
 	return member, err
 }
-
 
 // Insert example
 func Insert(db *gorm.DB, member Member) (Member, error) {
@@ -80,7 +85,7 @@ func Update(db *gorm.DB, member Member) (Member, error) {
 func Delete(db *gorm.DB, id int) error {
 	var member Member
 	err := db.Where("id=?", id).First(&member).Error
-	if err != nil{
+	if err != nil {
 		return err
 	}
 	err = db.Delete(&member).Error

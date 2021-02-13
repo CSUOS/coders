@@ -58,7 +58,13 @@ func (r LoginRequest) Validation() error {
 // MembersQuery example
 func MembersQuery(db *gorm.DB, name string, page int) ([]Member, error) {
 	var members []Member
-	err := db.Model(&Member{}).Limit(20).Offset(20*(page-1)).Where("name LIKE ?", "%"+name+"%").Find(&members).Error
+	var err error
+	if name != "" {
+		err = db.Model(&Member{}).Limit(20).Offset(20*(page-1)).Where("name LIKE ?", "%"+name+"%").Find(&members).Error
+	} else {
+		err = db.Model(&Member{}).Limit(20).Offset(20 * (page - 1)).Find(&members).Error
+	}
+
 	return members, err
 }
 

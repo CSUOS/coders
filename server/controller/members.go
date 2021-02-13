@@ -23,7 +23,7 @@ import (
 // @Tags Members
 // @Accept  json
 // @Produce  json
-// @Param name query string true "name"
+// @Param name query string false "name"
 // @Param page query int false "page"
 // @Success 200 {array} model.Member
 // @Failure 400 {object} httputil.HTTPError

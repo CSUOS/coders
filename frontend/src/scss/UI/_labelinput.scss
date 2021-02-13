@@ -1,0 +1,15 @@
+.labelinput{
+	display: flex;
+	padding-top: 10px;
+	justify-content: flex-start;
+	align-items: center;
+	.labelinput-label{
+		font-size: 1.2rem;
+		font-weight: bold;
+		position: absolute;
+    	left: 150px;
+	}
+	.labelinput-input{
+		margin-left: 120px;
+	}
+}

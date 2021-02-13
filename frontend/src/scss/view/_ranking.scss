@@ -1,0 +1,28 @@
+.ranking{
+	.ranking-container {
+		width: 100%;
+		height: 100%;
+		.ranking-content {
+			padding: 0% 10%;
+			width: 80%;
+			height: 100%;
+			.ranking-tableselector{
+				display: flex;
+				padding: 20px 17px;
+				justify-content: space-between;
+				.ranking-dropdowns{
+					display: flex;
+				}
+				.ranking-search {
+					display: flex;
+					justify-content: flex-start;
+					align-items: center;
+				}
+				.ranking-pagination {
+					display: flex;
+					justify-content: space-between;
+				}
+			}
+		}
+	}
+}

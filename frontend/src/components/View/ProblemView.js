@@ -43,6 +43,7 @@ const ProblemView = (props) => {
 	};
 	useEffect(() => {
 		handleProblemInfo(id);
+		handleComments(id);
 	}, [problemInfo, id]);
 	return (
 		<Grid className="problem">
@@ -132,10 +133,7 @@ const ProblemView = (props) => {
 					language={language}
 					handleProblemCode={handleProblemCode}
 				/>
-				<AccordianComment
-					comments={comments}
-					handleComments={handleComments}
-				/>
+				<AccordianComment comments={comments} />
 			</Grid>
 		</Grid>
 	);

@@ -17,7 +17,9 @@ const Comment = ({ userName, comment, createAt }) => {
 					<PersonIcon />
 					{userName}
 					<Typography className="created">
-						&nbsp;&nbsp;{createAt}&nbsp;&nbsp;
+						&nbsp;&nbsp;
+						{createAt.substr(0, 10)}&nbsp; {createAt.substr(11, 5)}
+						&nbsp;&nbsp;
 					</Typography>
 				</Typography>
 				<Grid>

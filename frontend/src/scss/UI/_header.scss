@@ -1,0 +1,22 @@
+.header {
+  display: flex;
+  padding: 0px 5px;
+  align-items: center;
+  border-bottom: 1px solid $grey;
+  font-size: 20px;
+  Button {
+    font-size: 25px;
+    font-weight: 700;
+  }
+  .header-buttons {
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
+    align-items: center;
+    Button {
+      font-size: inherit;
+	  font-weight: initial;
+	  margin-left: 15px;
+    }
+  }
+}

@@ -1,0 +1,35 @@
+.problem-score {
+	width: 100%;
+	height: 100%;
+	.problem-score-info {
+		display: flex;
+		align-items: flex-end;
+		font-size: 1.5rem;
+		margin: 10px 0;
+		.problem-score-text {
+			padding-bottom: 20px;
+		}
+	}
+	.problem-score-progress {
+		width: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+	.problem-score-order {
+		display: flex;
+		align-items: center;
+		Button {
+			font-size: 1.2rem;
+			font-weight: 300;
+			margin-bottom: 1%;
+		}
+	}
+	.problem-score-pagination {
+		width: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		margin-top: 1%;
+	}
+}

@@ -18,7 +18,7 @@ import (
 // @Produce  json
 // @Param num query int false "num"
 // @Param page query int false "page"
-// @Param member query int false "member ID"
+// @Param memberId query int false "member ID"
 // @Param sort query string false "sort"
 // @Param search query string false "search"
 // @Success 200 {array} model.Problem
@@ -40,8 +40,8 @@ func ListProblems(ctx *gin.Context) {
 		page, err = strconv.Atoi(ctx.Query("page"))
 		httputil.CheckError(ctx, err)
 	}
-	if ctx.Query("member") != "" {
-		mid, err = strconv.Atoi(ctx.Query("member"))
+	if ctx.Query("memberId") != "" {
+		mid, err = strconv.Atoi(ctx.Query("memberId"))
 		httputil.CheckError(ctx, err)
 	}
 	search = ctx.Query("search")

@@ -1,0 +1,21 @@
+.comment-container {
+	width: 100%;
+	border: 1px solid $light-grey;
+	.comment-header {
+		display: flex;
+		align-items: center;
+		//justify-content: space-around;
+		.user {
+			font-size: 1.2rem;
+			display: flex;
+			align-items: center;
+			.created {
+				font-size: 0.7rem;
+				color: $grey;
+			}
+		}
+	}
+	.comment {
+		padding: 1% 2%;
+	}
+}

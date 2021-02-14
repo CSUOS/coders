@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 
 import { Grid } from '@material-ui/core';
 import { Route } from 'react-router-dom';
-
+import axios from 'axios';
+import jwt from 'jsonwebtoken';
 import { Home, Login, User, Problem, Question, Rangking, Submit } from './View';
 import { Header, MenuBar } from './UI';
 import data from '../data.json';
@@ -31,14 +32,25 @@ const ViewModel = () => {
 
 	const problemInfo = usePInfoContext();
 	const setProblemInfo = usePInfoDispatchContext();
-	const handleProblemInfo = (id) => {
-		setProblemInfo(data.problem_info[id - 1].desc); // get요청으로 바꿀 예정
+	const handleProblemInfo = async (id) => {
+		try {
+			const info = await axios.get(`/api/v1/problems/${id}`);
+			setProblemInfo(info.data.desc);
+		} catch (e) {
+			setProblemInfo(null);
+		}
 	};
 
 	const comments = useCommentsContext();
 	const setComments = useCommentsDispatchContext();
-	const handleComments = (id) => {
-		setComments(data.P_Comment);
+	const handleComments = async (id) => {
+		try {
+			const info = await axios.get(`/api/v1/pcomments/${id}`);
+			console.log(info.data);
+			setComments(info.data);
+		} catch (e) {
+			setComments(null);
+		}
 	};
 
 	const submissions = useSubmissionsContext();

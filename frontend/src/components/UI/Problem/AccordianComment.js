@@ -18,15 +18,12 @@ const Accordion = withStyles({
 	expanded: {},
 })(MuiAccordion);
 
-const AccordianComment = ({ comments, handleComments }) => {
+const AccordianComment = ({ comments }) => {
 	const { id } = useParams();
 	const [open, setOpen] = useState(false);
 	const handleClick = () => {
 		setOpen(!open);
 	};
-	useEffect(() => {
-		handleComments(id);
-	}, [comments, id]);
 	return (
 		<Grid xs={6}>
 			<Accordion className="accordion">

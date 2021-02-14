@@ -1,0 +1,16 @@
+.input-box {
+  padding: 1% 0%;
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  .input-content {
+    margin-left: 120px;
+  }
+  .title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    position: absolute;
+    left: 150px;
+  }
+}

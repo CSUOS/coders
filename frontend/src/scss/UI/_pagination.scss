@@ -1,0 +1,26 @@
+.pagination{
+	display: inline-flex;
+	.pagination-button{
+		margin-right: 10px;
+		width: 40px;
+		height: 40px;
+		border-radius: 5px;
+		border: 0;
+		font-size: 16px;
+		&:hover, &:active, &:focus{
+			outline: none;
+		}
+		&.not-disabled {
+			&:hover, &:active, &:focus{
+				cursor: pointer;
+				background-color: #3498db;
+				color: white;
+			}
+		}
+		&.selected{
+			cursor: pointer;
+			background-color: #3498db;
+			color: white;
+		}
+	}
+}

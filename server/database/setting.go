@@ -14,7 +14,9 @@ import (
 
 // Initialize database setting
 func Initialize(DBCONFIG string) (*gorm.DB, error) {
-	db, err := gorm.Open(mysql.Open(DBCONFIG), &gorm.Config{})
+	db, err := gorm.Open(mysql.Open(DBCONFIG), &gorm.Config{
+		DisableForeignKeyConstraintWhenMigrating: false,
+	})
 	if err != nil {
 		panic(err)
 	}

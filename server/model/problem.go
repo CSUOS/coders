@@ -69,7 +69,7 @@ func ProblemAll(db *gorm.DB, num int, page int, mid int, search string, sort str
 		db = db.Where("member_id = ?", mid)
 	}
 	if search != "" {
-		db = db.Table("problems").Where("title LIKE ? OR class LIKE ? OR description LIKE ?", "%"+search+"%", "%"+search+"%", "%"+search+"%")
+		db = db.Where("title LIKE ? OR class LIKE ? OR description LIKE ?", "%"+search+"%", "%"+search+"%", "%"+search+"%")
 	}
 	if sort != "" {
 		db = db.Order(sort)

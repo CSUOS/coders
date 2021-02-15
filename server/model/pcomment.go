@@ -14,7 +14,7 @@ type PComment struct {
 	MemberID  int       `json:"userId" example:"1" format:"int64"`
 	ProblemID int       `json:"problemId" example:"1" format:"int64"`
 	Text      string    `json:"text" example:"problem comment"`
-	CreateAt  time.Time `json:"createdAt"`
+	CreatedAt time.Time `json:"createdAt"`
 	Edited    bool      `json:"edited" example:"false"`
 	Deleted   bool      `json:"deleted" example:"false"`
 	Member    Member    `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`

@@ -30,7 +30,7 @@ func ListPComments(ctx *gin.Context) {
 	db := ctx.MustGet("db").(*gorm.DB)
 	problemIdStr := ctx.Param("id")
 	problemId, err := strconv.Atoi(problemIdStr)
-  
+
 	if err != nil {
 		httputil.Error(ctx, http.StatusBadRequest, err)
 		return
@@ -93,11 +93,11 @@ func AddPComment(ctx *gin.Context) {
 	}
 
 	pcomment := model.PComment{
-		Text:    req.Text,
-		CreateAt: time.Now(),
-		Edited:  req.Edited,
-		Deleted: req.Deleted,
-		MemberID: requesterId,
+		Text:      req.Text,
+		CreatedAt: time.Now(),
+		Edited:    req.Edited,
+		Deleted:   req.Deleted,
+		MemberID:  requesterId,
 		ProblemID: req.ProblemID,
 	}
 	result, err := model.PCommentInsert(db, pcomment)
@@ -142,7 +142,7 @@ func UpdatePComment(ctx *gin.Context) {
 
 	comment, err := model.PCommentOne(db, commentId)
 	requesterId := int(claims["id"].(float64))
-	
+
 	// 댓글의 작성자와 수정을 요청한 유저가 동일한 사람인지 확인
 	if comment.MemberID != requesterId {
 		ctx.AbortWithStatus(http.StatusUnauthorized)
@@ -204,13 +204,13 @@ func DeletePComment(ctx *gin.Context) {
 
 	comment, err := model.PCommentOne(db, commentId)
 	requesterId := int(claims["id"].(float64))
-	
+
 	// 댓글의 작성자와 삭제를 요청한 유저가 동일한 사람인지 확인
 	if comment.MemberID != requesterId {
 		ctx.AbortWithStatus(http.StatusUnauthorized)
 		return
 	}
-	
+
 	err = model.PCommentDelete(db, commentId)
 	if err != nil {
 		httputil.Error(ctx, http.StatusNotFound, err)

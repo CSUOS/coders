@@ -1,6 +1,7 @@
 package model
 
 import (
+	"strconv"
 	"time"
 
 	"gorm.io/gorm"
@@ -13,6 +14,7 @@ type Submission struct {
 	ProblemID    int       `json:"problemId" example:"1" format:"int64"` // packet 에서는 problem-id
 	Language     string    `json:"language" example:"C11"`                // 참고: https://github.com/DMOJ/judge-server/tree/master/dmoj/executors
 	Source       string    `json:"source" example:"#include <stdio.h>" type:"text"`
+	IsJudging    bool      `json:"isJudging" example:"true"`
 	Result       string    `json:"result" example:"WA"`
 	TimeLimit    int       `json:"timeLimit" example:"1" format:"int64"`   
 	MemoryLimit  int       `json:"memoryLimit" example:"1" format:"int64"` 
@@ -36,8 +38,8 @@ type EditSubmission struct {
 }
 
 type QuerySubmission struct{
-	ProblemID    int   
-	MemberID     int   
+	ProblemID    string   
+	MemberID     string   
 	Language     string
 	Result       string
 }
@@ -45,7 +47,21 @@ type QuerySubmission struct{
 // SubmissionsQuery example
 func SubmissionsQuery(db *gorm.DB, query QuerySubmission) ([]Submission, error) {
 	var submissions []Submission
-	err := db.Where(&query).Find(&submissions).Error
+
+	if intPid, err := strconv.Atoi(query.ProblemID); query.ProblemID != "" && err != nil {
+		db = db.Where("problem_id = ?", intPid)
+	}
+	if intMid, err := strconv.Atoi(query.MemberID); query.MemberID != "" &&  err != nil {
+		db = db.Where("member_id = ?", intMid)
+	}
+	if query.Language != "" {
+		db = db.Where("language = ?", query.Language)
+	}
+	if query.Result != "" {
+		db = db.Where("result = ?", query.Result)
+	}
+
+	err := db.Find(&submissions).Error
 	return submissions, err
 }
 

@@ -35,7 +35,7 @@ const ViewModel = () => {
 	const handleProblemInfo = async (id) => {
 		try {
 			const info = await axios.get(`/api/v1/problems/${id}`);
-			setProblemInfo(info.data.desc);
+			setProblemInfo(info.data.description);
 		} catch (e) {
 			setProblemInfo(null);
 		}
@@ -43,13 +43,60 @@ const ViewModel = () => {
 
 	const comments = useCommentsContext();
 	const setComments = useCommentsDispatchContext();
-	const handleComments = async (id) => {
-		try {
-			const info = await axios.get(`/api/v1/pcomments/${id}`);
-			console.log(info.data);
-			setComments(info.data);
-		} catch (e) {
-			setComments(null);
+	const handleComments = async (type, commentData) => {
+		switch (type) {
+			case 'get':
+				try {
+					const info = await axios.get(
+						`/api/v1/pcomments/${commentData}`
+					);
+					setComments(info.data);
+				} catch (e) {
+					setComments(undefined);
+				}
+				break;
+			case 'post':
+				try {
+					await axios.post(`/api/v1/pcomments`, commentData);
+					const info = await axios.get(
+						`/api/v1/pcomments/${commentData.problemId}`
+					);
+					setComments(info.data);
+				} catch (e) {
+					console.log(e);
+					setComments(undefined);
+				}
+				break;
+			case 'delete':
+				try {
+					await axios.delete(
+						`/api/v1/pcomments/${commentData.commentId}`
+					);
+					const info = await axios.get(
+						`/api/v1/pcomments/${commentData.problemId}`
+					);
+					setComments(info.data);
+				} catch (e) {
+					setComments(undefined);
+				}
+				break;
+			case 'patch':
+				try {
+					await axios.patch(
+						`/api/v1/pcomments/${commentData.commentId}`,
+						commentData
+					);
+					const info = await axios.get(
+						`/api/v1/pcomments/${commentData.problemId}`
+					);
+					setComments(info.data);
+				} catch (e) {
+					setComments(undefined);
+				}
+				break;
+
+			default:
+				break;
 		}
 	};
 

@@ -4,24 +4,25 @@ import { Comment } from '.';
 import GetToken from '../../function/GetToken';
 
 const CommentForm = ({ comments, handleComments }) => {
-	if (GetToken === undefined) {
-		return undefined;
-	}
 	const [cmt, setText] = useState('');
-	const { id, name } = GetToken();
 	// const { id, name } = GetToken();
 	// 댓글 post 함수
 	const handlePost = () => {
 		if (cmt !== '') {
-			const commentData = {
-				deleted: false,
-				edited: false,
-				problemId: id,
-				text: cmt,
-				userId: 1, // user name 추가 예정
-			};
-			handleComments('post', commentData);
-			setText('');
+			try {
+				const { id, name } = GetToken();
+				const commentData = {
+					deleted: false,
+					edited: false,
+					problemId: id,
+					text: cmt,
+					userId: 1, // user name 추가 예정
+				};
+				handleComments('post', commentData);
+				setText('');
+			} catch {
+				alert('로그인을 해주세요.');
+			}
 		}
 	};
 

@@ -17,7 +17,7 @@ const head = [
 const ProblemRank = ({ submissions, handleSubmissions }) => {
 	const { id } = useParams();
 	useEffect(() => {
-		handleSubmissions({ problemId: id, language: 'c11', memberId: '1' });
+		handleSubmissions({ problemId: id, language: 'c11' });
 	}, []);
 
 	// =============[ for pagination ] ===========================
@@ -42,7 +42,7 @@ const ProblemRank = ({ submissions, handleSubmissions }) => {
 				<Button size="small">↓ 메모리로 정렬</Button>
 				<Button size="small">↓ 시간으로 정렬</Button>
 			</Grid>
-			<Table head={head} rows={GetSubmissions(submissions)} />
+			<Table head={head} rows={GetSubmissions(submissions, true)} />
 			<Grid className="problemrank-pagination">
 				<Pagination
 					totalPageCount={totalPageCount}

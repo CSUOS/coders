@@ -5,7 +5,6 @@ import { Route } from 'react-router-dom';
 import axios from 'axios';
 import { Home, Login, User, Problem, Question, Rangking, Submit } from './View';
 import { Header, MenuBar } from './UI';
-import data from '../data.json';
 import {
 	useProblemDataContext,
 	useProblemDispatchContext,
@@ -122,8 +121,15 @@ const ViewModel = () => {
 
 	const mySubmissions = useMySubmissionsContext();
 	const setMySubmissions = useMySubmissionsDispatchContext();
-	const handleMySubmissions = (problemId, memberId, language) => {
-		setMySubmissions(data.mySubmit_log);
+	const handleMySubmissions = async (props) => {
+		const { problemId, memberId } = props;
+		const url = `/api/v1/submissions?memberId=${memberId}&problemId=${problemId}`;
+		try {
+			const info = await axios.get(url);
+			setMySubmissions(info.data);
+		} catch (e) {
+			console.log(e);
+		}
 	};
 
 	const problemCode = useProblemCodeContext();

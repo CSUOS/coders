@@ -122,6 +122,7 @@ const ProblemView = (props) => {
 						path="/problem/:id/score"
 						render={() => (
 							<ProblemScore
+								problemId={id}
 								mySubmissions={mySubmissions}
 								handleMySubmissions={handleMySubmissions}
 							/>

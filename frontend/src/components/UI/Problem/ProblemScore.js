@@ -3,38 +3,29 @@ import { useParams } from 'react-router-dom';
 import { Grid, Button, CircularProgress } from '@material-ui/core';
 import FormatListNumberedIcon from '@material-ui/icons/FormatListNumbered';
 import { SelectForm, Table, Pagination } from '..';
-import { getTotalPageCount } from '../../../function/PaginationManager';
-
-const head = [
-	'채점 번호',
-	'아이디',
-	'결과',
-	'메모리',
-	'시간',
-	'언어',
-	'코드 길이',
-	'제출한 시간',
-];
-const row = [
-	'3',
-	'gusrb',
-	'Accepted',
-	'1KB',
-	'1ms',
-	'Python3',
-	'16B',
-	'3달 전',
-];
+import {
+	getTotalPageCount,
+	GetToken,
+	GetSubmissions,
+} from '../../../function/index';
+// name 추가예정
+const head = ['채점 번호', '결과', '메모리', '시간', '언어', '제출한 시간'];
+const row = ['3', 'Accepted', '1KB', '1ms', 'Python3', '3달 전'];
 const ProblemScore = ({ mySubmissions, handleMySubmissions }) => {
-	const { id } = useParams();
 	const [progress, setProgress] = useState(true);
-
+	const token = GetToken();
+	const { id } = useParams();
 	useEffect(() => {
-		const timer = setInterval(() => {
-			setProgress(!progress);
-		}, 1000);
-		handleMySubmissions(id);
-	}, [id, mySubmissions]);
+		try {
+			const { id: memberId, name } = token;
+			const timer = setInterval(() => {
+				setProgress(!progress);
+			}, 1000);
+			handleMySubmissions({ problemId: id, memberId });
+		} catch (e) {
+			console.log(e);
+		}
+	}, []);
 
 	// =============[ for pagination ] ===========================
 	const totalProblemCount = mySubmissions.length;
@@ -70,7 +61,7 @@ const ProblemScore = ({ mySubmissions, handleMySubmissions }) => {
 				<Button size="small">↓ 메모리로 정렬</Button>
 				<Button size="small">↓ 시간으로 정렬</Button>
 			</Grid>
-			<Table head={head} rows={mySubmissions} />
+			<Table head={head} rows={GetSubmissions(mySubmissions, false)} />
 			<Grid className="problem-score-pagination">
 				<Pagination
 					totalPageCount={totalPageCount}

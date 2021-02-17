@@ -5,12 +5,12 @@ import GetToken from '../../function/GetToken';
 
 const CommentForm = ({ comments, handleComments }) => {
 	const [cmt, setText] = useState('');
-	// const { id, name } = GetToken();
-	// 댓글 post 함수
+	const token = GetToken();
+
 	const handlePost = () => {
 		if (cmt !== '') {
 			try {
-				const { id, name } = GetToken();
+				const { id, name } = token;
 				const commentData = {
 					deleted: false,
 					edited: false,
@@ -20,7 +20,8 @@ const CommentForm = ({ comments, handleComments }) => {
 				};
 				handleComments('post', commentData);
 				setText('');
-			} catch {
+			} catch (e) {
+				console.log(e);
 				alert('로그인을 해주세요.');
 			}
 		}
@@ -34,6 +35,7 @@ const CommentForm = ({ comments, handleComments }) => {
 					label="comment"
 					multiline
 					variant="outlined"
+					value={cmt}
 					onChange={(e) => {
 						setText(e.target.value);
 					}}

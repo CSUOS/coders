@@ -119,7 +119,7 @@ const MySubmissionsContext = createContext();
 const MySubmissionsDispatchContext = createContext();
 
 export const MySubmissionsContextProvider = ({ children }) => {
-	const [mySubmissions, setMySubmissions] = useState(mySubmitLog);
+	const [mySubmissions, setMySubmissions] = useState([]);
 	return (
 		<MySubmissionsContext.Provider value={mySubmissions}>
 			<MySubmissionsDispatchContext.Provider value={setMySubmissions}>

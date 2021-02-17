@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import { Grid } from '@material-ui/core';
 import { Route } from 'react-router-dom';
 import axios from 'axios';
-import jwt from 'jsonwebtoken';
 import { Home, Login, User, Problem, Question, Rangking, Submit } from './View';
 import { Header, MenuBar } from './UI';
 import data from '../data.json';
@@ -26,7 +25,6 @@ import {
 
 const ViewModel = () => {
 	const userName = '사용자';
-
 	const problems = useProblemDataContext();
 	const setProblem = useProblemDispatchContext();
 
@@ -102,8 +100,24 @@ const ViewModel = () => {
 
 	const submissions = useSubmissionsContext();
 	const setSubmissions = useSubmissionsDispatchContext();
-	const handleSubmissions = (problemId, memberId, language) => {
-		setSubmissions(data.submit_log);
+	// 특정 문제의 모든 정답기록 가져오기
+	const handleSubmissions = async (props) => {
+		const { problemId, language, memberId } = props;
+		let url = `/api/v1/submissions?result=AC&problemId=${problemId}`;
+		if (language !== undefined) {
+			url = url.concat('&language=', language);
+		}
+		if (memberId !== undefined) {
+			url = url.concat('&memberId=', memberId);
+		}
+		console.log(url);
+		try {
+			const info = await axios.get(url);
+			console.log(info);
+			setSubmissions(info.data);
+		} catch (e) {
+			console.log(e);
+		}
 	};
 
 	const mySubmissions = useMySubmissionsContext();

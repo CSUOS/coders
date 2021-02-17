@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { CookiesProvider } from 'react-cookie';
 import {
 	CommentsContextProvider,
 	ProblemContextProvider,
@@ -12,21 +12,23 @@ import {
 import ViewModel from './ViewModel';
 
 const Provider = () => (
-	<ProblemCodeContextProvider>
-		<SubmissionsContextProvider>
-			<MySubmissionsContextProvider>
-				<UserContextProvider>
-					<CommentsContextProvider>
-						<ProblemContextProvider>
-							<ProblemInfoContextProvider>
-								<ViewModel />
-							</ProblemInfoContextProvider>
-						</ProblemContextProvider>
-					</CommentsContextProvider>
-				</UserContextProvider>
-			</MySubmissionsContextProvider>
-		</SubmissionsContextProvider>
-	</ProblemCodeContextProvider>
+	<CookiesProvider>
+		<ProblemCodeContextProvider>
+			<SubmissionsContextProvider>
+				<MySubmissionsContextProvider>
+					<UserContextProvider>
+						<CommentsContextProvider>
+							<ProblemContextProvider>
+								<ProblemInfoContextProvider>
+									<ViewModel />
+								</ProblemInfoContextProvider>
+							</ProblemContextProvider>
+						</CommentsContextProvider>
+					</UserContextProvider>
+				</MySubmissionsContextProvider>
+			</SubmissionsContextProvider>
+		</ProblemCodeContextProvider>
+	</CookiesProvider>
 );
 
 export default Provider;

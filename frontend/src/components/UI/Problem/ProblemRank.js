@@ -3,23 +3,22 @@ import { useParams } from 'react-router-dom';
 import { Grid, Button } from '@material-ui/core';
 import { SelectForm, SearchInput, Pagination } from '..';
 import Table from '../Table';
-import { getTotalPageCount } from '../../../function/PaginationManager';
+import { getTotalPageCount, GetSubmissions } from '../../../function/index';
 
 const head = [
 	'채점 번호',
-	'아이디',
+	// '아이디', 추가예정
 	'메모리',
 	'시간',
 	'언어',
-	'코드 길이',
 	'제출한 시간',
 ];
 
 const ProblemRank = ({ submissions, handleSubmissions }) => {
 	const { id } = useParams();
 	useEffect(() => {
-		handleSubmissions(id);
-	}, [id, submissions]);
+		handleSubmissions({ problemId: id, language: 'c11', memberId: '1' });
+	}, []);
 
 	// =============[ for pagination ] ===========================
 	const totalProblemCount = submissions.length;
@@ -43,7 +42,7 @@ const ProblemRank = ({ submissions, handleSubmissions }) => {
 				<Button size="small">↓ 메모리로 정렬</Button>
 				<Button size="small">↓ 시간으로 정렬</Button>
 			</Grid>
-			<Table head={head} rows={submissions} />
+			<Table head={head} rows={GetSubmissions(submissions)} />
 			<Grid className="problemrank-pagination">
 				<Pagination
 					totalPageCount={totalPageCount}

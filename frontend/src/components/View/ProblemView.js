@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Grid, Button, IconButton, Typography } from '@material-ui/core';
-import { Route, Link, useParams, useHistory } from 'react-router-dom';
+import { Route, Link, useParams } from 'react-router-dom';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
 import Star from '@material-ui/icons/Star';
 import ThumbUp from '@material-ui/icons/ThumbUp';
@@ -34,7 +34,6 @@ const ProblemView = (props) => {
 	const clickStar = () => {
 		setStar(!star);
 	};
-
 	const clickLike = () => {
 		setLike(!like);
 	};
@@ -44,7 +43,7 @@ const ProblemView = (props) => {
 	useEffect(() => {
 		handleProblemInfo(id);
 		handleComments('get', id);
-	}, [problemInfo, id]);
+	}, []);
 	return (
 		<Grid className="problem">
 			<Grid container direction="row" className="problem-container">
@@ -95,6 +94,7 @@ const ProblemView = (props) => {
 					</Grid>
 				</Grid>
 				<Grid className="problem-bar">
+					{/* 지원언어 : C11, CPP20, JAVA8, PY3 */}
 					<SelectForm
 						defaultValue="C++"
 						values={['C++', 'Java', 'Python']}

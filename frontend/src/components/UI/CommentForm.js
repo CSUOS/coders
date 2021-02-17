@@ -1,18 +1,24 @@
 import React, { useState } from 'react';
 import { Grid, TextField, Button } from '@material-ui/core';
 import { Comment } from '.';
+import GetToken from '../../function/GetToken';
 
-const CommentForm = ({ pId, comments, handleComments }) => {
+const CommentForm = ({ comments, handleComments }) => {
+	if (GetToken === undefined) {
+		return undefined;
+	}
 	const [cmt, setText] = useState('');
+	const { id, name } = GetToken();
+	// const { id, name } = GetToken();
 	// 댓글 post 함수
 	const handlePost = () => {
 		if (cmt !== '') {
 			const commentData = {
 				deleted: false,
 				edited: false,
-				problemId: Number(pId),
+				problemId: id,
 				text: cmt,
-				userId: 1, // 토큰 id로 바꿀 예정
+				userId: 1, // user name 추가 예정
 			};
 			handleComments('post', commentData);
 			setText('');

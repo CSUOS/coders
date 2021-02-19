@@ -16,8 +16,8 @@ import {
 	useSubmissionsDispatchContext,
 	useMySubmissionsContext,
 	useMySubmissionsDispatchContext,
-	useProblemCodeContext,
-	useProblemCodeDispatchContext,
+	useProblemResultContext,
+	useProblemResultDispatchContext,
 	useUserDataContext,
 	useUserDispatchContext,
 } from './Model';
@@ -60,8 +60,7 @@ const ViewModel = () => {
 					);
 					setComments(info.data);
 				} catch (e) {
-					console.log(e);
-					setComments(undefined);
+					// setComments(undefined);
 				}
 				break;
 			case 'delete':
@@ -74,7 +73,7 @@ const ViewModel = () => {
 					);
 					setComments(info.data);
 				} catch (e) {
-					setComments(undefined);
+					// setComments(undefined);
 				}
 				break;
 			case 'patch':
@@ -88,7 +87,7 @@ const ViewModel = () => {
 					);
 					setComments(info.data);
 				} catch (e) {
-					setComments(undefined);
+					// setComments(undefined);
 				}
 				break;
 
@@ -132,11 +131,33 @@ const ViewModel = () => {
 		}
 	};
 
-	const problemCode = useProblemCodeContext();
-	const setProblemCode = useProblemCodeDispatchContext();
-	const handleProblemCode = (id, lang, text) => {
-		setProblemCode(text);
-		console.log('id :', id, ', language : ', lang, ',code : ', text);
+	const problemResult = useProblemResultContext();
+	const setProblemResult = useProblemResultDispatchContext();
+	const handleProblemResult = async (props) => {
+		const { language, source, memberId, meta, problemId } = props;
+
+		try {
+			// 제출 전 해당 문제의 정보 저장
+			const { data } = await axios.get(`/api/v1/problems/${problemId}`);
+			const postData = props;
+			postData.timeLimit = data.timeLimit;
+			postData.memoryLimit = data.memoryLimit;
+			postData.shortCircuit = data.shortCircuit;
+
+			// 문제 제출후 받아온 제출 번호를 통해 제출 상태 확인
+			const { data: problem } = await axios.post(
+				`/api/v1/submissions`,
+				postData
+			);
+			// 해당 로직에서 달성률이 100이 되는동안 1초간격 반복하는 로직으로 바꿀 예정
+			const result = await axios.get(`/api/v1/submissions/${problem.id}`);
+			setProblemResult(result.data);
+		} catch (e) {
+			console.log(e);
+		}
+
+		// setProblemCode(text);
+		// console.log('id :', id, ', language : ', lang, ',code : ', text);
 	};
 
 	const users = useUserDataContext();
@@ -171,8 +192,8 @@ const ViewModel = () => {
 							handleSubmissions={handleSubmissions}
 							mySubmissions={mySubmissions}
 							handleMySubmissions={handleMySubmissions}
-							problemCode={problemCode}
-							handleProblemCode={handleProblemCode}
+							problemResult={problemResult}
+							handleProblemResult={handleProblemResult}
 						/>
 					)}
 				/>

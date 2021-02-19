@@ -24,8 +24,8 @@ const ProblemView = (props) => {
 		handleSubmissions,
 		mySubmissions,
 		handleMySubmissions,
-		problemCode,
-		handleProblemCode,
+		problemResult,
+		handleProblemResult,
 	} = props;
 	const { id } = useParams();
 	const [star, setStar] = useState(false);
@@ -94,10 +94,10 @@ const ProblemView = (props) => {
 					</Grid>
 				</Grid>
 				<Grid className="problem-bar">
-					{/* 지원언어 : C11, CPP20, JAVA8, PY3 */}
+					{/* 현재 지원언어 : C11, CPP20, JAVA8, PY3 */}
 					<SelectForm
-						defaultValue="C++"
-						values={['C++', 'Java', 'Python']}
+						defaultValue="C11"
+						values={['C11', 'Java8', 'Python3', 'C++20']}
 						handelChange={changeLang}
 					/>
 				</Grid>
@@ -122,7 +122,7 @@ const ProblemView = (props) => {
 						path="/problem/:id/score"
 						render={() => (
 							<ProblemScore
-								problemId={id}
+								problemResult={problemResult}
 								mySubmissions={mySubmissions}
 								handleMySubmissions={handleMySubmissions}
 							/>
@@ -132,7 +132,7 @@ const ProblemView = (props) => {
 				{/* ace Editor 소스 코드 입력 */}
 				<ProblemInput
 					language={language}
-					handleProblemCode={handleProblemCode}
+					handleProblemResult={handleProblemResult}
 				/>
 				<AccordianComment
 					pId={id}

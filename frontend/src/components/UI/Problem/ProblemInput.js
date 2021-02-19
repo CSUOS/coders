@@ -2,35 +2,40 @@ import React, { useState } from 'react';
 import { Grid, Button } from '@material-ui/core';
 import { useHistory, useParams } from 'react-router-dom';
 import { EditorBox, NoticeDialog, LeavingGuard } from '..';
+import GetToken from '../../../function/GetToken';
 
-const ProblemInput = ({ language, initValue, handleProblemCode }) => {
-	const { id } = useParams();
+const ProblemInput = ({ language, initValue, handleProblemResult }) => {
+	const { id: problemId } = useParams();
+	const { id: memberId } = GetToken();
 	const styles = { width: '100%', height: '90%' };
-	// 제출하려는 값 관리
+	// 제출하려는 코드 관리
 	const [currentCode, setCurrentCode] = useState(initValue);
-	// input 언어 설정
-	let lang = 'c_cpp';
 	const [notice, setNotice] = useState(false);
 	const [guard, setGuard] = useState(true);
 	const history = useHistory();
 	const samePage = [
-		`/problem/${id}`,
-		`/problem/${id}/rank`,
-		`/problem/${id}/score`,
+		`/problem/${problemId}`,
+		`/problem/${problemId}/rank`,
+		`/problem/${problemId}/score`,
 		`/login`,
 	];
 	const showNotice = () => {
 		setNotice(!notice);
 	};
+	// input 언어 설정
+	let lang = 'C11';
 	switch (language) {
-		case 'C++':
-			lang = 'c_cpp';
+		case 'C11':
+			lang = 'C11';
 			break;
-		case 'Java':
-			lang = 'java';
+		case 'Java8':
+			lang = 'Java8';
 			break;
-		case 'Python':
-			lang = 'python';
+		case 'Python3':
+			lang = 'PY3';
+			break;
+		case 'C++20':
+			lang = 'CPP20';
 			break;
 		default:
 			break;
@@ -38,9 +43,15 @@ const ProblemInput = ({ language, initValue, handleProblemCode }) => {
 	const setText = (e) => {
 		setCurrentCode(e);
 	};
-	// put 요청하는 제출 부분
+	// post 요청하는 제출 후 get 을 통해 상태 갱신
 	const onSubmit = () => {
-		handleProblemCode(id, lang, currentCode);
+		handleProblemResult({
+			problemId: Number(problemId),
+			language: lang,
+			source: currentCode,
+			meta: 'metaData', // 변경 예정
+			memberId,
+		});
 	};
 
 	const checkPage = (location) => {
@@ -76,7 +87,7 @@ const ProblemInput = ({ language, initValue, handleProblemCode }) => {
 				initValue={initValue}
 			/>
 
-			<Grid container direction="row">
+			<Grid container direction="row" className="problem-input-btns">
 				<Button className="problem-input-btn" variant="contained">
 					예제 실행
 				</Button>
@@ -92,7 +103,7 @@ const ProblemInput = ({ language, initValue, handleProblemCode }) => {
 							visible={notice}
 							title="제출 확인"
 							info="문제를 제출하시겠습니까?"
-							path={`/problem/${id}/score`}
+							path={`/problem/${problemId}/score`}
 							onConfirm={onSubmit}
 							onCancel={showNotice}
 						/>

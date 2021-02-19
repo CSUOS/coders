@@ -14,9 +14,6 @@ func HandShake(conn net.Conn) *JudgeInfo {
 		return nil
 	}
 
-	jsonBytes, _ := json.MarshalIndent(packet, "", "  ")
-	fmt.Println(string(jsonBytes))
-
 	var info JudgeInfo
 
 	for key, value := range packet {

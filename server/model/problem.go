@@ -2,6 +2,7 @@ package model
 
 import (
 	"errors"
+
 	"gorm.io/gorm"
 )
 
@@ -9,7 +10,7 @@ type Problem struct {
 	ID           int          `json:"id" example:"1" format:"int64" gorm:"autoIncrement"`
 	Title        string       `json:"title" example:"Problem title"`
 	Class        string       `json:"class" example:"Problem class"`
-	Desc         string       `json:"desc" example:"Problem description"`
+	Description  string       `json:"description" example:"Problem description"`
 	TimeLimit    int          `json:"timeLimit" example:"1000" format:"int64"`
 	MemoryLimit  int          `json:"memoryLimit" example:"128" format:"int64"`
 	ShortCircuit bool         `json:"shortCircuit" example:"false"`
@@ -20,7 +21,7 @@ type Problem struct {
 type EditProblem struct {
 	Title        string `json:"title" example:"Problem title"`
 	Class        string `json:"class" example:"Problem class"`
-	Desc         string `json:"desc" example:"Problem description"`
+	Description  string `json:"description" example:"Problem description"`
 	TimeLimit    int    `json:"timeLimit" example:"1000" format:"int64"`
 	MemoryLimit  int    `json:"memoryLimit" example:"1024" format:"int64"`
 	ShortCircuit bool   `json:"shortCircuit" example:"false"`
@@ -53,7 +54,7 @@ func (p EditProblem) ProblemValidation() error {
 	switch {
 	case len(p.Title) == 0:
 		return ErrTitleInvalid
-	case len(p.Desc) == 0:
+	case len(p.Description) == 0:
 		return ErrDescInvalid
 	case p.MemberID == 0:
 		return ErrMemberIDInvalid
@@ -70,24 +71,19 @@ func ProblemAll(db *gorm.DB, num int, page int, mid int, search string, sort str
 	var problem []PrintProblem
 	var err error
 
-	switch { // mid, search, sort의 공백 여부에 따라 분리
-	case mid == 0 && search == "" && sort == "":
-		err = db.Model(&Problem{}).Limit(num).Offset(num*(page-1)).Select("title", "class").Find(&problem).Error
-	case mid == 0 && search == "" && sort != "":
-		err = db.Model(&Problem{}).Order(sort).Limit(num).Offset(num*(page-1)).Select("title", "class").Find(&problem).Error
-	case mid == 0 && search != "" && sort == "":
-		err = db.Model(&Problem{}).Limit(num).Offset(num*(page-1)).Where("title LIKE ? OR class LIKE ?", "%"+search+"%", "%"+search+"%").Select("title", "class").Find(&problem).Error
-	case mid == 0 && search != "" && sort != "":
-		err = db.Model(&Problem{}).Order(sort).Limit(num).Offset(num*(page-1)).Where("title LIKE ? OR class LIKE ?", "%"+search+"%", "%"+search+"%").Select("title", "class").Find(&problem).Error
-	case mid != 0 && search == "" && sort == "":
-		err = db.Model(&Problem{}).Limit(num).Offset(num*(page-1)).Where("member_id = ?", mid).Select("title", "class").Find(&problem).Error
-	case mid != 0 && search == "" && sort != "":
-		err = db.Model(&Problem{}).Order(sort).Limit(num).Offset(num*(page-1)).Where("member_id = ?", mid).Select("title", "class").Find(&problem).Error
-	case mid != 0 && search != "" && sort == "":
-		err = db.Model(&Problem{}).Limit(num).Offset(num*(page-1)).Where("member_id = ? AND (title LIKE ? OR class LIKE ?) ", mid, "%"+search+"%", "%"+search+"%").Select("title", "class").Find(&problem).Error
-	case mid != 0 && search != "" && sort != "":
-		err = db.Model(&Problem{}).Order(sort).Limit(num).Offset(num*(page-1)).Where("member_id = ? AND (title LIKE ? OR class LIKE ?) ", mid, "%"+search+"%", "%"+search+"%").Select("title", "class").Find(&problem).Error
+	db = db.Model(&Problem{})
+
+	if mid != 0 {
+		db = db.Where("member_id = ?", mid)
 	}
+	if search != "" {
+		db = db.Where("title LIKE ? OR class LIKE ? OR description LIKE ?", "%"+search+"%", "%"+search+"%", "%"+search+"%")
+	}
+	if sort != "" {
+		db = db.Order(sort)
+	}
+
+	err = db.Limit(num).Offset(num*(page-1)).Select("title", "class").Find(&problem).Error
 
 	return problem, err
 }
@@ -119,7 +115,7 @@ func ProblemUpdate(db *gorm.DB, problem Problem) (Problem, error) {
 	if err != nil {
 		return problem, err
 	}
-	err = db.Model(&Problem{}).Where("id = ?", problem.ID).Update("desc", problem.Desc).Error
+	err = db.Model(&Problem{}).Where("id = ?", problem.ID).Update("description", problem.Description).Error
 	if err != nil {
 		return problem, err
 	}

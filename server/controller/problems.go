@@ -3,9 +3,10 @@ package controller
 import (
 	"coders/httputil"
 	"coders/model"
-	"gorm.io/gorm"
 	"net/http"
 	"strconv"
+
+	"gorm.io/gorm"
 
 	"github.com/gin-gonic/gin"
 )
@@ -141,7 +142,7 @@ func AddProblem(ctx *gin.Context) {
 	problem := model.Problem{
 		Title:        req.Title,
 		Class:        req.Class,
-		Desc:         req.Desc,
+		Description:  req.Description,
 		TimeLimit:    req.TimeLimit,
 		MemoryLimit:  req.MemoryLimit,
 		ShortCircuit: req.ShortCircuit,
@@ -187,7 +188,7 @@ func UpdateProblem(ctx *gin.Context) {
 		ID:           aid,
 		Title:        req.Title,
 		Class:        req.Class,
-		Desc:         req.Desc,
+		Description:  req.Description,
 		TimeLimit:    req.TimeLimit,
 		MemoryLimit:  req.MemoryLimit,
 		ShortCircuit: req.ShortCircuit,

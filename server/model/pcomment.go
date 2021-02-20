@@ -17,6 +17,9 @@ type PComment struct {
 	CreatedAt time.Time `json:"createdAt"`
 	Edited    bool      `json:"edited" example:"false"`
 	Deleted   bool      `json:"deleted" example:"false"`
+	Member    Member    `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
+	Problem   Problem    `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
+
 }
 
 // EditPComment adds or updates problem comment record

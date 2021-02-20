@@ -25,6 +25,7 @@ import (
 // @Produce  json
 // @Param name query string false "name"
 // @Param page query int false "page"
+///@Param limit query int false "limit"
 // @Success 200 {array} model.Member
 // @Failure 400 {object} httputil.HTTPError
 // @Failure 404 {object} httputil.HTTPError
@@ -34,14 +35,100 @@ func ListMembers(ctx *gin.Context) {
 	db := ctx.MustGet("db").(*gorm.DB)
 	var name string
 	var page int
+	var limit int
 	var err error
 	if ctx.Query("page") != "" {
 		page, err = strconv.Atoi(ctx.Query("page"))
 		httputil.CheckError(ctx, err)
 	}
+	if ctx.Query("limit") != "" {
+		limit, err = strconv.Atoi(ctx.Query("limit"))
+		httputil.CheckError(ctx, err)
+	}
 	name = ctx.Query("name")
 
-	members, err := model.MembersQuery(db, name, page)
+	members, err := model.MembersQuery(db, name, page, limit)
+
+	if err != nil {
+		httputil.Error(ctx, http.StatusNotFound, err)
+		return
+	}
+	ctx.JSON(http.StatusOK, members)
+}
+
+// GetListOfMemberRankedByCountOfProblem godoc
+// @Summary 사용자의 문제 출제수를 바탕으로 순위를 매긴 멤버 리스트를 반환
+// @Description get list of member ranked by count of problem
+// @Tags Members
+// @Accept  json
+// @Produce  json
+// @Param page query int false "page"
+// @Param limit query int false "limit"
+// @Param name query string false "name"
+// @Success 200 {object} model.Member
+// @Failure 400 {object} httputil.HTTPError
+// @Failure 404 {object} httputil.HTTPError
+// @Failure 500 {object} httputil.HTTPError
+// @Router /rank/problem [get]
+func GetListOfMemberRankedByCountOfProblem(ctx *gin.Context) {
+	db := ctx.MustGet("db").(*gorm.DB)
+	var page int
+	var limit int
+	var name string
+	var err error
+	if ctx.Query("page") != "" {
+		page, err = strconv.Atoi(ctx.Query("page"))
+		httputil.CheckError(ctx, err)
+	}
+	if ctx.Query("limit") != "" {
+		limit, err = strconv.Atoi(ctx.Query("limit"))
+		httputil.CheckError(ctx, err)
+	}
+	name = ctx.Query("name")
+
+	members, err := model.RankMembersByCountOfProblem(db, page, limit, name)
+
+	if err != nil {
+		httputil.Error(ctx, http.StatusNotFound, err)
+		return
+	}
+	ctx.JSON(http.StatusOK, members)
+}
+
+// GetListOfMemberRankedByCountOfSubmission godoc
+// @Summary 사용자의 문제 제출 수를 바탕으로 순위를 매긴 멤버 리스트를 반환
+// @Description get list of member ranked by count of submissions
+// @Tags Members
+// @Accept  json
+// @Produce  json
+// @Param page query int false "page"
+// @Param limit query int false "limit"
+// @Param name query string false "name"
+// @Param result query string false "result"
+// @Param language query string false "language"
+// @Success 200 {object} model.Member
+// @Failure 400 {object} httputil.HTTPError
+// @Failure 404 {object} httputil.HTTPError
+// @Failure 500 {object} httputil.HTTPError
+// @Router /rank/submission [get]
+func GetListOfMemberRankedByCountOfSubmission(ctx *gin.Context) {
+	db := ctx.MustGet("db").(*gorm.DB)
+	var page, limit int
+	var name, result, language string
+	var err error
+	if ctx.Query("page") != "" {
+		page, err = strconv.Atoi(ctx.Query("page"))
+		httputil.CheckError(ctx, err)
+	}
+	if ctx.Query("limit") != "" {
+		limit, err = strconv.Atoi(ctx.Query("limit"))
+		httputil.CheckError(ctx, err)
+	}
+	name = ctx.Query("name")
+	result = ctx.Query("result")
+	language = ctx.Query("language")
+
+	members, err := model.RankMembersByCountOfSubmissions(db, page, limit, name, result, language)
 
 	if err != nil {
 		httputil.Error(ctx, http.StatusNotFound, err)
@@ -51,7 +138,7 @@ func ListMembers(ctx *gin.Context) {
 }
 
 // ShowMember godoc
-// @Summary Show an Member
+// @Summary 사용자의 회원 정보 가져오기
 // @Description get string by ID
 // @Tags Members
 // @Accept  json
@@ -116,7 +203,7 @@ func AddMember(ctx *gin.Context) {
 }
 
 // UpdateMember godoc
-// @Summary Update an Member
+// @Summary 사용자의 회원 정보 수정하기
 // @Description Update by json Member
 // @Tags Members
 // @Accept  json
@@ -129,13 +216,15 @@ func AddMember(ctx *gin.Context) {
 // @Failure 500 {object} httputil.HTTPError
 // @Router /members/{id} [patch]
 func UpdateMember(ctx *gin.Context) {
-	db := ctx.MustGet("db").(*gorm.DB)
-	id := ctx.Param("id")
-	aid, err := strconv.Atoi(id)
+	// 로그인되어있는지 확인
+	claims, err := ParseValidAuthToken(ctx.Request)
 	if err != nil {
-		httputil.Error(ctx, http.StatusBadRequest, err)
+		// 로그인되어있지 않다면 401 반환
+		ctx.AbortWithStatus(http.StatusUnauthorized)
 		return
 	}
+	db := ctx.MustGet("db").(*gorm.DB)
+	requesterId := int(claims["id"].(float64))
 
 	var req model.EditMember
 	if err := ctx.ShouldBindJSON(&req); err != nil {
@@ -144,7 +233,7 @@ func UpdateMember(ctx *gin.Context) {
 	}
 
 	member := model.Member{
-		ID:    aid,
+		ID:    requesterId,
 		Name:  req.Name,
 		Intro: req.Intro,
 	}

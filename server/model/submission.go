@@ -21,6 +21,8 @@ type Submission struct {
 	ShortCircuit bool      `json:"shortCircuit" example:"false"`
 	Meta         string    `json:"meta" example:"meta data"`
 	CreatedAt    time.Time `json:"createdAt"`
+	Member       Member    `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
+	Problem      Problem   `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
 }
 
 // EditSubmission 은 ID, CreatedAt, Result 컬럼이 없다
@@ -58,15 +60,6 @@ func SubmissionsQuery(db *gorm.DB, query QuerySubmission) ([]Submission, error) 
 	if query.Result != "" {
 		db = db.Where("result = ?", query.Result)
 	}
-	// if language == "" && result == "" {
-	// 	db = db.Model(&Submission{}).Order("count(problem_id) desc").Limit(20).Offset(20*(page-1)).Select("member_id", "count(problem_id) as total").Group("member_id")
-	// }
-	// else if language != "" && result == "" {
-	// 	db = db.Model(&Submission{}).Order("count(problem_id) desc").Limit(20).Offset(20*(page-1)).Where("language = ?", language).Select("member_id", "count(problem_id) as total").Group("member_id")
-	// }
-	// else if lanugage != "" && result != "" {
-	// 	db = db.Model(&Submission{}).Order("count(problem_id) desc").Limit(20).Offset(20*(page-1)).Where("result = ? AND language = ?", result, language).Select("member_id", "count(problem_id) as total").Group("member_id")
-	// }
 	err := db.Find(&submissions).Error
 	return submissions, err
 }

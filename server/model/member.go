@@ -81,7 +81,7 @@ func RankMembersByCountOfProblem(db *gorm.DB, limit int, page int, name string) 
 		db = db.Where("members.name LIKE ?", "%"+name+"%")
 	}
 
-	err = db.Order("total desc").Limit(limit).Offset(limit*(page-1)).Select("members.id as member_id", "members.name as name", "members.intro as intro", "count(problems.member_id) as total").Joins("left join problems on members.id = problems.member_id").Group("members.id").Find(&members).Error
+	err = db.Order("total desc").Limit(limit).Offset(limit*(page-1)).Select("members.id as member_id", "members.name", "members.intro", "count(problems.member_id) as total").Joins("left join problems on members.id = problems.member_id").Group("members.id").Find(&members).Error
 
 	return members, err
 }

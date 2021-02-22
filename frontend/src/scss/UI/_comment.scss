@@ -16,6 +16,9 @@
 		}
 	}
 	.comment {
+		width: 90%;
+		word-wrap: break-word;
+		white-space: pre-wrap;
 		padding: 1% 2%;
 	}
 }

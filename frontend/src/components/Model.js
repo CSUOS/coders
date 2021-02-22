@@ -5,11 +5,6 @@ import data from '../data.json';
 
 const problemData = data.problem;
 const userData = data.user;
-const problemInfo = data.problem_info[0];
-const problemComments = data.P_Comment;
-const submitLog = data.submit_log;
-const mySubmitLog = data.mySubmit_log;
-const problemLog = data.problem_log;
 // ==================================
 
 // ================= [ problem context ] ============================
@@ -44,7 +39,7 @@ const PInfoContext = createContext();
 const PInfoDispatchContext = createContext();
 
 export const ProblemInfoContextProvider = ({ children }) => {
-	const [pInfo, setPInfo] = useState(problemInfo);
+	const [pInfo, setPInfo] = useState('');
 	return (
 		<PInfoContext.Provider value={pInfo}>
 			<PInfoDispatchContext.Provider value={setPInfo}>
@@ -69,7 +64,7 @@ const CommentsContext = createContext();
 const CommentsDispatchContext = createContext();
 
 export const CommentsContextProvider = ({ children }) => {
-	const [comments, setComments] = useState(problemComments);
+	const [comments, setComments] = useState(null);
 	return (
 		<CommentsContext.Provider value={comments}>
 			<CommentsDispatchContext.Provider value={setComments}>
@@ -94,7 +89,7 @@ const SubmissionsContext = createContext();
 const SubmissionsDispatchContext = createContext();
 
 export const SubmissionsContextProvider = ({ children }) => {
-	const [submissions, setSubmissions] = useState(submitLog);
+	const [submissions, setSubmissions] = useState([]);
 	return (
 		<SubmissionsContext.Provider value={submissions}>
 			<SubmissionsDispatchContext.Provider value={setSubmissions}>
@@ -119,7 +114,7 @@ const MySubmissionsContext = createContext();
 const MySubmissionsDispatchContext = createContext();
 
 export const MySubmissionsContextProvider = ({ children }) => {
-	const [mySubmissions, setMySubmissions] = useState(mySubmitLog);
+	const [mySubmissions, setMySubmissions] = useState([]);
 	return (
 		<MySubmissionsContext.Provider value={mySubmissions}>
 			<MySubmissionsDispatchContext.Provider value={setMySubmissions}>
@@ -140,26 +135,26 @@ export const useMySubmissionsDispatchContext = () => {
 // ===================================================================
 
 // ================= [ problemSubmit context ] =========================
-const ProblemCodeContext = createContext();
-const ProblemCodeDispatchContext = createContext();
+const ProblemResultContext = createContext();
+const ProblemResultDispatchContext = createContext();
 
-export const ProblemCodeContextProvider = ({ children }) => {
-	const [problemSubmit, setProblemSubmit] = useState(problemLog);
+export const ProblemResultContextProvider = ({ children }) => {
+	const [problemSubmit, setProblemSubmit] = useState(null);
 	return (
-		<ProblemCodeContext.Provider value={problemSubmit}>
-			<ProblemCodeDispatchContext.Provider value={setProblemSubmit}>
+		<ProblemResultContext.Provider value={problemSubmit}>
+			<ProblemResultDispatchContext.Provider value={setProblemSubmit}>
 				{children}
-			</ProblemCodeDispatchContext.Provider>
-		</ProblemCodeContext.Provider>
+			</ProblemResultDispatchContext.Provider>
+		</ProblemResultContext.Provider>
 	);
 };
 
-export const useProblemCodeContext = () => {
-	const context = useContext(ProblemCodeContext);
+export const useProblemResultContext = () => {
+	const context = useContext(ProblemResultContext);
 	return context;
 };
-export const useProblemCodeDispatchContext = () => {
-	const context = useContext(ProblemCodeDispatchContext);
+export const useProblemResultDispatchContext = () => {
+	const context = useContext(ProblemResultDispatchContext);
 	return context;
 };
 // ===================================================================

@@ -7,7 +7,6 @@ import {
 	SubmissionsContextProvider,
 	MySubmissionsContextProvider,
 	ProblemResultContextProvider,
-	UserContextProvider,
 } from './Model';
 import ViewModel from './ViewModel';
 
@@ -16,15 +15,13 @@ const Provider = () => (
 		<ProblemResultContextProvider>
 			<SubmissionsContextProvider>
 				<MySubmissionsContextProvider>
-					<UserContextProvider>
-						<CommentsContextProvider>
-							<ProblemContextProvider>
-								<ProblemInfoContextProvider>
-									<ViewModel />
-								</ProblemInfoContextProvider>
-							</ProblemContextProvider>
-						</CommentsContextProvider>
-					</UserContextProvider>
+					<CommentsContextProvider>
+						<ProblemContextProvider>
+							<ProblemInfoContextProvider>
+								<ViewModel />
+							</ProblemInfoContextProvider>
+						</ProblemContextProvider>
+					</CommentsContextProvider>
 				</MySubmissionsContextProvider>
 			</SubmissionsContextProvider>
 		</ProblemResultContextProvider>

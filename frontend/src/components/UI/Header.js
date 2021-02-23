@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Grid, Button } from '@material-ui/core';
 import LocalLibraryRoundedIcon from '@material-ui/icons/LocalLibraryRounded';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import HowToRegIcon from '@material-ui/icons/HowToReg';
 import { NoticeDialog } from '.';
 
 const styles = {
@@ -13,11 +14,16 @@ const styles = {
 	},
 };
 
-const Header = ({ userName, authorized = true }) => {
+const Header = ({ changedUser }) => {
 	const [notice, setNotice] = useState(false);
+	const [user, setUser] = useState(null);
 	const showNotice = () => {
 		setNotice(!notice);
 	};
+	useEffect(() => {
+		setUser(changedUser);
+	}, [changedUser]);
+
 	return (
 		<Grid className="header">
 			<Link to="/">
@@ -29,10 +35,11 @@ const Header = ({ userName, authorized = true }) => {
 					Coders
 				</Button>
 			</Link>
-			{authorized && (
+
+			{user !== null ? (
 				<Grid className="header-buttons">
 					<Grid>
-						{userName}
+						{user.name}
 						님, 환영합니다!
 					</Grid>
 					<Link to="/user">
@@ -46,16 +53,25 @@ const Header = ({ userName, authorized = true }) => {
 							showNotice();
 						}}
 					>
-						{notice ? (
+						{notice && (
 							<NoticeDialog
 								visible={notice}
 								title="확인"
 								info="로그아웃 하시겠습니까?"
 								path="/login"
+								logout
 							/>
-						) : null}
+						)}
 						로그아웃
 					</Button>
+				</Grid>
+			) : (
+				<Grid className="header-buttons">
+					<Link to="/login">
+						<Button size="big" startIcon={<HowToRegIcon />}>
+							로그인
+						</Button>
+					</Link>
 				</Grid>
 			)}
 		</Grid>

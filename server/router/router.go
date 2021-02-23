@@ -3,17 +3,20 @@ package router
 import (
 	c "coders/controller"
 
+	"github.com/gin-contrib/sessions"
+	"github.com/gin-contrib/sessions/cookie"
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
-	"github.com/gin-contrib/sessions"
-	"github.com/gin-contrib/sessions/cookie"
 )
 
 func ApplyRoutes(r *gin.Engine) {
 	r.Use(sessions.Sessions("session", cookie.NewStore([]byte("secret"))))
 	r.GET("/ping", c.PingExample)
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+	r.GET("/submitted", c.ListSubmittedProblems)
+	r.GET("/rank/problem", c.GetListOfMemberRankedByCountOfProblem)
+	r.GET("/rank/submission", c.GetListOfMemberRankedByCountOfSubmission)
 
 	v1 := r.Group("/api/v1")
 	{

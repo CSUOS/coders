@@ -90,7 +90,16 @@ func ShowSubmission(ctx *gin.Context) {
 // @Failure 500 {object} httputil.HTTPError
 // @Router /submissions [post]
 func AddSubmission(ctx *gin.Context) {
+	// 로그인되어있는지 확인
+	claims, err := ParseValidAuthToken(ctx.Request)
+	if err != nil {
+		// 로그인되어있지 않다면 401 반환
+		ctx.AbortWithStatus(http.StatusUnauthorized)
+		return
+	}
+
 	db := ctx.MustGet("db").(*gorm.DB)
+	requesterId := int(claims["id"].(float64))
 
 	var req model.EditSubmission
 	if err := ctx.ShouldBindJSON(&req); err != nil {
@@ -99,7 +108,7 @@ func AddSubmission(ctx *gin.Context) {
 	}
 
 	Submission := model.Submission{
-		MemberID:     req.MemberID,
+		MemberID:     requesterId,
 		ProblemID:    req.ProblemID,
 		Language:     req.Language,
 		Source:       req.Source,
@@ -125,7 +134,7 @@ func AddSubmission(ctx *gin.Context) {
 
 // DeleteSubmission godoc
 // @Summary Delete an Submission
-// @Description Delete by Submission ID
+// @Description 제출기록 삭제기능은 다른 온라인저지들도 지원하지 않기때문에, 개발용으로만 남겨두었습니다. 따라서 멤버 아이디를 쿠키에서 가져오지 않고도 삭제가 가능합니다.
 // @Tags Submissions
 // @Accept  json
 // @Produce  json

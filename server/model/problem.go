@@ -7,16 +7,15 @@ import (
 )
 
 type Problem struct {
-	ID           int          `json:"id" example:"1" format:"int64" gorm:"autoIncrement"`
-	Title        string       `json:"title" example:"Problem title"`
-	Class        string       `json:"class" example:"Problem class"`
-	Description  string       `json:"description" example:"Problem description"`
-	TimeLimit    int          `json:"timeLimit" example:"1000" format:"int64"`
-	MemoryLimit  int          `json:"memoryLimit" example:"128" format:"int64"`
-	ShortCircuit bool         `json:"shortCircuit" example:"false"`
-	MemberID     int          `json:"memberID" example:"1" format:"int64"`
-	Member       Member       `gorm:"ForeignKey:MemberID;"`
-	Submissions  []Submission `gorm:"ForeignKey:ProblemID";constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
+	ID           int    `json:"id" example:"1" format:"int64" gorm:"autoIncrement"`
+	Title        string `json:"title" example:"Problem title"`
+	Class        string `json:"class" example:"Problem class"`
+	Description  string `json:"description" example:"Problem description"`
+	TimeLimit    int    `json:"timeLimit" example:"1000" format:"int64"`
+	MemoryLimit  int    `json:"memoryLimit" example:"128" format:"int64"`
+	ShortCircuit bool   `json:"shortCircuit" example:"false"`
+	MemberID     int    `json:"memberID" example:"1" format:"int64"`
+	Member       Member `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
 }
 
 type EditProblem struct {
@@ -27,6 +26,15 @@ type EditProblem struct {
 	MemoryLimit  int    `json:"memoryLimit" example:"1024" format:"int64"`
 	ShortCircuit bool   `json:"shortCircuit" example:"false"`
 	MemberID     int    `json:"memberID" example:"1" format:"int64"`
+}
+
+type SubmittedProblem struct {
+	MemberID     int    `json:"memberID"`
+	SubmissionID int    `json:"submissionID"`
+	ProblemID    int    `json:"problemID"`
+	Title        string `json:"title"`
+	Class        string `json:"class"`
+	Result       string `json:"result"`
 }
 
 type PrintProblem struct {
@@ -62,7 +70,6 @@ func (p EditProblem) ProblemValidation() error {
 func ProblemAll(db *gorm.DB, num int, page int, mid int, search string, sort string) ([]PrintProblem, error) {
 	var problem []PrintProblem
 	var err error
-
 	db = db.Model(&Problem{})
 
 	if mid != 0 {
@@ -78,6 +85,21 @@ func ProblemAll(db *gorm.DB, num int, page int, mid int, search string, sort str
 	err = db.Limit(num).Offset(num*(page-1)).Select("title", "class").Find(&problem).Error
 
 	return problem, err
+}
+
+// https://gorm.io/docs/query.html#Joins
+func ProblemSubmitted(db *gorm.DB, mid int, result string) ([]SubmittedProblem, error) {
+	var submittedProblem []SubmittedProblem
+	var err error
+
+	db = db.Model(&Problem{})
+
+	if result != "" {
+		db = db.Where("result = ?", result)
+	}
+	err = db.Select("submissions.member_id", "submissions.id as submission_id", "problems.id as problem_id", "problems.title", "problems.class", "submissions.result").Joins("join submissions on submissions.problem_id = problems.id").Where("submissions.id = ?", mid).Find(&submittedProblem).Error
+	// err := db.Raw("select s.member_id, s.id, p.id, p.title, p.class, s.result from problems as p join submissions as s on s.problem_id = p.id where s.member_id = ? and result=?", mid, result).Scan(&submittedproblem).Error
+	return submittedProblem, err
 }
 
 func ProblemOne(db *gorm.DB, id int) (Problem, error) {

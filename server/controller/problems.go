@@ -54,6 +54,33 @@ func ListProblems(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, problems)
 }
 
+// ListSubmittedProblems godoc
+// @Summary List Problems
+// @Description get Problems
+// @Tags Problems
+// @Accept  json
+// @Produce  json
+// @Param member query int True "member ID"
+// @Param result query string False "submission result"
+// @Success 200 {array} model.Problem
+// @Failure 400 {object} httputil.HTTPError
+// @Failure 404 {object} httputil.HTTPError
+// @Failure 500 {object} httputil.HTTPError
+// @Router /submitted [get]
+func ListSubmittedProblems(ctx *gin.Context) {
+	db := ctx.MustGet("db").(*gorm.DB)
+	var mid int
+	var err error
+	if ctx.Query("member") != "" {
+		mid, err = strconv.Atoi(ctx.Query("member"))
+		httputil.CheckError(ctx, err)
+	}
+	result := ctx.Query("result")
+	problems, err := model.ProblemSubmitted(db, mid, result)
+	httputil.CheckError(ctx, err)
+	ctx.JSON(http.StatusOK, problems)
+}
+
 // ShowProblem godoc
 // @Summary Show an Problem
 // @Description get string by ID

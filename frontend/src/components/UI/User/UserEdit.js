@@ -23,11 +23,11 @@ const UserEdit = ({ users }) => {
 					readOnly={readOnly}
 					value="아이디"
 				/>
-				<UserInputBox title="이름" size="1" value={users[0].name} />
+				<UserInputBox title="이름" size="1" value={users.name} />
 				<UserInputBox
 					title="상태 메세지"
 					size="5"
-					value={users[0].intro}
+					value={users.intro}
 				/>
 				<UserInputBox title="비밀번호" size="2" password="password" />
 			</Grid>

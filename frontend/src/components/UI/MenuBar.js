@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Grid } from '@material-ui/core';
 
 const MenuBar = () => {
@@ -8,9 +8,11 @@ const MenuBar = () => {
 		['문제 출제하기', '/submit'],
 		['회원 랭킹', '/ranking'],
 	];
+	const location = useLocation();
 	const checkUrl =
-		window.location.href.indexOf('login') !== -1 ||
-		window.location.href.indexOf('problem') !== -1;
+		location.pathname.indexOf('login') !== -1 ||
+		location.pathname.indexOf('problem') !== -1;
+
 	return (
 		<>
 			{checkUrl ? undefined : (

@@ -1,21 +1,20 @@
 import React from 'react';
-
+import { CookiesProvider } from 'react-cookie';
 import {
 	CommentsContextProvider,
 	ProblemContextProvider,
 	ProblemInfoContextProvider,
 	SubmissionsContextProvider,
 	MySubmissionsContextProvider,
-	ProblemCodeContextProvider,
-	UserContextProvider,
+	ProblemResultContextProvider,
 } from './Model';
 import ViewModel from './ViewModel';
 
 const Provider = () => (
-	<ProblemCodeContextProvider>
-		<SubmissionsContextProvider>
-			<MySubmissionsContextProvider>
-				<UserContextProvider>
+	<CookiesProvider>
+		<ProblemResultContextProvider>
+			<SubmissionsContextProvider>
+				<MySubmissionsContextProvider>
 					<CommentsContextProvider>
 						<ProblemContextProvider>
 							<ProblemInfoContextProvider>
@@ -23,10 +22,10 @@ const Provider = () => (
 							</ProblemInfoContextProvider>
 						</ProblemContextProvider>
 					</CommentsContextProvider>
-				</UserContextProvider>
-			</MySubmissionsContextProvider>
-		</SubmissionsContextProvider>
-	</ProblemCodeContextProvider>
+				</MySubmissionsContextProvider>
+			</SubmissionsContextProvider>
+		</ProblemResultContextProvider>
+	</CookiesProvider>
 );
 
 export default Provider;

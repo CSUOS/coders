@@ -18,26 +18,26 @@ const Accordion = withStyles({
 	expanded: {},
 })(MuiAccordion);
 
-const AccordianComment = ({ comments, handleComments }) => {
-	const { id } = useParams();
+const AccordianComment = ({ pId, comments, handleComments }) => {
 	const [open, setOpen] = useState(false);
-	const handleClick = () => {
+	const handleOpen = () => {
 		setOpen(!open);
 	};
-	useEffect(() => {
-		handleComments(id);
-	}, [comments, id]);
 	return (
 		<Grid xs={6}>
 			<Accordion className="accordion">
-				<AccordionSummary expanded={open} onClick={handleClick}>
+				<AccordionSummary expanded={open} onClick={handleOpen}>
 					<Fab className={open ? 'arrow-icon-on' : 'arrow-icon'}>
 						<DoubleArrowIcon size="large" />
 					</Fab>
 				</AccordionSummary>
 				<AccordionDetails>
 					<Grid className="accordion-detail">
-						<CommentForm comments={comments} />
+						<CommentForm
+							pId={pId}
+							comments={comments}
+							handleComments={handleComments}
+						/>
 					</Grid>
 				</AccordionDetails>
 			</Accordion>

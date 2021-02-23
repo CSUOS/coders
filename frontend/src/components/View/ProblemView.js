@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Grid, Button, IconButton, Typography } from '@material-ui/core';
-import { Route, Link, useParams, useHistory } from 'react-router-dom';
+import { Route, Link, useParams } from 'react-router-dom';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
 import Star from '@material-ui/icons/Star';
 import ThumbUp from '@material-ui/icons/ThumbUp';
@@ -24,8 +24,8 @@ const ProblemView = (props) => {
 		handleSubmissions,
 		mySubmissions,
 		handleMySubmissions,
-		problemCode,
-		handleProblemCode,
+		problemResult,
+		handleProblemResult,
 	} = props;
 	const { id } = useParams();
 	const [star, setStar] = useState(false);
@@ -34,7 +34,6 @@ const ProblemView = (props) => {
 	const clickStar = () => {
 		setStar(!star);
 	};
-
 	const clickLike = () => {
 		setLike(!like);
 	};
@@ -43,7 +42,8 @@ const ProblemView = (props) => {
 	};
 	useEffect(() => {
 		handleProblemInfo(id);
-	}, [problemInfo, id]);
+		handleComments('get', id);
+	}, []);
 	return (
 		<Grid className="problem">
 			<Grid container direction="row" className="problem-container">
@@ -94,9 +94,10 @@ const ProblemView = (props) => {
 					</Grid>
 				</Grid>
 				<Grid className="problem-bar">
+					{/* 현재 지원언어 : C11, CPP20, JAVA8, PY3 */}
 					<SelectForm
-						defaultValue="C++"
-						values={['C++', 'Java', 'Python']}
+						defaultValue="C11"
+						values={['C11', 'Java8', 'Python3', 'C++20']}
 						handelChange={changeLang}
 					/>
 				</Grid>
@@ -121,6 +122,7 @@ const ProblemView = (props) => {
 						path="/problem/:id/score"
 						render={() => (
 							<ProblemScore
+								problemResult={problemResult}
 								mySubmissions={mySubmissions}
 								handleMySubmissions={handleMySubmissions}
 							/>
@@ -130,9 +132,10 @@ const ProblemView = (props) => {
 				{/* ace Editor 소스 코드 입력 */}
 				<ProblemInput
 					language={language}
-					handleProblemCode={handleProblemCode}
+					handleProblemResult={handleProblemResult}
 				/>
 				<AccordianComment
+					pId={id}
 					comments={comments}
 					handleComments={handleComments}
 				/>

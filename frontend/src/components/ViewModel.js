@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-
+import React, { useState, useEffect } from 'react';
+import { useCookies } from 'react-cookie';
 import { Grid } from '@material-ui/core';
 import { Route } from 'react-router-dom';
 import axios from 'axios';
@@ -18,12 +18,17 @@ import {
 	useMySubmissionsDispatchContext,
 	useProblemResultContext,
 	useProblemResultDispatchContext,
-	useUserDataContext,
-	useUserDispatchContext,
 } from './Model';
+import GetToken from '../function/GetToken';
 
 const ViewModel = () => {
-	const userName = '사용자';
+	const [user, setUser] = useState(null);
+	const cookies = GetToken();
+	useEffect(() => {
+		setUser(cookies);
+		console.log('log', cookies);
+	}, []);
+
 	const problems = useProblemDataContext();
 	const setProblem = useProblemDispatchContext();
 
@@ -160,12 +165,9 @@ const ViewModel = () => {
 		// console.log('id :', id, ', language : ', lang, ',code : ', text);
 	};
 
-	const users = useUserDataContext();
-	const setUserInfo = useUserDispatchContext();
-
 	return (
 		<>
-			<Header userName={userName} />
+			<Header changedUser={user} />
 			<Grid>
 				<MenuBar />
 				<Route
@@ -175,10 +177,10 @@ const ViewModel = () => {
 						return <Home problems={problems} />;
 					}}
 				/>
-				<Route exact path="/login" component={Login} />
+				<Route exact path="/login" render={() => <Login />} />
 				<Route
 					path="/user"
-					render={() => <User users={users} problems={problems} />}
+					render={() => <User users={user} problems={problems} />}
 				/>
 				<Route
 					path="/problem/:id"
@@ -198,11 +200,8 @@ const ViewModel = () => {
 					)}
 				/>
 				<Route path="/question" component={Question} />
-				<Route path="/submit" component={Submit} />
-				<Route
-					path="/ranking"
-					render={() => <Rangking users={users} />}
-				/>
+				<Route path="/submit" render={() => <Submit user={user} />} />
+				<Route path="/ranking" render={() => <Rangking />} />
 			</Grid>
 		</>
 	);

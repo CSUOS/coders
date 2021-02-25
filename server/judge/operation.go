@@ -1,11 +1,11 @@
 package judge
 
 import (
-	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"net"
 	"time"
+	"coders/model"
+	"gorm.io/gorm"
 )
 
 func HandShake(conn net.Conn) *JudgeInfo {
@@ -52,19 +52,13 @@ func HandShake(conn net.Conn) *JudgeInfo {
 }
 
 func SendPing(conn net.Conn) net.Conn {
-	fmt.Println("Sending ping...")
 	req := PingRequest {
 		Name: "ping",
 		When: time.Now().String(),
 	}
 
 	if SendPacket(req, conn) {
-		fmt.Println("Sent a ping packet. Waiting for a response...")
-		response := ReceivePacket(conn)
-		fmt.Println("Got Response!")
-		fmt.Println()
-		jsonBytes, _ := json.MarshalIndent(response, "", "  ")
-		fmt.Println(string(jsonBytes))
+		// response := ReceivePacket(conn)
 	} else {
 		fmt.Println("Couldn't send a packet... Closing connection...")
 		conn.Close()
@@ -75,18 +69,12 @@ func SendPing(conn net.Conn) net.Conn {
 }
 
 func GetCurrentSubmission(conn net.Conn) net.Conn {
-	fmt.Println("Sending a packet...")
 	req := BaseResponse {
 		Name: "get-current-submission",
 	}
 
 	if SendPacket(req, conn) {
-		fmt.Println("Sent a packet. Waiting for a response...")
-		response := ReceivePacket(conn)
-		fmt.Println("Got Response!")
-		fmt.Println()
-		jsonBytes, _ := json.MarshalIndent(response, "", "  ")
-		fmt.Println(string(jsonBytes))
+		// response := ReceivePacket(conn)
 	} else {
 		fmt.Println("Couldn't send a packet... Closing connection...")
 		conn.Close()
@@ -96,50 +84,51 @@ func GetCurrentSubmission(conn net.Conn) net.Conn {
 	return conn
 }
 
-func RequestSubmission(conn net.Conn) net.Conn {
+func RequestSubmission(conn net.Conn, sub model.Submission, db *gorm.DB) net.Conn {
 	var req SubmissionRequest
 	req.Name = "submission-request"
-
-	fmt.Print("Submission ID: ")
-	fmt.Scan(&req.SubmissionID)
-
-	fmt.Print("Problem ID: ")
-	fmt.Scan(&req.ProblemID)
-
-	fmt.Print("Language: ")
-	fmt.Scan(&req.Language)
-
-	fmt.Print("Path of Source: ")
-	var path string
-	fmt.Scan(&path)
-	source, err := ioutil.ReadFile(path)
-	if err != nil {
-		fmt.Println("Invalid path... Try again.")
-		return conn
-	}
-	req.Source = string(source)
-
-	req.TimeLimit = 2
-	req.MemoryLimit = 1024*1024
+	req.SubmissionID = int64(sub.ID)
+	req.ProblemID = string(sub.ProblemID)
+	req.Language = sub.Language;
+	req.Source = sub.Language;
+	req.TimeLimit = int64(sub.TimeLimit)
+	req.MemoryLimit = int64(sub.MemoryLimit)
 	req.ShortCircuit = true
 	req.Meta = ""
 
-	fmt.Println("Sending a packet...")
-
 	if SendPacket(req, conn) {
-		fmt.Println("Sent a packet. Waiting for a response...")
+		fmt.Printf("Judging #%v. Waiting for responses...\n", sub.ID)
 		for {
 			response := ReceivePacket(conn)
-			fmt.Println()
-			jsonBytes, _ := json.MarshalIndent(response, "", "  ")
-			fmt.Println(string(jsonBytes))
-			if (response["name"].(string) == "grading-end" ||
-				response["name"].(string) == "compile-error" ||
-				response["name"].(string) == "internal-error") {
-				fmt.Println("Done grading.")
+			name := response["name"].(string)
+
+			switch name {
+			case "test-case-status":
+				break
+			case "compile-error":
+				break
+			case "compile-message":
+				break
+			case "internal-error":
+				break
+			case "grading-begin":
+				break
+			case "grading-end":
+				break
+			case "batch-begin":
+				break
+			case "batch-end":
+				break
+			case "submission-terminated":
+				break
+			case "submission-acknowledged":
+				break
+			default:
 				break
 			}
 		}
+
+		fmt.Println("Done grading.")
 	} else {
 		fmt.Println("Couldn't send a packet... Closing connection...")
 		conn.Close()
@@ -150,7 +139,6 @@ func RequestSubmission(conn net.Conn) net.Conn {
 }
 
 func TerminateSubmission(conn net.Conn) net.Conn {
-	fmt.Println("Sending a packet...")
 	req := BaseResponse {
 		Name: "terminate-submission",
 	}

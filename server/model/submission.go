@@ -64,6 +64,11 @@ func SubmissionsQuery(db *gorm.DB, query QuerySubmission) ([]Submission, error) 
 	return submissions, err
 }
 
+// // SubmissionUpdateResult example
+// func SubmissionUpdateResult(db *gorm.DB, id uint, result string) (Submission, error) {
+
+// }
+
 // SubmissionOne example
 func SubmissionOne(db *gorm.DB, memberID int) (Submission, error) {
 	var Submission Submission

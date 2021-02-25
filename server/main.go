@@ -8,7 +8,6 @@ import (
 
 	"fmt"
 	"os"
-	"net"
 
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
@@ -25,12 +24,8 @@ func ErrorCheck(err error) {
 // @Description Coders API version 1.0
 // @BasePath /api/v1
 func main() {
-	server, err := net.Listen("tcp", ":9999")
-	ErrorCheck(err)
-	go judge.Server(server)
-
 	// load .env variables
-	err = godotenv.Load()
+	err := godotenv.Load()
 	ErrorCheck(err)
 	PORT := os.Getenv("PORT")
 	DBCONFIG := os.Getenv("DBCONFIG")
@@ -43,6 +38,8 @@ func main() {
 	db, err := database.Initialize(DBCONFIG)
 	ErrorCheck(err)
 	app.Use(database.Inject(db))
+
+	go judge.FindJudge(db)
 
 	// set router
 	router.ApplyRoutes(app)

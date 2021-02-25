@@ -4,12 +4,13 @@ import (
 	"coders/httputil"
 	"coders/model"
 
-	"gorm.io/gorm"
-	"net/http"
-	"strconv"
-	"fmt"
-	"os"
 	"errors"
+	"fmt"
+	"net/http"
+	"os"
+	"strconv"
+
+	"gorm.io/gorm"
 
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
@@ -22,6 +23,9 @@ import (
 // @Tags Members
 // @Accept  json
 // @Produce  json
+// @Param name query string false "name"
+// @Param page query int false "page"
+///@Param limit query int false "limit"
 // @Success 200 {array} model.Member
 // @Failure 400 {object} httputil.HTTPError
 // @Failure 404 {object} httputil.HTTPError
@@ -29,7 +33,103 @@ import (
 // @Router /members [get]
 func ListMembers(ctx *gin.Context) {
 	db := ctx.MustGet("db").(*gorm.DB)
-	members, err := model.MembersAll(db)
+	var name string
+	var page int
+	var limit int
+	var err error
+	if ctx.Query("page") != "" {
+		page, err = strconv.Atoi(ctx.Query("page"))
+		httputil.CheckError(ctx, err)
+	}
+	if ctx.Query("limit") != "" {
+		limit, err = strconv.Atoi(ctx.Query("limit"))
+		httputil.CheckError(ctx, err)
+	}
+	name = ctx.Query("name")
+
+	members, err := model.MembersQuery(db, name, page, limit)
+
+	if err != nil {
+		httputil.Error(ctx, http.StatusNotFound, err)
+		return
+	}
+	ctx.JSON(http.StatusOK, members)
+}
+
+// GetListOfMemberRankedByCountOfProblem godoc
+// @Summary 사용자의 문제 출제수를 바탕으로 순위를 매긴 멤버 리스트를 반환
+// @Description get list of member ranked by count of problem
+// @Tags Members
+// @Accept  json
+// @Produce  json
+// @Param page query int false "page"
+// @Param limit query int false "limit"
+// @Param name query string false "name"
+// @Success 200 {object} model.Member
+// @Failure 400 {object} httputil.HTTPError
+// @Failure 404 {object} httputil.HTTPError
+// @Failure 500 {object} httputil.HTTPError
+// @Router /rank/problem [get]
+func GetListOfMemberRankedByCountOfProblem(ctx *gin.Context) {
+	db := ctx.MustGet("db").(*gorm.DB)
+	var page int
+	var limit int
+	var name string
+	var err error
+	if ctx.Query("page") != "" {
+		page, err = strconv.Atoi(ctx.Query("page"))
+		httputil.CheckError(ctx, err)
+	}
+	if ctx.Query("limit") != "" {
+		limit, err = strconv.Atoi(ctx.Query("limit"))
+		httputil.CheckError(ctx, err)
+	}
+	name = ctx.Query("name")
+
+	members, err := model.RankMembersByCountOfProblem(db, page, limit, name)
+
+	if err != nil {
+		httputil.Error(ctx, http.StatusNotFound, err)
+		return
+	}
+	ctx.JSON(http.StatusOK, members)
+}
+
+// GetListOfMemberRankedByCountOfSubmission godoc
+// @Summary 사용자의 문제 제출 수를 바탕으로 순위를 매긴 멤버 리스트를 반환
+// @Description get list of member ranked by count of submissions
+// @Tags Members
+// @Accept  json
+// @Produce  json
+// @Param page query int false "page"
+// @Param limit query int false "limit"
+// @Param name query string false "name"
+// @Param result query string false "result"
+// @Param language query string false "language"
+// @Success 200 {object} model.Member
+// @Failure 400 {object} httputil.HTTPError
+// @Failure 404 {object} httputil.HTTPError
+// @Failure 500 {object} httputil.HTTPError
+// @Router /rank/submission [get]
+func GetListOfMemberRankedByCountOfSubmission(ctx *gin.Context) {
+	db := ctx.MustGet("db").(*gorm.DB)
+	var page, limit int
+	var name, result, language string
+	var err error
+	if ctx.Query("page") != "" {
+		page, err = strconv.Atoi(ctx.Query("page"))
+		httputil.CheckError(ctx, err)
+	}
+	if ctx.Query("limit") != "" {
+		limit, err = strconv.Atoi(ctx.Query("limit"))
+		httputil.CheckError(ctx, err)
+	}
+	name = ctx.Query("name")
+	result = ctx.Query("result")
+	language = ctx.Query("language")
+
+	members, err := model.RankMembersByCountOfSubmissions(db, page, limit, name, result, language)
+
 	if err != nil {
 		httputil.Error(ctx, http.StatusNotFound, err)
 		return
@@ -38,7 +138,7 @@ func ListMembers(ctx *gin.Context) {
 }
 
 // ShowMember godoc
-// @Summary Show an Member
+// @Summary 사용자의 회원 정보 가져오기
 // @Description get string by ID
 // @Tags Members
 // @Accept  json
@@ -91,7 +191,7 @@ func AddMember(ctx *gin.Context) {
 	}
 
 	member := model.Member{
-		Name: req.Name,
+		Name:  req.Name,
 		Intro: req.Intro,
 	}
 	result, err := model.Insert(db, member)
@@ -102,9 +202,8 @@ func AddMember(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, result)
 }
 
-
 // UpdateMember godoc
-// @Summary Update an Member
+// @Summary 사용자의 회원 정보 수정하기
 // @Description Update by json Member
 // @Tags Members
 // @Accept  json
@@ -117,13 +216,15 @@ func AddMember(ctx *gin.Context) {
 // @Failure 500 {object} httputil.HTTPError
 // @Router /members/{id} [patch]
 func UpdateMember(ctx *gin.Context) {
-	db := ctx.MustGet("db").(*gorm.DB)
-	id := ctx.Param("id")
-	aid, err := strconv.Atoi(id)
+	// 로그인되어있는지 확인
+	claims, err := ParseValidAuthToken(ctx.Request)
 	if err != nil {
-		httputil.Error(ctx, http.StatusBadRequest, err)
+		// 로그인되어있지 않다면 401 반환
+		ctx.AbortWithStatus(http.StatusUnauthorized)
 		return
 	}
+	db := ctx.MustGet("db").(*gorm.DB)
+	requesterId := int(claims["id"].(float64))
 
 	var req model.EditMember
 	if err := ctx.ShouldBindJSON(&req); err != nil {
@@ -132,8 +233,8 @@ func UpdateMember(ctx *gin.Context) {
 	}
 
 	member := model.Member{
-		ID:   aid,
-		Name: req.Name,
+		ID:    requesterId,
+		Name:  req.Name,
 		Intro: req.Intro,
 	}
 	result, err := model.Update(db, member)
@@ -202,7 +303,7 @@ func Login(ctx *gin.Context) {
 		secret := GetSecret()
 		atClaims := jwt.MapClaims{}
 		atClaims["id"] = int(1)
-		atClaims["rank"] = int(1)
+		atClaims["member_rank"] = int(1)
 		atClaims["name"] = "홍길동"
 		atClaims["intro"] = "안녕하세요!"
 		accessToken := jwt.NewWithClaims(jwt.SigningMethodHS256, atClaims)
@@ -226,6 +327,7 @@ func Login(ctx *gin.Context) {
 		return
 	}
 }
+
 // GetSecret JWT 토큰을 발행하는데 필요한 secret을 .env에서 가져옴. 없을 경우 경고 메세지를 출력하고 기본값 사용
 func GetSecret() string {
 	err := godotenv.Load()
@@ -268,7 +370,7 @@ func ParseValidAuthToken(r *http.Request) (jwt.MapClaims, error) {
 	if !casted || !token.Valid {
 		return nil, errors.New("There's no valid auth token.")
 	}
-	
+
 	return claims, nil
 }
 

@@ -1,0 +1,35 @@
+.home{
+	.home-container{
+		width: 100%;
+		height: 100%;
+		.home-content{
+			padding: 0% 10%;
+			width: 80%;
+			height: 100%;
+			.home-tableselector{
+				display: flex;
+				padding: 20px 17px;
+				justify-content: space-between;
+				.home-tableselector-start{
+					display: flex;
+					align-items: center;
+					.sort-button{
+						font-size: 1.2rem;
+						font-weight: 400;
+						padding: 3px;
+						margin: 0px 5px;
+					}
+					.page-label{
+						margin-right: 6px;
+					}
+				}
+				.home-dropdowns{
+					display: flex;
+					.home-dropdown{
+						margin-left: 10px;
+					}
+				}
+			}
+		}
+	}
+}

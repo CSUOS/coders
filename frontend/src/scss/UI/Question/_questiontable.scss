@@ -1,0 +1,25 @@
+.questiontable {
+  display: flex;
+  width: 100%;
+  border: 2px solid $grey;
+  .table-head {
+    background-color: #e5e5e5;
+    .table-headcell {
+      font-size: 15px;
+      border-left: 1px solid $grey;
+    }
+  }
+  .table-bodyrow {
+    .table-bodycell {
+      font-size: 15px;
+      border-left: 1px solid #9e9b9a;
+    }
+    .linkcell {
+      &:hover,
+      &:active,
+      &:focus {
+        border-bottom: 1px solid black;
+      }
+    }
+  }
+}

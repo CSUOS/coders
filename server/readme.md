@@ -119,7 +119,7 @@ go run main.go
 sudo docker run \
     --name judge_name \
     --network host \
-    -v /home/hyeon/problems:/problems \
+    -v /home/{USER}/problems:/problems \
     --cap-add=SYS_PTRACE \
     -d \
     --restart=always \

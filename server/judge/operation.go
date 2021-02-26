@@ -88,7 +88,7 @@ func RequestSubmission(conn net.Conn, sub model.Submission, db *gorm.DB) net.Con
 	var req SubmissionRequest
 	req.Name = "submission-request"
 	req.SubmissionID = int64(sub.ID)
-	req.ProblemID = string(sub.ProblemID)
+	req.ProblemID = fmt.Sprint(sub.ProblemID)
 	req.Language = sub.Language;
 	req.Source = sub.Language;
 	req.TimeLimit = int64(sub.TimeLimit)
@@ -98,13 +98,47 @@ func RequestSubmission(conn net.Conn, sub model.Submission, db *gorm.DB) net.Con
 
 	if SendPacket(req, conn) {
 		fmt.Printf("Judging #%v. Waiting for responses...\n", sub.ID)
+
+		totalCases := 0
+		maxTime := 0.0
+		maxMemory := 0
+
 		for {
 			response := ReceivePacket(conn)
-			name := response["name"].(string)
 
-			switch name {
-			case "test-case-status":
+			if response == nil {
+				fmt.Println("Judge is not responding. Halt judging...")
 				break
+			}
+
+			// https://github.com/DMOJ/judge-server/blob/master/dmoj/packet.py
+			switch response["name"].(string) {
+			case "test-case-status":
+				if response["submission-id"].(int) != int(sub.ID) {
+					break;
+				}
+
+				cases := response["cases"].([]map[string]interface{})
+				for _, eachCase := range cases {
+					status := eachCase["status"].(int)
+					time := eachCase["time"].(float64)
+					memory := eachCase["memory"].(int)
+					
+					if status == 0 { // AC
+						if (maxTime < time) {
+							maxTime = time
+						}
+						if (maxMemory < memory) {
+							maxMemory = memory
+						}
+						totalCases += 1
+					} else if float64(sub.TimeLimit) < time { // TLE
+
+					}
+				}
+
+				break
+
 			case "compile-error":
 				break
 			case "compile-message":

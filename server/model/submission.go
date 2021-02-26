@@ -15,9 +15,12 @@ type Submission struct {
 	Language     string    `json:"language" example:"C11"`               // 참고: https://github.com/DMOJ/judge-server/tree/master/dmoj/executors
 	Source       string    `json:"source" example:"#include <stdio.h>" type:"text"`
 	IsJudging    bool      `json:"isJudging" example:"true"`
+	JudgedCases  int       `json:"judgedCases" example:"10" format:"int64"`
 	Result       string    `json:"result" example:"WA"`
 	TimeLimit    int       `json:"timeLimit" example:"1" format:"int64"`
 	MemoryLimit  int       `json:"memoryLimit" example:"1" format:"int64"`
+	TimeUsage    float64   `json:"timeUsage" example:"0.5" format:"float64"`
+	MemoryUsage  int       `json:"memoryUsage" example:"1024" format:"int64"`
 	ShortCircuit bool      `json:"shortCircuit" example:"false"`
 	Meta         string    `json:"meta" example:"meta data"`
 	CreatedAt    time.Time `json:"createdAt"`
@@ -64,10 +67,11 @@ func SubmissionsQuery(db *gorm.DB, query QuerySubmission) ([]Submission, error) 
 	return submissions, err
 }
 
-// // SubmissionUpdateResult example
-// func SubmissionUpdateResult(db *gorm.DB, id uint, result string) (Submission, error) {
-
-// }
+// SubmissionUpdate example
+func SubmissionUpdate(db *gorm.DB, submission Submission) error {
+	err := db.Model(&submission).Where("id = ?", submission.ID).Updates(submission).Error
+	return err
+}
 
 // SubmissionOne example
 func SubmissionOne(db *gorm.DB, memberID int) (Submission, error) {

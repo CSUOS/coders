@@ -8,6 +8,7 @@ import (
 	"io/ioutil"
 	"net"
 	"fmt"
+	"time"
 )
 
 func SendPacket(data interface{}, conn net.Conn) bool {
@@ -24,25 +25,30 @@ func SendPacket(data interface{}, conn net.Conn) bool {
 	compressed := buffer.Bytes()
 	sizeBuffer := make([]byte, 4)
 	binary.BigEndian.PutUint32(sizeBuffer, uint32(len(compressed)))
+
+	conn.SetWriteDeadline(time.Now().Add(time.Second*10))
 	_, err = conn.Write(sizeBuffer)
+
 	if err != nil {
 		fmt.Println("conn.Write:", err)
 		return false;
 	}
 
+	conn.SetWriteDeadline(time.Now().Add(time.Second*10))
 	_, err = conn.Write(compressed)
+
 	if err != nil {
 		fmt.Println("conn.Write:", err)
 		return false;
 	}
-
-	fmt.Println("Wrote", len(sizeBuffer) + len(compressed), "bytes!")
 
 	return true;
 }
 
 func ReceivePacket(conn net.Conn) map[string]interface{} {
 	sizeBuffer := make([]byte, 4)
+
+	conn.SetReadDeadline(time.Now().Add(time.Second*10))
 	_, err := conn.Read(sizeBuffer)
 
 	if err != nil {
@@ -51,11 +57,10 @@ func ReceivePacket(conn net.Conn) map[string]interface{} {
 	}
 
 	size := binary.BigEndian.Uint32(sizeBuffer)
-	fmt.Println("Will receive", size, "bytes...")
-
 	buffer := make([]byte, size)
+
+	conn.SetReadDeadline(time.Now().Add(time.Second*10))
 	count, err := conn.Read(buffer)
-	fmt.Println("Received", count, "bytes!")
 
 	if err != nil {
 		fmt.Println("conn.Read:", err)

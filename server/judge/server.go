@@ -21,7 +21,7 @@ func FindJudge(db *gorm.DB) {
 			fmt.Println("server.Accept:", err)
 			continue
 		}
-		conn.SetReadDeadline(time.Time{})
+		conn.SetReadDeadline(time.Now().Add(time.Second*10))
 		defer conn.Close()
 		go handleConnection(conn, db)
 	}

@@ -119,7 +119,7 @@ go run main.go
 sudo docker run \
     --name judge_name \
     --network host \
-    -v /home/{USER}/problems:/problems \
+    -v /problems:/problems \
     --cap-add=SYS_PTRACE \
     -d \
     --restart=always \
@@ -137,7 +137,7 @@ sudo docker run \
 
 이를 설정하는 방법은 아래와 같습니다.
 
-1. 본 리포지토리의 `/backend` 경로에 `.env` 파일을 만들어주세요.
+1. 본 리포지토리의 `/server` 경로에 `.env` 파일을 만들어주세요.
 2. 그리고 그 파일에 `ACCESS_SECRET = [토큰]` (대괄호 제외)를 적어주세요.
 ```
 ACCESS_SECRET = [임의의 토큰]

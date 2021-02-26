@@ -1,6 +1,7 @@
 package model
 
 import (
+	"errors"
 	"strconv"
 	"time"
 
@@ -9,23 +10,24 @@ import (
 
 // Submission example
 type Submission struct {
-	ID           uint      `json:"id" example:"1" format:"int64" gorm:"autoIncrement"` // packet 에서는 submission-id
-	MemberID     int       `json:"memberId" example:"1" format:"int64"`
-	ProblemID    int       `json:"problemId" example:"1" format:"int64"` // packet 에서는 problem-id
-	Language     string    `json:"language" example:"C11"`               // 참고: https://github.com/DMOJ/judge-server/tree/master/dmoj/executors
-	Source       string    `json:"source" example:"#include <stdio.h>" type:"text"`
-	IsJudging    bool      `json:"isJudging" example:"true"`
-	JudgedCases  int       `json:"judgedCases" example:"10" format:"int64"`
-	Result       string    `json:"result" example:"WA"`
-	TimeLimit    int       `json:"timeLimit" example:"1" format:"int64"`
-	MemoryLimit  int       `json:"memoryLimit" example:"1" format:"int64"`
-	TimeUsage    float64   `json:"timeUsage" example:"0.5" format:"float64"`
-	MemoryUsage  int       `json:"memoryUsage" example:"1024" format:"int64"`
-	ShortCircuit bool      `json:"shortCircuit" example:"false"`
-	Meta         string    `json:"meta" example:"meta data"`
-	CreatedAt    time.Time `json:"createdAt"`
-	Member       Member    `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
-	Problem      Problem   `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
+	ID           	uint      `json:"id" example:"1" format:"int64" gorm:"autoIncrement"` // packet 에서는 submission-id
+	MemberID     	int       `json:"memberId" example:"1" format:"int64"`
+	ProblemID    	int       `json:"problemId" example:"1" format:"int64"` // packet 에서는 problem-id
+	Language     	string    `json:"language" example:"C11"`               // 참고: https://github.com/DMOJ/judge-server/tree/master/dmoj/executors
+	Source       	string    `json:"source" example:"#include <stdio.h>" type:"text"`
+	IsJudging    	bool      `json:"isJudging" example:"true"`
+	JudgedCases  	int       `json:"judgedCases" example:"10" format:"int64"`
+	Result       	string    `json:"result" example:"WA"`
+	TimeLimit    	int       `json:"timeLimit" example:"1" format:"int64"`
+	MemoryLimit  	int       `json:"memoryLimit" example:"1" format:"int64"`
+	TimeUsage    	float64   `json:"timeUsage" example:"0.5" format:"float64"`
+	MemoryUsage  	int       `json:"memoryUsage" example:"1024" format:"int64"`
+	CompileMessage	string	  `json:"compileMessage" example:"warning..."`
+	ShortCircuit 	bool      `json:"shortCircuit" example:"false"`
+	Meta         	string    `json:"meta" example:"meta data"`
+	CreatedAt    	time.Time `json:"createdAt"`
+	Member       	Member    `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
+	Problem      	Problem   `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
 }
 
 // EditSubmission 은 ID, CreatedAt, Result 컬럼이 없다
@@ -78,6 +80,20 @@ func SubmissionOne(db *gorm.DB, memberID int) (Submission, error) {
 	var Submission Submission
 	err := db.Where("id = ?", memberID).First(&Submission).Error
 	return Submission, err
+}
+
+// SubmissionOne example
+func SubmissionJudging(db *gorm.DB) (Submission, error) {
+	var submission Submission
+	var count int64
+
+	err := db.Model(&Submission{}).Where("is_judging = ?", true).Count(&count).Error;
+	if err != nil || count == 0 {
+		return submission, errors.New("There's no submissions to judge");
+	} else {
+		err := db.Model(&Submission{}).Where("is_judging = ?", true).First(&submission).Error
+		return submission, err
+	}
 }
 
 // SubmissionInsert example

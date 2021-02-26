@@ -108,24 +108,25 @@ func AddSubmission(ctx *gin.Context) {
 	}
 
 	Submission := model.Submission{
-		MemberID:     requesterId,
-		ProblemID:    req.ProblemID,
-		Language:     req.Language,
-		Source:       req.Source,
+		MemberID:       requesterId,
+		ProblemID:      req.ProblemID,
+		Language:       req.Language,
+		Source:         req.Source,
 		// 첫 상태는 "채점 준비중"이고, 이후 채점기가
 		// IsJudging = true인 Submission을 가져가 채점을 진행하게 됨.
 		// 채점이 완료되면 IsJudging이 false로 설정됨.
-		IsJudging:    true,
-		JudgedCases:  0,
+		IsJudging:      true,
+		JudgedCases:    0,
 		// 채점 진행상황(채점한 TC의 수) 저장
-		Result:       "채점 준비중",
-		TimeLimit:    req.TimeLimit,
-		MemoryLimit:  req.MemoryLimit,
-		TimeUsage:    0,
-		MemoryUsage:  0,
-		ShortCircuit: req.ShortCircuit,
-		Meta:         req.Meta,
-		CreatedAt:    time.Now(),
+		Result:         "채점 준비중",
+		TimeLimit:      req.TimeLimit,
+		MemoryLimit:    req.MemoryLimit,
+		TimeUsage:      0,
+		MemoryUsage:    0,
+		CompileMessage: "",
+		ShortCircuit:   req.ShortCircuit,
+		Meta:           req.Meta,
+		CreatedAt:      time.Now(),
 	}
 
 	result, err := model.SubmissionInsert(db, Submission)

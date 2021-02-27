@@ -16,9 +16,9 @@ export const RankContextProvider = ({ children }) => {
 
 	const getListOfMemberRankedByCountOfProblem = (props) => {
 		const { page, limit, name } = props;
-		const url = `api/v1/members/rank/problem?page=${page}&limit=${limit}`;
+		let url = `api/v1/members/rank/problem?page=${page}&limit=${limit}`;
 
-		if (name !== undefined) url.concat(`&name=${name}`);
+		if (name !== undefined) url = url.concat(`&name=${name}`);
 		axios
 			.get(url)
 			.then(async (res) => {
@@ -33,11 +33,11 @@ export const RankContextProvider = ({ children }) => {
 	const getListOfMemberRankedByCountOfSubmission = (props) => {
 		const { page, limit, name, result, language } = props;
 		console.log(props);
-		const url = `api/v1/members/rank/submission?page=${page}&limit=${limit}`;
+		let url = `api/v1/members/rank/submission?page=${page}&limit=${limit}`;
 
-		if (name !== undefined) url.concat(`&name=${name}`);
-		if (result !== undefined) url.concat(`&result=${result}`);
-		if (language !== undefined) url.concat(`&language=${language}`);
+		if (name !== undefined) url = url.concat(`&name=${name}`);
+		if (result !== undefined) url = url.concat(`&result=${result}`);
+		if (language !== undefined) url = url.concat(`&language=${language}`);
 
 		axios
 			.get(url)
@@ -78,11 +78,32 @@ const ProblemDataContext = createContext();
 const ProblemDispatchContext = createContext();
 
 export const ProblemContextProvider = ({ children }) => {
-	const [problems, setProblems] = useState(problemData);
+	const [problems, setProblems] = useState([]);
+
+	const setProblemsByQuery = (props) => {
+		const { page, limit, memberId, sort, search } = props;
+		console.log(props);
+
+		let url = `api/v1/problems?num=${limit}&page=${page}`;
+
+		if (memberId) url = url.concat(`&memberId=${memberId}`);
+		if (sort) url = url.concat(`&sort=${sort}`);
+		if (search) url = url.concat(`&search=${search}`);
+
+		axios
+			.get(url)
+			.then(async (res) => {
+				console.log(res);
+				setProblems(res.data);
+			})
+			.catch((e) => {
+				console.dir(e);
+			});
+	};
 
 	return (
 		<ProblemDataContext.Provider value={problems}>
-			<ProblemDispatchContext.Provider value={setProblems}>
+			<ProblemDispatchContext.Provider value={setProblemsByQuery}>
 				{children}
 			</ProblemDispatchContext.Provider>
 		</ProblemDataContext.Provider>

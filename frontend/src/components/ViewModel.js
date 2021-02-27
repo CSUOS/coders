@@ -35,7 +35,7 @@ const ViewModel = () => {
 	const setRanks = useRankDispatchContext();
 
 	const problems = useProblemDataContext();
-	const setProblem = useProblemDispatchContext();
+	const setProblems = useProblemDispatchContext();
 
 	const problemInfo = usePInfoContext();
 	const setProblemInfo = usePInfoDispatchContext();
@@ -179,7 +179,12 @@ const ViewModel = () => {
 					exact
 					path="/"
 					render={() => {
-						return <Home problems={problems} />;
+						return (
+							<Home
+								problems={problems}
+								setProblems={setProblems}
+							/>
+						);
 					}}
 				/>
 				<Route exact path="/login" render={() => <Login />} />

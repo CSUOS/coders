@@ -36,7 +36,7 @@ const Header = ({ changedUser }) => {
 				</Button>
 			</Link>
 
-			{user !== null ? (
+			{user && user.id ? (
 				<Grid className="header-buttons">
 					<Grid>
 						{user.name}

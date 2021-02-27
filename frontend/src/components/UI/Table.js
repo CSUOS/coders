@@ -13,7 +13,7 @@ const Table = ({ head, rows }) => {
 					))}
 				</tr>
 			</thead>
-			{isProblem && rows !== null ? (
+			{isProblem ? (
 				<tbody>
 					{rows.map((row) => (
 						<tr className="table-bodyrow">

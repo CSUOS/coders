@@ -11,13 +11,14 @@ const ProblemScore = ({
 	mySubmissions,
 	handleMySubmissions,
 	problemResult,
+	userId,
 }) => {
-	const token = GetToken();
 	const { id } = useParams(); // 문제 번호
 	useEffect(() => {
 		try {
-			const { id: memberId } = token;
-			handleMySubmissions({ problemId: id, memberId });
+			if (userId) {
+				handleMySubmissions({ problemId: id, memberId: userId });
+			}
 		} catch (e) {
 			console.log(e);
 		}

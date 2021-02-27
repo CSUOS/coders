@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useCookies } from 'react-cookie';
 import { Grid } from '@material-ui/core';
 import { Route } from 'react-router-dom';
 import axios from 'axios';
@@ -73,6 +72,7 @@ const ViewModel = () => {
 					await axios.delete(
 						`/api/v1/pcomments/${commentData.commentId}`
 					);
+					console.log(commentData.commentId);
 					const info = await axios.get(
 						`/api/v1/pcomments/${commentData.problemId}`
 					);
@@ -201,6 +201,7 @@ const ViewModel = () => {
 							handleMySubmissions={handleMySubmissions}
 							problemResult={problemResult}
 							handleProblemResult={handleProblemResult}
+							cookies={cookies}
 						/>
 					)}
 				/>

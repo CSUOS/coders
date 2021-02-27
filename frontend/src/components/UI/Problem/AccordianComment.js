@@ -18,7 +18,7 @@ const Accordion = withStyles({
 	expanded: {},
 })(MuiAccordion);
 
-const AccordianComment = ({ pId, comments, handleComments }) => {
+const AccordianComment = ({ pId, comments, handleComments, userId, name }) => {
 	const [open, setOpen] = useState(false);
 	const handleOpen = () => {
 		setOpen(!open);
@@ -37,6 +37,8 @@ const AccordianComment = ({ pId, comments, handleComments }) => {
 							pId={pId}
 							comments={comments}
 							handleComments={handleComments}
+							id={userId}
+							name={name}
 						/>
 					</Grid>
 				</AccordionDetails>

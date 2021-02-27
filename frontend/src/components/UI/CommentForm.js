@@ -1,12 +1,9 @@
 import React, { useState } from 'react';
 import { Grid, TextField, Button } from '@material-ui/core';
 import { Comment } from '.';
-import GetToken from '../../function/GetToken';
 
-const CommentForm = ({ comments, handleComments, pId }) => {
+const CommentForm = ({ comments, handleComments, pId, id, name }) => {
 	const [cmt, setText] = useState('');
-	const token = GetToken();
-	const { id, name } = token;
 	const handlePost = () => {
 		if (cmt !== '') {
 			try {

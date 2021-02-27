@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { useState, createContext, useContext } from 'react';
 
 // ======== [ 임시 값 ] =============
@@ -5,6 +6,72 @@ import data from '../data.json';
 
 const problemData = data.problem;
 // ==================================
+
+// ================= [ rank context ] ===============================
+const RankDataContext = createContext();
+const RankDispatchContext = createContext();
+
+export const RankContextProvider = ({ children }) => {
+	const [ranks, setRanks] = useState([]);
+
+	const getListOfMemberRankedByCountOfProblem = (props) => {
+		const { page, limit, name } = props;
+		const url = `api/v1/members/rank/problem?page=${page}&limit=${limit}`;
+
+		if (name !== undefined) url.concat(`&name=${name}`);
+		axios
+			.get(url)
+			.then(async (res) => {
+				console.log(res);
+				setRanks(res.data);
+			})
+			.catch((e) => {
+				console.dir(e);
+			});
+	};
+
+	const getListOfMemberRankedByCountOfSubmission = (props) => {
+		const { page, limit, name, result, language } = props;
+		console.log(props);
+		const url = `api/v1/members/rank/submission?page=${page}&limit=${limit}`;
+
+		if (name !== undefined) url.concat(`&name=${name}`);
+		if (result !== undefined) url.concat(`&result=${result}`);
+		if (language !== undefined) url.concat(`&language=${language}`);
+
+		axios
+			.get(url)
+			.then(async (res) => {
+				console.log(res);
+				setRanks(res.data);
+			})
+			.catch((e) => {
+				console.dir(e);
+			});
+	};
+	return (
+		<RankDataContext.Provider value={ranks}>
+			<RankDispatchContext.Provider
+				value={{
+					getListOfMemberRankedByCountOfProblem,
+					getListOfMemberRankedByCountOfSubmission,
+				}}
+			>
+				{children}
+			</RankDispatchContext.Provider>
+		</RankDataContext.Provider>
+	);
+};
+
+export const useRankDataContext = () => {
+	const context = useContext(RankDataContext);
+	return context;
+};
+
+export const useRankDispatchContext = () => {
+	const context = useContext(RankDispatchContext);
+	return context;
+};
 
 // ================= [ problem context ] ============================
 const ProblemDataContext = createContext();

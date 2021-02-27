@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useState } from 'react';
 import {
 	Grid,
 	AccordionDetails,
@@ -24,15 +23,18 @@ const AccordianComment = ({ pId, comments, handleComments, userId, name }) => {
 		setOpen(!open);
 	};
 	return (
-		<Grid xs={6}>
+		<Grid item xs={6}>
 			<Accordion className="accordion">
-				<AccordionSummary expanded={open} onClick={handleOpen}>
+				<AccordionSummary
+					expanded={open.toString()}
+					onClick={handleOpen}
+				>
 					<Fab className={open ? 'arrow-icon-on' : 'arrow-icon'}>
 						<DoubleArrowIcon size="large" />
 					</Fab>
 				</AccordionSummary>
 				<AccordionDetails>
-					<Grid className="accordion-detail">
+					<Grid item className="accordion-detail">
 						<CommentForm
 							pId={pId}
 							comments={comments}

@@ -1,10 +1,10 @@
 /* eslint-disable no-nested-ternary */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Grid, Button, CircularProgress } from '@material-ui/core';
 import FormatListNumberedIcon from '@material-ui/icons/FormatListNumbered';
 import { SelectForm, Table } from '..';
-import { GetToken, GetSubmissions } from '../../../function/index';
+import { GetSubmissions } from '../../../function/index';
 // name 추가예정
 const head = ['채점 번호', '결과', '메모리', '시간', '언어', '제출한 시간'];
 const ProblemScore = ({

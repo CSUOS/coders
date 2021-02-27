@@ -68,7 +68,7 @@ const Header = ({ changedUser }) => {
 			) : (
 				<Grid className="header-buttons">
 					<Link to="/login">
-						<Button size="big" startIcon={<HowToRegIcon />}>
+						<Button size="large" startIcon={<HowToRegIcon />}>
 							로그인
 						</Button>
 					</Link>

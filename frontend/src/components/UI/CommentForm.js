@@ -17,7 +17,6 @@ const CommentForm = ({ comments, handleComments, pId, id, name }) => {
 				handleComments('post', commentData);
 				setText('');
 			} catch (e) {
-				console.log(e);
 				alert('로그인을 해주세요.');
 			}
 		}
@@ -49,6 +48,7 @@ const CommentForm = ({ comments, handleComments, pId, id, name }) => {
 				<Grid className="comment-comments">
 					{comments.map((comment) => (
 						<Comment
+							key={comment.id}
 							userName={comment.userId}
 							comment={comment.text}
 							createAt={comment.createdAt}

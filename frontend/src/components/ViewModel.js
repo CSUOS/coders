@@ -6,7 +6,7 @@ import { Home, Login, User, Problem, Question, Rangking, Submit } from './View';
 import { Header, MenuBar } from './UI';
 import {
 	useProblemDataContext,
-	useProblemDispatchContext,
+	// useProblemDispatchContext,
 	usePInfoContext,
 	usePInfoDispatchContext,
 	useCommentsContext,
@@ -29,7 +29,7 @@ const ViewModel = () => {
 	}, []);
 
 	const problems = useProblemDataContext();
-	const setProblem = useProblemDispatchContext();
+	// const setProblem = useProblemDispatchContext();
 
 	const problemInfo = usePInfoContext();
 	const setProblemInfo = usePInfoDispatchContext();
@@ -72,7 +72,6 @@ const ViewModel = () => {
 					await axios.delete(
 						`/api/v1/pcomments/${commentData.commentId}`
 					);
-					console.log(commentData.commentId);
 					const info = await axios.get(
 						`/api/v1/pcomments/${commentData.problemId}`
 					);
@@ -140,7 +139,7 @@ const ViewModel = () => {
 	const problemResult = useProblemResultContext();
 	const setProblemResult = useProblemResultDispatchContext();
 	const handleProblemResult = async (props) => {
-		const { language, source, memberId, meta, problemId } = props;
+		const { problemId } = props;
 
 		try {
 			// 제출 전 해당 문제의 정보 저장

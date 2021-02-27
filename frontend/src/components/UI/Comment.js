@@ -43,14 +43,9 @@ const Comment = (props) => {
 		}
 	};
 	return (
-		<Grid
-			className="comment-container"
-			container
-			direction="column"
-			xs={12}
-		>
+		<Grid className="comment-container" item xs={12}>
 			<Grid className="comment-header">
-				<Typography className="user">
+				<Typography component="span" className="user">
 					<PersonIcon />
 					{userName}
 					<Typography className="created">

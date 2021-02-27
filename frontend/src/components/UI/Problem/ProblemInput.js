@@ -58,12 +58,7 @@ const ProblemInput = ({ language, initValue, handleProblemResult }) => {
 		return samePage.indexOf(location.pathname) > -1;
 	};
 	return (
-		<Grid
-			container
-			className="problem-input-container"
-			direction="column"
-			xs={6}
-		>
+		<Grid item className="problem-input-container" xs={6}>
 			{!notice && guard ? (
 				<LeavingGuard
 					when={guard}

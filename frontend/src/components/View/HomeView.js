@@ -16,6 +16,7 @@ const paginationDropdownValues = [...Array(4)].map(
 const dropdownHasLabel = false;
 
 const HomeView = ({ problems, setProblems }) => {
+	const [titleSortToggle, setTitleSortToggle] = useState(true);
 	const tableBody = problems.map((problem, index) => [
 		index + 1,
 		problem.Title,
@@ -67,10 +68,14 @@ const HomeView = ({ problems, setProblems }) => {
 		const query = {
 			limit: currentLimit,
 			page: currentPageIndex,
-			sort: undefined,
+			sort: true ? 'title desc' : 'title asc',
 			search: input,
 		};
 		setProblems(query);
+	};
+
+	const onSortButtonClick = () => {
+		setTitleSortToggle(!titleSortToggle);
 	};
 
 	useEffect(() => {
@@ -98,7 +103,10 @@ const HomeView = ({ problems, setProblems }) => {
 								handleInputChange={handleInputChange}
 								onClick={onSearchButtonClick}
 							/>
-							<Button className="sort-button">
+							<Button
+								className="sort-button"
+								onClick={onSortButtonClick}
+							>
 								{sortButtonText}
 							</Button>
 						</Grid>

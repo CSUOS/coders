@@ -106,7 +106,8 @@ const ViewModel = () => {
 	// 특정 문제의 모든 정답기록 가져오기
 	const handleSubmissions = async (props) => {
 		const { problemId, language, memberId } = props;
-		let url = `/api/v1/submissions?result=AC&problemId=${problemId}`;
+		let url = `/api/v1/submissions?result=맞았습니다&problemId=${problemId}`;
+		console.log(url);
 		if (language !== undefined) {
 			url = url.concat('&language=', language);
 		}
@@ -154,15 +155,19 @@ const ViewModel = () => {
 				`/api/v1/submissions`,
 				postData
 			);
-			// 해당 로직에서 달성률이 100이 되는동안 1초간격 반복하는 로직으로 바꿀 예정
-			const result = await axios.get(`/api/v1/submissions/${problem.id}`);
-			setProblemResult(result.data);
+			const loop = setInterval(async () => {
+				const result = await axios.get(
+					`/api/v1/submissions/${problem.id}`
+				);
+				console.log('req');
+				setProblemResult(result.data);
+				if (!result.data.isJudging) {
+					clearInterval(loop);
+				}
+			}, 1000);
 		} catch (e) {
 			console.log(e);
 		}
-
-		// setProblemCode(text);
-		// console.log('id :', id, ', language : ', lang, ',code : ', text);
 	};
 
 	return (

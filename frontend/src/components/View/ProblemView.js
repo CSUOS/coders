@@ -97,7 +97,7 @@ const ProblemView = (props) => {
 					{/* 현재 지원언어 : C11, CPP20, JAVA8, PY3 */}
 					<SelectForm
 						defaultValue="C11"
-						values={['C11', 'Java8', 'Python3', 'C++20']}
+						values={['C11', 'Java8', 'PY3', 'CPP20']}
 						handelChange={changeLang}
 					/>
 				</Grid>

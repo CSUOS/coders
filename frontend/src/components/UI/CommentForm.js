@@ -3,20 +3,19 @@ import { Grid, TextField, Button } from '@material-ui/core';
 import { Comment } from '.';
 import GetToken from '../../function/GetToken';
 
-const CommentForm = ({ comments, handleComments }) => {
+const CommentForm = ({ comments, handleComments, pId }) => {
 	const [cmt, setText] = useState('');
 	const token = GetToken();
-
+	const { id, name } = token;
 	const handlePost = () => {
 		if (cmt !== '') {
 			try {
-				const { id, name } = token;
 				const commentData = {
 					deleted: false,
 					edited: false,
-					problemId: id,
+					problemId: Number(pId),
 					text: cmt,
-					userId: 1, // user name 추가 예정
+					userId: id, // user name 추가 예정
 				};
 				handleComments('post', commentData);
 				setText('');
@@ -59,6 +58,7 @@ const CommentForm = ({ comments, handleComments }) => {
 							problemId={comment.problemId}
 							commentId={comment.id}
 							handleComments={handleComments}
+							isSameUser={id === comment.userId}
 						/>
 					))}
 				</Grid>

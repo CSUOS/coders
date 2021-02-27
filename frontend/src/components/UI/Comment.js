@@ -12,6 +12,7 @@ const Comment = (props) => {
 		problemId,
 		commentId,
 		handleComments,
+		isSameUser,
 	} = props;
 	let time = ' ';
 	if (createAt != null) {
@@ -33,7 +34,7 @@ const Comment = (props) => {
 				edited: true,
 				problemId,
 				text,
-				userId: 1, // 토큰 id로 바꿀 예정
+				userId: userName, // 토큰 id로 바꿀 예정
 			};
 			handleComments('patch', commentData);
 			setEdit(!edit);
@@ -58,14 +59,16 @@ const Comment = (props) => {
 						&nbsp;&nbsp;
 					</Typography>
 				</Typography>
-				<Grid>
-					<IconButton size="small" onClick={handlePatch}>
-						<EditIcon fontSize="small" />
-					</IconButton>
-					<IconButton size="small" onClick={handleDelete}>
-						<ClearIcon fontSize="small" />
-					</IconButton>
-				</Grid>
+				{isSameUser ? (
+					<Grid>
+						<IconButton size="small" onClick={handlePatch}>
+							<EditIcon fontSize="small" />
+						</IconButton>
+						<IconButton size="small" onClick={handleDelete}>
+							<ClearIcon fontSize="small" />
+						</IconButton>
+					</Grid>
+				) : null}
 			</Grid>
 			{edit ? (
 				<TextField

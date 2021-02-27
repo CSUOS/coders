@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Grid, Button, CircularProgress } from '@material-ui/core';
@@ -29,15 +30,17 @@ const ProblemScore = ({
 				<b>채점 현황</b>
 			</Grid>
 			{problemResult ? (
-				<Table
-					head={head}
-					rows={GetSubmissions([problemResult], false)}
-				/>
-			) : (
-				<Grid className="problem-score-progress">
-					<CircularProgress color="inherit" />
-				</Grid>
-			)}
+				problemResult.isJudging ? (
+					<Grid className="problem-score-progress">
+						<CircularProgress color="inherit" />
+					</Grid>
+				) : (
+					<Table
+						head={head}
+						rows={GetSubmissions([problemResult], false)}
+					/>
+				)
+			) : null}
 			<Grid className="problem-score-info">
 				<FormatListNumberedIcon style={{ fontSize: '2rem' }} />
 				<b>나의 제출 현황</b>

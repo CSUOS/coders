@@ -26,16 +26,16 @@ const ProblemInput = ({ language, initValue, handleProblemResult }) => {
 	let lang = 'C11';
 	switch (language) {
 		case 'C11':
-			lang = 'C11';
+			lang = 'c_cpp';
 			break;
 		case 'Java8':
-			lang = 'Java8';
+			lang = 'java';
 			break;
-		case 'Python3':
-			lang = 'PY3';
+		case 'PY3':
+			lang = 'python';
 			break;
-		case 'C++20':
-			lang = 'CPP20';
+		case 'CPP20':
+			lang = 'c_cpp';
 			break;
 		default:
 			break;
@@ -47,7 +47,7 @@ const ProblemInput = ({ language, initValue, handleProblemResult }) => {
 	const onSubmit = () => {
 		handleProblemResult({
 			problemId: Number(problemId),
-			language: lang,
+			language,
 			source: currentCode,
 			meta: 'metaData', // 변경 예정
 			memberId,

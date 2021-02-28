@@ -8,12 +8,17 @@ import (
 	"io/ioutil"
 	"net"
 	"fmt"
+	"time"
 )
 
 func SendPacket(data interface{}, conn net.Conn) bool {
+	if conn == nil {
+		return false
+	}
+
 	jsonStr, err := json.Marshal(data)
 	if err != nil {
-		fmt.Println("json.Marshal:", err)
+		fmt.Println("[JUDGE] json.Marshal:", err)
 		return false;
 	}
 
@@ -24,48 +29,56 @@ func SendPacket(data interface{}, conn net.Conn) bool {
 	compressed := buffer.Bytes()
 	sizeBuffer := make([]byte, 4)
 	binary.BigEndian.PutUint32(sizeBuffer, uint32(len(compressed)))
+
+	conn.SetWriteDeadline(time.Now().Add(time.Second*10))
 	_, err = conn.Write(sizeBuffer)
+
 	if err != nil {
-		fmt.Println("conn.Write:", err)
+		fmt.Println("[JUDGE] conn.Write:", err)
 		return false;
 	}
 
+	conn.SetWriteDeadline(time.Now().Add(time.Second*10))
 	_, err = conn.Write(compressed)
+
 	if err != nil {
-		fmt.Println("conn.Write:", err)
+		fmt.Println("[JUDGE] conn.Write:", err)
 		return false;
 	}
-
-	fmt.Println("Wrote", len(sizeBuffer) + len(compressed), "bytes!")
 
 	return true;
 }
 
 func ReceivePacket(conn net.Conn) map[string]interface{} {
+	if conn == nil {
+		return nil
+	}
+
 	sizeBuffer := make([]byte, 4)
+
+	conn.SetReadDeadline(time.Now().Add(time.Second*10))
 	_, err := conn.Read(sizeBuffer)
 
 	if err != nil {
-		fmt.Println("conn.Read:", err)
+		fmt.Println("[JUDGE] conn.Read:", err)
 		return nil;
 	}
 
 	size := binary.BigEndian.Uint32(sizeBuffer)
-	fmt.Println("Will receive", size, "bytes...")
-
 	buffer := make([]byte, size)
+
+	conn.SetReadDeadline(time.Now().Add(time.Second*10))
 	count, err := conn.Read(buffer)
-	fmt.Println("Received", count, "bytes!")
 
 	if err != nil {
-		fmt.Println("conn.Read:", err)
+		fmt.Println("[JUDGE] conn.Read:", err)
 		return nil;
 	}
 
 	if 0 < count {
 		decoded := DecodePacket(buffer);
 		if decoded == nil {
-			fmt.Println("Failed to DecodePacket")
+			fmt.Println("[JUDGE] Failed to DecodePacket")
 			return nil;
 		}
 
@@ -79,14 +92,14 @@ func DecodePacket(data []byte) map[string]interface{} {
 	reader := bytes.NewReader(data)
 	z, err := zlib.NewReader(reader)
 	if (err != nil) {
-		fmt.Println("zlib.NewReader:", err)
+		fmt.Println("[JUDGE] zlib.NewReader:", err)
 		return nil
 	}
 
 	defer z.Close()
 	decompressed, err := ioutil.ReadAll(z)
 	if (err != nil) {
-		fmt.Println("ioutil.ReadAll:", err)
+		fmt.Println("[JUDGE] ioutil.ReadAll:", err)
 		return nil
 	}
 

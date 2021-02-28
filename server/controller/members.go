@@ -69,7 +69,7 @@ func ListMembers(ctx *gin.Context) {
 // @Failure 400 {object} httputil.HTTPError
 // @Failure 404 {object} httputil.HTTPError
 // @Failure 500 {object} httputil.HTTPError
-// @Router /rank/problem [get]
+// @Router members/rank/problem [get]
 func GetListOfMemberRankedByCountOfProblem(ctx *gin.Context) {
 	db := ctx.MustGet("db").(*gorm.DB)
 	var page int
@@ -110,7 +110,7 @@ func GetListOfMemberRankedByCountOfProblem(ctx *gin.Context) {
 // @Failure 400 {object} httputil.HTTPError
 // @Failure 404 {object} httputil.HTTPError
 // @Failure 500 {object} httputil.HTTPError
-// @Router /rank/submission [get]
+// @Router members/rank/submission [get]
 func GetListOfMemberRankedByCountOfSubmission(ctx *gin.Context) {
 	db := ctx.MustGet("db").(*gorm.DB)
 	var page, limit int

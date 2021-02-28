@@ -15,8 +15,6 @@ func ApplyRoutes(r *gin.Engine) {
 	r.GET("/ping", c.PingExample)
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	r.GET("/submitted", c.ListSubmittedProblems)
-	r.GET("/rank/problem", c.GetListOfMemberRankedByCountOfProblem)
-	r.GET("/rank/submission", c.GetListOfMemberRankedByCountOfSubmission)
 
 	v1 := r.Group("/api/v1")
 	{
@@ -24,6 +22,9 @@ func ApplyRoutes(r *gin.Engine) {
 		{
 			members.GET("", c.ListMembers)
 			members.GET(":id", c.ShowMember)
+			// members.GET("member/:id", c.ShowMember)
+			// members.GET("/rank/problem", c.GetListOfMemberRankedByCountOfSubmission)
+			// members.GET("/rank/submission", c.GetListOfMemberRankedByCountOfSubmission)
 			members.POST("", c.AddMember)
 			members.PATCH(":id", c.UpdateMember)
 			members.DELETE(":id", c.DeleteMember)

@@ -5,9 +5,9 @@ import { getTotalPageCount } from '../../function/PaginationManager';
 
 const mainTitle = '문제 선택';
 const dropdownLabel = '해결 여부';
-const dropdownValues = ['해결', '미해결'];
+// const dropdownValues = ['해결', '미해결'];
 const searchInputLabel = '제목, 내용, 분류로 검색';
-const tableHead = ['문제 번호', '제목', '분류', '정답률', '좋아요 수'];
+const tableHead = ['문제 번호', '제목', '분류'];
 const sortButtonText = '↑↓ 제목으로 정렬';
 const paginationDropdownLabel = '한 페이지 당 문제 수:';
 const paginationDropdownValues = [...Array(4)].map(
@@ -15,13 +15,12 @@ const paginationDropdownValues = [...Array(4)].map(
 );
 const dropdownHasLabel = false;
 
-const HomeView = ({ problems }) => {
+const HomeView = ({ problems, setProblems }) => {
+	const [titleSortToggle, setTitleSortToggle] = useState(true);
 	const tableBody = problems.map((problem, index) => [
 		index + 1,
-		problem.title,
-		problem.class,
-		`33%`,
-		15,
+		problem.Title,
+		problem.Class,
 	]);
 	// =============[ for pagination ] ===========================
 	const totalProblemCount = problems.length;
@@ -32,28 +31,29 @@ const HomeView = ({ problems }) => {
 	const totalPageCount = getTotalPageCount(totalProblemCount, currentLimit);
 	// ===========================================================
 
-	const [solved, setSolved] = useState();
+	// const [solved, setSolved] = useState();
 
 	const [input, setInput] = useState('');
-	const [filterPb, setFilterPb] = useState(null);
-	const getInput = (e) => {
-		setInput(e);
+	const handleInputChange = (e) => {
+		setInput(e.target.value);
 	};
-	useEffect(() => {
-		let data = problems.filter(
-			(x) => x.title.includes(input) || x.class.includes(input)
-		);
-		if (data != null) {
-			data = data.map((problem, index) => [
-				index + 1,
-				problem.title,
-				problem.class,
-				`33%`,
-				15,
-			]);
-			setFilterPb(data);
-		}
-	}, [input]);
+
+	// const [filterPb, setFilterPb] = useState(null);
+	// useEffect(() => {
+	// 	let data = problems.filter(
+	// 		(x) => x.title.includes(input) || x.class.includes(input)
+	// 	);
+	// 	if (data != null) {
+	// 		data = data.map((problem, index) => [
+	// 			index + 1,
+	// 			problem.title,
+	// 			problem.class,
+	// 			`33%`,
+	// 			15,
+	// 		]);
+	// 		setFilterPb(data);
+	// 	}
+	// }, [input]);
 
 	const handleCurrentPageIndex = (indexToMove) => {
 		setCurrentPageIndex(indexToMove);
@@ -63,6 +63,33 @@ const HomeView = ({ problems }) => {
 		setCurrentLimit(e.target.value);
 	};
 
+	const onSearchButtonClick = () => {
+		console.log(input);
+		const query = {
+			limit: currentLimit,
+			page: currentPageIndex,
+			sort: true ? 'title desc' : 'title asc',
+			search: input,
+		};
+		setProblems(query);
+	};
+
+	const onSortButtonClick = () => {
+		setTitleSortToggle(!titleSortToggle);
+	};
+
+	useEffect(() => {
+		console.log(currentLimit);
+		const query = {
+			limit: currentLimit,
+			page: currentPageIndex,
+			memberId: undefined,
+			sort: undefined,
+			search: input,
+		};
+		setProblems(query);
+	}, [currentLimit, currentPageIndex]);
+
 	return (
 		<Grid className="home">
 			<Grid className="home-container">
@@ -71,27 +98,29 @@ const HomeView = ({ problems }) => {
 					<Grid className="home-tableselector">
 						<Grid className="home-tableselector-start">
 							<SearchInput
-								getInput={(e) => getInput(e)}
 								label={searchInputLabel}
+								input={input}
+								handleInputChange={handleInputChange}
+								onClick={onSearchButtonClick}
 							/>
-							<Button className="sort-button">
+							<Button
+								className="sort-button"
+								onClick={onSortButtonClick}
+							>
 								{sortButtonText}
 							</Button>
 						</Grid>
 						<Grid className="home-dropdowns">
-							<Grid className="home-dropdown">
+							{/* <Grid className="home-dropdown">
 								<Dropdown
 									label={dropdownLabel}
 									values={dropdownValues}
 									selectedValue={solved}
 								/>
-							</Grid>
+							</Grid> */}
 						</Grid>
 					</Grid>
-					<Table
-						head={tableHead}
-						rows={filterPb != null ? filterPb : tableBody}
-					/>
+					<Table head={tableHead} rows={tableBody} />
 					<Grid className="home-tableselector">
 						<Grid className="home-tableselector-start">
 							<Grid className="page-label">

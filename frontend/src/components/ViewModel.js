@@ -5,6 +5,8 @@ import axios from 'axios';
 import { Home, Login, User, Problem, Question, Rangking, Submit } from './View';
 import { Header, MenuBar } from './UI';
 import {
+	useRankDataContext,
+	useRankDispatchContext,
 	useProblemDataContext,
 	// useProblemDispatchContext,
 	usePInfoContext,
@@ -28,8 +30,11 @@ const ViewModel = () => {
 		console.log('log', cookies);
 	}, []);
 
+	const ranks = useRankDataContext();
+	const setRanks = useRankDispatchContext();
+
 	const problems = useProblemDataContext();
-	// const setProblem = useProblemDispatchContext();
+	const setProblems = useProblemDispatchContext();
 
 	const problemInfo = usePInfoContext();
 	const setProblemInfo = usePInfoDispatchContext();
@@ -178,7 +183,12 @@ const ViewModel = () => {
 					exact
 					path="/"
 					render={() => {
-						return <Home problems={problems} />;
+						return (
+							<Home
+								problems={problems}
+								setProblems={setProblems}
+							/>
+						);
 					}}
 				/>
 				<Route exact path="/login" render={() => <Login />} />
@@ -206,7 +216,12 @@ const ViewModel = () => {
 				/>
 				<Route path="/question" component={Question} />
 				<Route path="/submit" render={() => <Submit user={user} />} />
-				<Route path="/ranking" render={() => <Rangking />} />
+				<Route
+					path="/ranking"
+					render={() => (
+						<Rangking ranks={ranks} setRanks={setRanks} />
+					)}
+				/>
 			</Grid>
 		</>
 	);

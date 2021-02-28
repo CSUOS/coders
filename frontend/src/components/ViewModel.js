@@ -8,7 +8,7 @@ import {
 	useRankDataContext,
 	useRankDispatchContext,
 	useProblemDataContext,
-	// useProblemDispatchContext,
+	useProblemDispatchContext,
 	usePInfoContext,
 	usePInfoDispatchContext,
 	useCommentsContext,

@@ -23,10 +23,14 @@ const NoticeDialog = ({
 	onConfirm,
 	oneBtn,
 	logout,
+	getConfirm,
 }) => {
 	const confirm = () => {
 		onCancel();
 		onConfirm();
+	};
+	const setConfirm = () => {
+		getConfirm(true);
 	};
 	const movePath = (e) => {
 		window.location.replace(e);
@@ -98,6 +102,7 @@ const NoticeDialog = ({
 										<Button
 											variant="contained"
 											color="secondary"
+											onClick={setConfirm}
 										>
 											확인
 										</Button>

@@ -16,7 +16,7 @@ const Table = ({ head, rows }) => {
 			{isProblem ? (
 				<tbody>
 					{rows.map((row) => (
-						<tr className="table-bodyrow">
+						<tr className="table-bodyrow" key={row.id}>
 							{row.map((rowCell, idx) => (
 								<td className="table-bodycell">
 									{idx === 1 ? (

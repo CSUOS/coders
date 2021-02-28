@@ -36,7 +36,7 @@ const Header = ({ changedUser }) => {
 				</Button>
 			</Link>
 
-			{user !== null ? (
+			{user && user.id ? (
 				<Grid className="header-buttons">
 					<Grid>
 						{user.name}
@@ -68,7 +68,7 @@ const Header = ({ changedUser }) => {
 			) : (
 				<Grid className="header-buttons">
 					<Link to="/login">
-						<Button size="big" startIcon={<HowToRegIcon />}>
+						<Button size="large" startIcon={<HowToRegIcon />}>
 							로그인
 						</Button>
 					</Link>

@@ -17,7 +17,7 @@ const head = [
 const ProblemRank = ({ submissions, handleSubmissions }) => {
 	const { id } = useParams();
 	useEffect(() => {
-		handleSubmissions({ problemId: id, language: 'c11' });
+		handleSubmissions({ problemId: id });
 	}, []);
 
 	// =============[ for pagination ] ===========================

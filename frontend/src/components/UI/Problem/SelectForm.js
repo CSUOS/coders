@@ -6,7 +6,9 @@ const SelectForm = ({ defaultValue, values, handelChange }) => {
 		<FormControl onChange={handelChange}>
 			<NativeSelect defaultValue={defaultValue}>
 				{values.map((value) => (
-					<option value={value}>{value}</option>
+					<option value={value} key={value}>
+						{value}
+					</option>
 				))}
 			</NativeSelect>
 		</FormControl>

@@ -1,22 +1,24 @@
-import React, { useEffect, useState } from 'react';
+/* eslint-disable no-nested-ternary */
+import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Grid, Button, CircularProgress } from '@material-ui/core';
 import FormatListNumberedIcon from '@material-ui/icons/FormatListNumbered';
 import { SelectForm, Table } from '..';
-import { GetToken, GetSubmissions } from '../../../function/index';
+import { GetSubmissions } from '../../../function/index';
 // name 추가예정
 const head = ['채점 번호', '결과', '메모리', '시간', '언어', '제출한 시간'];
 const ProblemScore = ({
 	mySubmissions,
 	handleMySubmissions,
 	problemResult,
+	userId,
 }) => {
-	const token = GetToken();
 	const { id } = useParams(); // 문제 번호
 	useEffect(() => {
 		try {
-			const { id: memberId } = token;
-			handleMySubmissions({ problemId: id, memberId });
+			if (userId) {
+				handleMySubmissions({ problemId: id, memberId: userId });
+			}
 		} catch (e) {
 			console.log(e);
 		}
@@ -29,15 +31,17 @@ const ProblemScore = ({
 				<b>채점 현황</b>
 			</Grid>
 			{problemResult ? (
-				<Table
-					head={head}
-					rows={GetSubmissions([problemResult], false)}
-				/>
-			) : (
-				<Grid className="problem-score-progress">
-					<CircularProgress color="inherit" />
-				</Grid>
-			)}
+				problemResult.isJudging ? (
+					<Grid className="problem-score-progress">
+						<CircularProgress color="inherit" />
+					</Grid>
+				) : (
+					<Table
+						head={head}
+						rows={GetSubmissions([problemResult], false)}
+					/>
+				)
+			) : null}
 			<Grid className="problem-score-info">
 				<FormatListNumberedIcon style={{ fontSize: '2rem' }} />
 				<b>나의 제출 현황</b>

@@ -26,11 +26,12 @@ const ProblemView = (props) => {
 		handleMySubmissions,
 		problemResult,
 		handleProblemResult,
+		cookies,
 	} = props;
 	const { id } = useParams();
 	const [star, setStar] = useState(false);
 	const [like, setLike] = useState(false);
-	const [language, setLanguage] = useState('C++');
+	const [language, setLanguage] = useState('C11');
 	const clickStar = () => {
 		setStar(!star);
 	};
@@ -40,6 +41,7 @@ const ProblemView = (props) => {
 	const changeLang = (e) => {
 		setLanguage(e.target.value);
 	};
+	const { id: userId, name } = cookies;
 	useEffect(() => {
 		handleProblemInfo(id);
 		handleComments('get', id);
@@ -97,7 +99,7 @@ const ProblemView = (props) => {
 					{/* 현재 지원언어 : C11, CPP20, JAVA8, PY3 */}
 					<SelectForm
 						defaultValue="C11"
-						values={['C11', 'Java8', 'Python3', 'C++20']}
+						values={['C11', 'Java8', 'PY3', 'CPP20']}
 						handelChange={changeLang}
 					/>
 				</Grid>
@@ -122,6 +124,7 @@ const ProblemView = (props) => {
 						path="/problem/:id/score"
 						render={() => (
 							<ProblemScore
+								userId={userId}
 								problemResult={problemResult}
 								mySubmissions={mySubmissions}
 								handleMySubmissions={handleMySubmissions}
@@ -138,6 +141,8 @@ const ProblemView = (props) => {
 					pId={id}
 					comments={comments}
 					handleComments={handleComments}
+					userId={userId}
+					name={name}
 				/>
 			</Grid>
 		</Grid>

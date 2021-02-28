@@ -1,27 +1,22 @@
 import React, { useState } from 'react';
 import { Grid, TextField, Button } from '@material-ui/core';
 import { Comment } from '.';
-import GetToken from '../../function/GetToken';
 
-const CommentForm = ({ comments, handleComments }) => {
+const CommentForm = ({ comments, handleComments, pId, id, name }) => {
 	const [cmt, setText] = useState('');
-	const token = GetToken();
-
 	const handlePost = () => {
 		if (cmt !== '') {
 			try {
-				const { id, name } = token;
 				const commentData = {
 					deleted: false,
 					edited: false,
-					problemId: id,
+					problemId: Number(pId),
 					text: cmt,
-					userId: 1, // user name 추가 예정
+					userId: id, // user name 추가 예정
 				};
 				handleComments('post', commentData);
 				setText('');
 			} catch (e) {
-				console.log(e);
 				alert('로그인을 해주세요.');
 			}
 		}
@@ -53,12 +48,14 @@ const CommentForm = ({ comments, handleComments }) => {
 				<Grid className="comment-comments">
 					{comments.map((comment) => (
 						<Comment
+							key={comment.id}
 							userName={comment.userId}
 							comment={comment.text}
 							createAt={comment.createdAt}
 							problemId={comment.problemId}
 							commentId={comment.id}
 							handleComments={handleComments}
+							isSameUser={id === comment.userId}
 						/>
 					))}
 				</Grid>

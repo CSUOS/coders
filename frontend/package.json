@@ -25,6 +25,7 @@
     "react-markdown": "^5.0.3",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.1",
+    "react-uuid": "^1.0.2",
     "remark-math": "^4.0.0",
     "web-vitals": "^0.2.4"
   },

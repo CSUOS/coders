@@ -17,6 +17,7 @@ const CommentForm = ({ comments, handleComments, pId, id, name }) => {
 				handleComments('post', commentData);
 				setText('');
 			} catch (e) {
+				// eslint-disable-next-line no-alert
 				alert('로그인을 해주세요.');
 			}
 		}

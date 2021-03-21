@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Grid, MenuItem, FormControl, Select } from '@material-ui/core';
+import uuid from 'react-uuid';
 
 const Dropdown = ({
 	label,
@@ -28,7 +29,9 @@ const Dropdown = ({
 						</MenuItem>
 					) : undefined}
 					{values.map((value) => (
-						<MenuItem value={value}>{value}</MenuItem>
+						<MenuItem key={uuid()} value={value}>
+							{value}
+						</MenuItem>
 					))}
 				</Select>
 			</FormControl>

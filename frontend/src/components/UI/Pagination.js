@@ -68,6 +68,7 @@ const Pagination = ({
 									? 'selected'
 									: 'not-disabled'
 							)}
+							key={uuid()}
 							type="button"
 							value={index}
 							onClick={onPageButtonClick}

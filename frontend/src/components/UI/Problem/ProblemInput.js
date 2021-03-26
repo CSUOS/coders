@@ -45,6 +45,10 @@ const ProblemInput = ({ language, initValue, handleProblemResult }) => {
 	};
 	// post 요청하는 제출 후 get 을 통해 상태 갱신
 	const onSubmit = () => {
+		if (!memberId) {
+			alert('로그인을 먼저 해주세요.');
+			return;
+		}
 		handleProblemResult({
 			problemId: Number(problemId),
 			language,

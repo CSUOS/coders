@@ -111,17 +111,14 @@ const ViewModel = () => {
 	const handleSubmissions = async (props) => {
 		const { problemId, language, memberId } = props;
 		let url = `/api/v1/submissions?result=맞았습니다&problemId=${problemId}`;
-		console.log(url);
 		if (language !== undefined) {
 			url = url.concat('&language=', language);
 		}
 		if (memberId !== undefined) {
 			url = url.concat('&memberId=', memberId);
 		}
-		console.log(url);
 		try {
 			const info = await axios.get(url);
-			console.log(info);
 			setSubmissions(info.data);
 		} catch (e) {
 			console.log(e);
@@ -168,7 +165,7 @@ const ViewModel = () => {
 				if (!result.data.isJudging) {
 					clearInterval(loop);
 				}
-			}, 1000);
+			}, 800);
 		} catch (e) {
 			console.log(e);
 		}

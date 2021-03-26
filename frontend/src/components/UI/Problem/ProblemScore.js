@@ -25,7 +25,7 @@ const ProblemScore = ({
 	}, []);
 
 	return (
-		<Grid className="problem-score" direction="column">
+		<Grid className="problem-score">
 			<Grid className="problem-score-info">
 				<FormatListNumberedIcon style={{ fontSize: '2rem' }} />
 				<b>채점 현황</b>

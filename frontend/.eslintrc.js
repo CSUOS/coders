@@ -26,6 +26,7 @@ module.exports = {
 				extensions: ['.js', '.jsx'],
 			},
 		],
+		'no-alert': 'off',
 		'no-unused-vars': 'warn',
 		'no-console': 'off',
 		'prettier/prettier': [

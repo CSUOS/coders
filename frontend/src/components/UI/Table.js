@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Grid } from '@material-ui/core';
+import uuid from 'react-uuid';
 
 const Table = ({ head, rows }) => {
 	const isProblem = head.includes('문제 번호');
@@ -9,7 +10,9 @@ const Table = ({ head, rows }) => {
 			<thead className="table-head">
 				<tr>
 					{head.map((headCell) => (
-						<th className="table-headCell">{headCell}</th>
+						<th className="table-headCell" key={uuid()}>
+							{headCell}
+						</th>
 					))}
 				</tr>
 			</thead>
@@ -18,7 +21,7 @@ const Table = ({ head, rows }) => {
 					{rows.map((row) => (
 						<tr className="table-bodyrow" key={row.id}>
 							{row.map((rowCell, idx) => (
-								<td className="table-bodycell">
+								<td className="table-bodycell" key={uuid()}>
 									{idx === 1 ? (
 										<Grid
 											component={Link}
@@ -38,9 +41,11 @@ const Table = ({ head, rows }) => {
 			) : (
 				<tbody>
 					{rows.map((row) => (
-						<tr className="table-bodyrow">
+						<tr className="table-bodyrow" key={uuid()}>
 							{row.map((rowCell) => (
-								<td className="table-bodycell">{rowCell}</td>
+								<td className="table-bodycell" key={uuid()}>
+									{rowCell}
+								</td>
 							))}
 						</tr>
 					))}

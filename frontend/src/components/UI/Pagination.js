@@ -1,6 +1,7 @@
 import React from 'react';
 import { Grid } from '@material-ui/core';
 import clsx from 'clsx';
+import uuid from 'react-uuid';
 
 const totalButtonCount = 4;
 const preButtonText = '<';
@@ -67,6 +68,7 @@ const Pagination = ({
 									? 'selected'
 									: 'not-disabled'
 							)}
+							key={uuid()}
 							type="button"
 							value={index}
 							onClick={onPageButtonClick}
@@ -78,7 +80,7 @@ const Pagination = ({
 			) : (
 				<span>
 					{[...Array(totalButtonCount)].map((_, index) => (
-						<Grid className="pagination-button">
+						<Grid className="pagination-button" key={uuid()}>
 							<button
 								className={clsx(
 									'pagination-button',
@@ -89,6 +91,7 @@ const Pagination = ({
 										? 'selected'
 										: 'not-disabled'
 								)}
+								key={uuid()}
 								type="button"
 								value={index}
 								onClick={onPageButtonClick}
